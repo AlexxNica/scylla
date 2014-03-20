@@ -20,16 +20,16 @@ cli.main(function(args, options) {
 
     var LOG = require('./config/logging')(options.syslog);
 
-    var SendGrid = require('sendgrid').SendGrid;
-    var mailConfig = require('./config/mail');
-    var databaseConfig = require('./config/database');
+    var SendGrid        = require('sendgrid');
+    var mailConfig      = require('./config/mail');
+    var databaseConfig  = require('./config/database');
     //Restify does some odd things, so this folder needs to be 2x deep
-    var imagePath = path.resolve( "images", "resources");
+    var imagePath       = path.resolve( "images", "resources");
 
     var Q = require('q');
     Q.longStackSupport = true;
 
-    var sendgrid = new SendGrid(mailConfig.user, mailConfig.key);
+    var sendgrid = SendGrid(mailConfig.user, mailConfig.key);
 
     var models = require('./api/models')(LOG, databaseConfig, true);
 
@@ -54,11 +54,16 @@ cli.main(function(args, options) {
     //var io = require('socket.io').listen(httpsServer);
 
     var controllers = {
-        pages         : require('./api/controllers/pagesController')(LOG, models),
+        shared        : require('./api/controllers/commonController')   (LOG),
+        pages         : require('./api/controllers/pagesController')    (LOG, models),
         snapshots     : require('./api/controllers/snapshotsController')(LOG, models),
         charybdis     : require('./api/controllers/charybdisController')(LOG, models),
-        image         : require('./api/controllers/imageController')(LOG,models,imagePath)
+        images        : require('./api/controllers/imagesController')   (LOG, models, imagePath)
     };
+
+    var factories = {
+        snapshot      : require('./api/controllers/snapshotFactory').init (LOG, models, controllers)
+    }
 
     var setupServer = function(restServer){
         restServer.use(restify.requestLogger());
@@ -72,9 +77,9 @@ cli.main(function(args, options) {
         */
         var routes = {
             monitoring    : require('./api/routes/monitoringRoutes')(LOG, restServer),
-            pages         : require('./api/routes/pagesRoutes')(LOG, restServer, models, controllers),
-            snapshots     : require('./api/routes/snapshotsRoutes')(LOG, restServer, models, controllers),
-            charybdis     : require('./api/routes/charybdisRoutes')(LOG, restServer, models, controllers)
+            pages         : require('./api/routes/pagesRoutes')     (LOG, restServer, models, controllers),
+            snapshots     : require('./api/routes/snapshotsRoutes') (LOG, restServer, models, controllers),
+            charybdis     : require('./api/routes/charybdisRoutes') (LOG, restServer, models, controllers)
         };
 
         //As mentioned above, Restify appends 'directory' when looking for these files

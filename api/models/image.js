@@ -23,13 +23,13 @@ module.exports = function(ORM){
                 type:ORM.STRING,
                 validate:{
                     notEmpty:true,
-                    notNull:true,
-                    isUrl:true
+                    notNull:true
                 }
             }
         },
         options:{},
         relationships:{
+            belongsTo:"Snapshot",
             hasMany:"Thumb"
         }
     };

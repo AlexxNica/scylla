@@ -47,12 +47,11 @@ describe('Image Spec', function(){
             expect(validations.height[0]).to.equal('Validation notEmpty failed: height');
             expect(validations.height[1]).to.equal('Validation notNull failed: height');
         });
-        it('url must exist and be url formatted', function(){
+        it('url must exist', function(){
             var image = Image.build({});
             var validations = image.validate();
             expect(validations.url[0]).to.equal('Validation notEmpty failed: url');
             expect(validations.url[1]).to.equal('Validation notNull failed: url');
-            expect(validations.url[2]).to.equal('Validation isUrl failed: url');
         });
 
     })

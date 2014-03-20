@@ -1,20 +1,20 @@
-module.exports = function(LOG, models, io){
+module.exports = function(LOG, models, controllers){
     'use strict';
     var Q = require('q');
     var shared = require('./commonController')(LOG);
+    var snapshotFactory = require('./snapshotFactory');
 
 
     var list = function list(){
-        return Q(models.Snapshot.findAll());
+        return Q(models.Snapshot.findAll({include:[models.Image]}));
     };
 
     var findById = function findById(id){
-        return Q(models.Snapshot.find(id));
+        return Q(models.Snapshot.find({where:{id:id}, include:[models.Image]}));
     };
 
     var create = function create(properties, pageId){
-        properties.PageId = pageId;
-        return shared.buildAndValidateModel(models.Snapshot, properties);
+        return snapshotFactory.build(properties, pageId);
     };
 
     var update = function update(id, properties){
