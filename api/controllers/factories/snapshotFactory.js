@@ -1,5 +1,6 @@
 var LOG, controllers, models;
 var Q = require('q');
+var merge = require('merge');
 
 module.exports = function SnapshotFactory(){
 
@@ -25,7 +26,7 @@ module.exports = function SnapshotFactory(){
                 return controllers.charybdis.webPageToSnapshot(page.url, 800, 800);
             })
             .then(function(snapshotResult){
-                snapshotRaw = snapshotResult;
+                snapshotRaw = merge(properties,snapshotResult);
                 var imageProperties = {
                     width:800,
                     height:800,

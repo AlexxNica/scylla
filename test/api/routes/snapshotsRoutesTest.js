@@ -16,7 +16,7 @@ describe("Snapshots", function(){
 
     before(function(done){
         var page = {
-            url:"http://test.com/",
+            url:"http://10.0.2.2/",
             name:"Snapshots Routes Test",
             state:"Complete"
         };
@@ -28,10 +28,10 @@ describe("Snapshots", function(){
     });
 
     it('can create a snapshot', function(){
+        this.timeout(5000);
         var snapshot = {
-            params:"params",
             notes:"Snapshot Post Test",
-            state:"Complete"
+            params:"{width:800,height:800}"
 
         };
         return h.getJsonObject(h.postRequest(snapsBaseUri(snapPage), snapshot))
@@ -55,6 +55,8 @@ describe("Snapshots", function(){
         //console.log(require('util').inspect(createdSnapshot));
         return h.getJsonObject(h.getRequest("/snapshots/" + createdSnapshot.id))
             .then(function(result){
+                var image = result.image;
+                delete result.image;
                 //These'll seem to be null for some reason... no biggie for now.
                 delete result.imageId;
                 delete result.thumbId;

@@ -19,7 +19,8 @@
     "sqlite3": "2.2.0",
     "socket.io": "1.0.0-pre",
     "sequelize": "^1.7.0",
-    "mysql": "^2.1.0"
+    "mysql": "^2.1.0",
+    "merge": "^1.1.2"
   },
   "devDependencies": {
     "chai": "*",
