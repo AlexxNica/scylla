@@ -20,10 +20,19 @@ module.exports = function(ORM){
             }
         },
         options:{},
-        relationships:{
-            hasMany:["User", "watchers"],
-            belongsTo:["User", "creator"]
-        }
+        relationships:[
+            {   kind:   "hasMany",
+                model:  "User",
+                options: {"as":"watchers"}
+            },{
+                kind:   "belongsTo",
+                model:  "User",
+                options:{"as":"creator"}
+            },{
+                kind:   "hasMany",
+                model:  "MasterSnapshot"
+            }
+        ]
     };
 
 };

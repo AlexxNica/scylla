@@ -2,15 +2,14 @@ module.exports = function(LOG, models, controllers){
     'use strict';
     var Q = require('q');
     var shared = require('./commonController')(LOG);
-    var snapshotFactory = require('./factories/snapshotFactory');
 
 
     var list = function list(){
-        return Q(models.Snapshot.findAll({include:[models.Image]}));
+        return Q(models.MasterSnapshot.findAll({include:[models.Snapshot, models.Suite]}));
     };
 
     var findById = function findById(id){
-        return Q(models.Snapshot.find({where:{id:id}, include:[models.Image]}));
+        return Q(models.Snapshot.find({where:{id:id}, include:[models.Snapshot, models.Suite]}));
     };
 
     var create = function create(properties, pageId){

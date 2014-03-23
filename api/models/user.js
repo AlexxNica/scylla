@@ -37,8 +37,7 @@ module.exports = function(ORM){
             }
         },
         options:{},
-        relationships:{
-        }
+        relationships:[]
     };
 
 };

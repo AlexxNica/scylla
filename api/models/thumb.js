@@ -28,9 +28,10 @@ module.exports = function(ORM){
             }
         },
         options:{},
-        relationships:{
-            belongsTo:"Image"
-        }
+        relationships:[
+            {   kind:   "belongsTo",
+                model:  "Image"}
+        ]
     };
 
 };

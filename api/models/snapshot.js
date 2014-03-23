@@ -19,10 +19,18 @@ module.exports = function(ORM){
             }
         },
         options:{},
-        relationships:{
-            belongsTo:"Page",
-            hasOne:"Image"
-        }
+        relationships:[
+            {   kind:   "belongsTo",
+                model:  "Page"
+            },{
+                kind:   "hasOne",
+                model:  "Image"
+            },{
+                kind:   "hasMany",
+                model:  "MasterSnapshot"
+            }
+
+        ]
     };
 
 };

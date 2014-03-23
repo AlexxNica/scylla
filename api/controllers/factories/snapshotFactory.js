@@ -8,7 +8,7 @@ module.exports = function SnapshotFactory(){
         models = models_in;
         controllers = controllers_in;
         LOG.info("Snapshot Factory Initialized");
-    }
+    };
 
     var build = function build(properties, pageId){
         LOG.info("Building Snapshot");
@@ -43,11 +43,10 @@ module.exports = function SnapshotFactory(){
             })
             .then(function(theSnapshot){
                 snapshot = theSnapshot;
-                snapshot.setImage(image);
-                snapshot.setPage(page);
-                image.setSnapshot(snapshot);
                 page.addSnapshot(snapshot);
-                LOG.info("This is where I'd connect the image to the snapshot to the page");
+                snapshot.setPage(page);
+                snapshot.setImage(image);
+                image.setSnapshot(snapshot);
                 return Q.all([
                         snapshot.save(),
                         image.save(),
@@ -58,15 +57,15 @@ module.exports = function SnapshotFactory(){
                 return snapshot;
             })
             .fail(function(error){
-                LOG.warn("Shit, Error", error);
+                LOG.error("Error in SnapshotFactory.build", error);
             });
 
 
 
-    }
+    };
 
     return {
         init:init,
         build:build
-    }
+    };
 }();

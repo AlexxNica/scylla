@@ -6,7 +6,7 @@ var initModels = function initModels(log, databaseConfig, sync){
     var relationships = {};
     var modelInfos = {};
     var db = new Sequelize('scylla', databaseConfig.user, databaseConfig.password, databaseConfig.properties);
-    var modelNames = ['page','snapshot','image','thumb', 'user', 'suite'];
+    var modelNames = ['page','snapshot','image','thumb', 'user', 'suite', 'masterSnapshot'];
     log.info("Initializing Models");
 
     modelNames.forEach(function(modelName){
@@ -20,17 +20,12 @@ var initModels = function initModels(log, databaseConfig, sync){
     });
 
     for(var modelName in relationships){
-        var relation = relationships[modelName];
-        for(var relName in relation){
-            var related = relation[relName];
-            var relAlias;
-            if(Array.isArray(related)){
-                relAlias = {as:related[1]};
-                related = related[0];
-            }
-            log.info(modelName + " " + relName + " " + related);
-            models[modelName][relName](models[related], relAlias);
-        }
+        log.info("Setting up Relationships for " + modelName);
+        var relations = relationships[modelName];
+        relations.forEach(function(relation,index,arr){
+            log.info(modelName + " " + relation.kind + " " + relation.model + " " + (relation.options ? require('util').inspect(relation.options):'') );
+            models[modelName][relation.kind](models[relation.model], relation.options);
+        });
     }
 
     //TODO: Ensure this doesn't destroy data

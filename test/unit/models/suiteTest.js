@@ -59,6 +59,13 @@ describe('Suite Spec', function(){
             expect(Suite.associations.creator.associationType).to.equal('BelongsTo');
         });
 
+        it('Has Many Master Snapshots', function(){
+            log.info("\n")
+            log.info(require('util').inspect(Suite.associations));
+            expect(Suite.associations.MasterSnapshotsSuites).to.exist;
+            expect(Suite.associations.MasterSnapshotsSuites.associationType).to.equal('HasMany');
+        });
+
     })
 });
 

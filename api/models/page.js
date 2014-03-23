@@ -23,9 +23,12 @@ module.exports = function(ORM){
         options:{
 
         },
-        relationships:{
-            hasMany:"Snapshot"
-        }
+        relationships:[
+            {   kind:   "hasMany",
+                model:  "Snapshot"
+            }
+        ]
+
     };
 
 };

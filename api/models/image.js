@@ -28,10 +28,14 @@ module.exports = function(ORM){
             }
         },
         options:{},
-        relationships:{
-            belongsTo:"Snapshot",
-            hasMany:"Thumb"
-        }
+        relationships:[
+            {   kind:   "belongsTo",
+                model:  "Snapshot"
+            },
+            {   kind:   "hasMany",
+                model:  "Thumb"
+            }
+        ]
     };
 
 };

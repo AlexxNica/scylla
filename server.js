@@ -53,17 +53,7 @@ cli.main(function(args, options) {
     */
     //var io = require('socket.io').listen(httpsServer);
 
-    var controllers = {
-        shared        : require('./api/controllers/commonController')   (LOG),
-        pages         : require('./api/controllers/pagesController')    (LOG, models),
-        snapshots     : require('./api/controllers/snapshotsController')(LOG, models),
-        charybdis     : require('./api/controllers/charybdisController')(LOG, models),
-        images        : require('./api/controllers/imagesController')   (LOG, models, imagePath)
-    };
-
-    var factories = {
-        snapshot      : require('./api/controllers/snapshotFactory').init (LOG, models, controllers)
-    }
+    var controllers = require('./api/controllers')(LOG, models, imagePath);
 
     var setupServer = function(restServer){
         restServer.use(restify.requestLogger());
@@ -75,12 +65,7 @@ cli.main(function(args, options) {
             log: LOG
         }));
         */
-        var routes = {
-            monitoring    : require('./api/routes/monitoringRoutes')(LOG, restServer),
-            pages         : require('./api/routes/pagesRoutes')     (LOG, restServer, models, controllers),
-            snapshots     : require('./api/routes/snapshotsRoutes') (LOG, restServer, models, controllers),
-            charybdis     : require('./api/routes/charybdisRoutes') (LOG, restServer, models, controllers)
-        };
+        var routes = require('./api/routes')(LOG, restServer, models, controllers);
 
         //As mentioned above, Restify appends 'directory' when looking for these files
         //So we need to create a directory structure that accommodates that.
