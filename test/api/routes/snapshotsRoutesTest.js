@@ -16,7 +16,7 @@ describe("Snapshots", function(){
 
     before(function(done){
         var page = {
-            url:"http://10.0.2.2/",
+            url:"http://127.0.0.1:3000/testFodder/neverChanges.html",
             name:"Snapshots Routes Test",
             state:"Complete"
         };
