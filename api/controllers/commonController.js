@@ -38,6 +38,10 @@ module.exports = function(LOG){
 
     var buildAndValidateModel = function buildAndValidateModel(Model, properties){
         var model = Model.build(properties);
+        return validateModel(model);
+    };
+
+    var validateModel = function validateModel(model){
         var validations = model.validate();
         if(validations != null){
             LOG.info("Validations Failed", validations);
@@ -62,6 +66,7 @@ module.exports = function(LOG){
         execDeferredDeleteBridge:execDeferredDeleteBridge,
         first:first,
         buildAndValidateModel:buildAndValidateModel,
+        validateModel:validateModel,
         ValidationError:ValidationError
     };
 };

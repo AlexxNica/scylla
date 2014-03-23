@@ -2,31 +2,39 @@ module.exports = function(LOG, models, controllers){
     'use strict';
     var Q = require('q');
     var shared = require('./commonController')(LOG);
-
+    var MasterSnapshot = models.MasterSnapshot;
 
     var list = function list(){
-        return Q(models.MasterSnapshot.findAll({include:[models.Snapshot, models.Suite]}));
+        return Q(MasterSnapshot.findAll({include:[models.Snapshot, models.Suite]}));
     };
 
     var findById = function findById(id){
-        return Q(models.Snapshot.find({where:{id:id}, include:[models.Snapshot, models.Suite]}));
+        return Q(MasterSnapshot.find({where:{id:id}, include:[models.Snapshot, models.Suite]}));
     };
 
-    var create = function create(properties, pageId){
-        return snapshotFactory.build(properties, pageId);
+    var findBySuite = function findBySuite(suiteId){
+        return Q(MasterSnapshot.find({where:{SuiteId:suiteId}, include:[models.Snapshot]}))
+    }
+
+    var create = function create(properties, suiteId){
+        properties.SuiteId = suiteId; // Just in case it wasn't set correctly
+        if(!properties.SuiteId || !properties.SnapshotId){
+            return Q.reject(new shared.ValidationError("SuiteId and SnapshotId are required"))
+        }
+        return shared.buildAndValidateModel(MasterSnapshot, properties);
     };
 
     var update = function update(id, properties){
-        return Q(models.Snapshot.find(id)
-            .success(function(snapshot){
-                return snapshot.updateAttributes(properties);
+        return Q(MasterSnapshot.find(id)
+            .success(function(master){
+                return master.updateAttributes(properties);
             }));
     };
 
     var destroy = function destroy(id){
-        return Q(models.Snapshot.find(id)
-            .success(function(snapshot){
-                return snapshot.destroy()
+        return Q(MasterSnapshot.find(id)
+            .success(function(master){
+                return master.destroy()
                     .success(function(){
                         return undefined;
                     });
@@ -38,6 +46,7 @@ module.exports = function(LOG, models, controllers){
         create:create,
         update:update,
         findById:findById,
+        findBySuite:findBySuite,
         destroy:destroy
     };
 
