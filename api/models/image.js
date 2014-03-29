@@ -29,8 +29,11 @@ module.exports = function(ORM){
         },
         options:{},
         relationships:[
-            {   kind:   "belongsTo",
+            {   kind:   "hasOne",
                 model:  "Snapshot"
+            },
+            {   kind:   "hasOne",
+                model:  "SnapshotDiff"
             },
             {   kind:   "hasMany",
                 model:  "Thumb"

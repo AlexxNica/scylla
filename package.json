@@ -30,7 +30,8 @@
     "matchdep": "0.3.0",
     "grunt-release": "0.7.0",
     "sqlite3": "^2.1.19",
-    "repl-promised": "^0.1.0"
+    "repl-promised": "^0.1.0",
+    "sinon": "^1.9.0"
   },
   "main": "server.js",
   "scripts": {

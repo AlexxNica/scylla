@@ -41,6 +41,7 @@ describe("Suites", function(){
     it('gets a list of suites', function(){
         return h.getJsonObject(h.getRequest("/suites"))
             .then(function(suites){
+                delete(suites.masterSnapshots);
                 expect(suites).to.be.instanceof(Array);
             });
     });

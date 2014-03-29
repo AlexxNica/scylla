@@ -64,9 +64,9 @@ describe('Snapshot Spec', function(){
             expect(Snapshot.associations.Page).to.exist;
             expect(Snapshot.associations.Page.associationType).to.equal('BelongsTo');
         });
-        it('Has One Image', function(){
+        it('Belongs To Image', function(){
             expect(Snapshot.associations.Image).to.exist;
-            expect(Snapshot.associations.Image.associationType).to.equal('HasOne');
+            expect(Snapshot.associations.Image.associationType).to.equal('BelongsTo');
         });
 
     })

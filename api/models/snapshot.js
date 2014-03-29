@@ -23,11 +23,14 @@ module.exports = function(ORM){
             {   kind:   "belongsTo",
                 model:  "Page"
             },{
-                kind:   "hasOne",
+                kind:   "belongsTo",
                 model:  "Image"
             },{
                 kind:   "hasMany",
                 model:  "MasterSnapshot"
+            },{
+                kind:   "hasMany",
+                model:  "SnapshotDiff"
             }
 
         ]

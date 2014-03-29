@@ -7,8 +7,13 @@ module.exports = function(LOG){
         return charybdis.webPageToSnapshot(url, width, height);
     };
 
+    var diffTwoSnapshots = function(contentsA, contentsB){
+        return charybdis.diffTwoSnapshots(contentsA, contentsB);
+    };
+
 
     return {
-        webPageToSnapshot:webPageToSnapshot
+        webPageToSnapshot:webPageToSnapshot,
+        diffTwoSnapshots:diffTwoSnapshots
     };
 };

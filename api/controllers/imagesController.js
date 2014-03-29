@@ -7,6 +7,8 @@ module.exports = function(LOG, models, imagePath){
     var fsQ = require("q-io/fs");
 
     LOG.info("Image Controller saving files to: " + imagePath);
+    var snapshotPath = 'snapshots';
+    var diffPath = 'diffs';
 
     var generateName = function(basePath, prefix, suffix) {
         prefix = prefix || '';
@@ -27,13 +29,34 @@ module.exports = function(LOG, models, imagePath){
         var filename = generateName(path, "snapshot", ".png");
 
         //Folder we save in
-        var pathyPath = path.join(imagePath, pageId);
+        var pathyPath = path.join(imagePath, snapshotPath, pageId);
         //URI we give to the app
-        var imageUri = path.join(pageId,filename);
+        var imageUri = path.join(snapshotPath, pageId, filename);
         //Full name so we can actually save the file
         var fullPath = path.join(pathyPath, filename);
 
         LOG.info("Saving Snapshot for page: " + pageId + " to File: " + filename);
+        return saveImage(pathyPath, fullPath, imageUri, content);
+    };
+
+
+    var saveDiffImage = function saveDiffImage(content){
+        var filename = generateName(path, "diff", ".png");
+
+        //Folder we save in
+        var pathyPath = path.join(imagePath, diffPath);
+        //URI we give to the app
+        var imageUri = path.join(diffPath, filename);
+        //Full name so we can actually save the file
+        var fullPath = path.join(pathyPath, filename);
+
+        return saveImage(pathyPath, fullPath, imageUri, content);
+    };
+
+
+    var saveImage = function saveImage(pathyPath, fullPath, imageUri, content){
+        LOG.info(typeof content);
+        LOG.info("Saving Image to File: " + fullPath);
         return fsQ.makeTree(pathyPath)
             .then(function(){
                 return fsQ.write(fullPath, content)
@@ -49,18 +72,35 @@ module.exports = function(LOG, models, imagePath){
             });
     };
 
-    var create = function create(properties, pageId, content){
+
+
+    var getImageContents = function getImageContents(uri){
+        var thePath = path.join(imagePath, uri);
+        LOG.info("Getting image contents for: " + thePath);
+        return fsQ.read(thePath, 'b');
+    };
+
+    var createSnapshot = function createSnapshot(properties, pageId, content){
         return saveSnapshotImage(pageId, content)
             .then(function(imageUri){
                 properties.url = imageUri;
                 return shared.buildAndValidateModel(models.Image, properties);
             });
 
-    }
+    };
 
+    var createDiff = function createDiff(properties, content){
+        return saveDiffImage(content)
+            .then(function(imageUri){
+                properties.url = imageUri;
+                return shared.buildAndValidateModel(models.Image, properties);
+            });
+    };
 
     return {
-        create:create,
-        saveSnapshotImage:saveSnapshotImage
+        createSnapshot:createSnapshot,
+        createDiff:createDiff,
+        saveSnapshotImage:saveSnapshotImage,
+        getImageContents:getImageContents
     };
 };
