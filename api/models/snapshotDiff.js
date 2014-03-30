@@ -16,7 +16,19 @@ module.exports = function(ORM){
                 type:ORM.TEXT
             }
         },
-        options:{},
+        options:{
+            classMethods:{
+                findByTwoIds:function(snapIdA, snapIdB, include){
+                    return this.find({
+                        where:ORM.or(
+                            {snapshotAId:snapIdA, snapshotBId:snapIdB},
+                            {snapshotAId:snapIdB, snapshotBId:snapIdA}
+                        ),
+                        include:include
+                    });
+                }
+            }
+        },
         relationships:[
             {   kind:   "belongsTo",
                 model:  "SuiteRun"

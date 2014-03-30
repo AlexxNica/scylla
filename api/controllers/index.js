@@ -8,6 +8,7 @@ var initControllers = function initControllers(LOG, models, imagePath){
         masterSnapshots : require('./masterSnapshotsController')(LOG, models),
         pages           : require('./pagesController')          (LOG, models),
         snapshots       : require('./snapshotsController')      (LOG, models),
+        snapshotDiffs   : require('./snapshotDiffsController')  (LOG, models),
         charybdis       : require('./charybdisController')      (LOG, models),
         images          : require('./imagesController')         (LOG, models, imagePath)
     };

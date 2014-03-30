@@ -46,7 +46,7 @@ module.exports = function SnapshotFactory(){
                 return controllers.shared.buildAndValidateModel(models.Snapshot, snapshotRaw)
             })
             .then(function(theSnapshot){
-                LOG.info('Snapshot created, saving anciliary modelse ');
+                LOG.info('Snapshot created, saving ancillary models ');
                 snapshot = theSnapshot;
                 page.addSnapshot(snapshot);
                 snapshot.setPage(page);
