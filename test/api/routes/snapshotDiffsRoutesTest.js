@@ -19,8 +19,7 @@ describe("Snapshot Diffs", function(){
         this.timeout(10000);
         var page = {
             url:"http://127.0.0.1:3000/testFodder/simpleChanges.html",
-            name:"Snapshot Diffs Routes Test",
-            state:"Complete"
+            name:"Snapshot Diffs Routes Test"
         };
         return h.getJsonObject(h.postRequest("/pages", page))
             .then(function(result){
@@ -59,8 +58,8 @@ describe("Snapshot Diffs", function(){
         return h.getJsonObject(h.getRequest("/snapshotDiffs/" + createdSnapshotDiff.id))
             .then(function(result){
                 expect(result.ImageId).to.equal(createdSnapshotDiff.ImageId);
-                expect(result.SnapshotAId).to.equal(createdSnapshotDiff.SnapshotAId);
-                expect(result.SnapshotBId).to.equal(createdSnapshotDiff.SnapshotBId);
+                expect(result.snapshotAId).to.equal(createdSnapshotDiff.snapshotAId);
+                expect(result.snapshotBId).to.equal(createdSnapshotDiff.snapshotBId);
                 expect(result.distortion.toString()).to.equal(createdSnapshotDiff.distortion.toString());
                 expect(result.createdAt).to.equal(createdSnapshotDiff.createdAt);
                 expect(result.updatedAt).to.equal(createdSnapshotDiff.updatedAt);

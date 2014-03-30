@@ -14,6 +14,15 @@ module.exports = function(ORM){
             },
             output:{
                 type:ORM.TEXT
+            },
+            /**
+             * Queued, Capturing, Complete, Failure
+             */
+            state:{
+                type:ORM.STRING,
+                validate:{
+                    isIn:[['Queued', 'Capturing', 'Complete', 'Failure']]
+                }
             }
         },
         options:{
@@ -21,8 +30,8 @@ module.exports = function(ORM){
                 findByTwoIds:function(snapIdA, snapIdB, include){
                     return this.find({
                         where:ORM.or(
-                            {snapshotAId:snapIdA, snapshotBId:snapIdB},
-                            {snapshotAId:snapIdB, snapshotBId:snapIdA}
+                            {SnapshotAId:snapIdA, SnapshotBId:snapIdB},
+                            {SnapshotAId:snapIdB, SnapshotBId:snapIdA}
                         ),
                         include:include
                     });
@@ -35,11 +44,11 @@ module.exports = function(ORM){
             },
             {   kind:   "belongsTo",
                 model:  "Snapshot",
-                options:{ as:"snapshotA", foreignKey:"SnapshotAId"}
+                options:{ as:"snapshotA", foreignKey:"snapshotAId"}
             },
             {   kind:   "belongsTo",
                 model:  "Snapshot",
-                options:{ as:"snapshotB", foreignKey:"SnapshotBId"}
+                options:{ as:"snapshotB", foreignKey:"snapshotBId"}
             },
             {   kind:   "belongsTo",
                 model:  "Image"

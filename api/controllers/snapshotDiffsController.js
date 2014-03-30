@@ -30,8 +30,19 @@ module.exports = function(LOG, models, controllers){
                 return Q.all([
                     models.Snapshot.find(snapshotAId),
                     models.Snapshot.find(snapshotBId)
-                ]).spread(snapshotDiffFactory.build)
+                ]).spread(function(snapA, snapB){
+                    return snapshotDiffFactory.build(snapA.id, snapB.id)
+                        .then(function(queuedDiff){
+                            console.log("Queued Diff: " + require('util').inspect(queuedDiff));
+                            return snapshotDiffFactory.execute(queuedDiff.id);
+                        })
+                })
+
             });
+    };
+
+    var execute = function execute(diffId){
+        return snapshotDiffFactory.execute(diffId);
     };
 
     var update = function update(id, properties){
@@ -55,6 +66,7 @@ module.exports = function(LOG, models, controllers){
     return {
         list:list,
         findOrCreate:findOrCreate,
+        execute:execute,
         update:update,
         findById:findById,
         destroy:destroy

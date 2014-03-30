@@ -14,7 +14,7 @@ module.exports = function(ORM){
             state:{
                 type:ORM.STRING,
                 validate:{
-                    isIn:[['Queued', 'Capturing', 'Complete']]
+                    isIn:[['Queued', 'Capturing', 'Complete', 'Failure']]
                 }
             }
         },

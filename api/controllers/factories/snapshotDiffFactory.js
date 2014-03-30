@@ -1,7 +1,7 @@
 var LOG, controllers, models;
+var ValidationError;
 
 var Q = require('q');
-var Qe = require('charybdis')().qExtension;
 var merge = require('merge');
 
 module.exports = function SnapshotDiffFactory(){
@@ -10,77 +10,92 @@ module.exports = function SnapshotDiffFactory(){
         LOG = LOG_in.child({factory:"SnapshotDiffFactory"});
         models = models_in;
         controllers = controllers_in;
+        ValidationError = controllers.shared.ValidationError;
         LOG.info("Snapshot Diff Factory Initialized");
     };
-    //controllers.factories.diff.shortcut(1,3)
-    var shortcut = function(snapAId, snapBId){
-        return Q.all([
-            models.Snapshot.find(snapAId),
-            models.Snapshot.find(snapBId)
-        ]).spread(function(snapA, snapB){
-            //console.log(require('util').inspect(snapA));
-            console.log("Executing with Snapshots: " + snapA.id, snapB.id);
-            return build(snapA, snapB);
-        })
+
+    var execute = function execute(snapshotDiffId){
+        LOG.info("Executing Snapshot Diff on: " + snapshotDiffId);
+        var diff;
+        return controllers.snapshotDiffs.findById(snapshotDiffId)
+            .then(function(foundDiff){
+                diff = foundDiff;
+                if(diff.state != "Queued"){
+                    return Q.reject(
+                        new ValidationError("Diff is cannot be executed when in state: " + diff.state))
+                }
+                if(!diff.snapshotA || diff.snapshotA.state != "Complete"){
+                    return Q.reject(
+                        new ValidationError("Snapshot " + diff.snapshotAId +
+                                                        " is in invalid state: " + diff.snapshotA))
+                }
+                if(! diff.snapshotB || diff.snapshotB.state != "Complete"){
+                    return Q.reject(
+                        new ValidationError("Snapshot " + diff.snapshotBId +
+                                                        " is in invalid state: " + diff.snapshotB))
+                }
+                LOG.info("Retrieving Images: ", diff.snapshotA.image.url, diff.snapshotB.image.url);
+                diff.state = "Capturing";
+                return Q.all([
+                    controllers.images.getImageContents(diff.snapshotA.image.url),
+                    controllers.images.getImageContents(diff.snapshotB.image.url),
+                    diff.save()
+                ]);
+            }).spread(function(imageAContents, imageBContents, savedDiff) {
+                LOG.info("Launching Charybdis to diff snapshots");
+                return controllers.charybdis.diffTwoSnapshots(imageAContents, imageBContents);
+            }).then(function(diffResult) {
+                LOG.info("Diff generated, saving Image");
+                diff.distortion = diffResult.distortion;
+                diff.warning = diffResult.warning;
+                diff.output =  JSON.stringify(diffResult.info);
+
+                var imageProperties = {
+                    width : 800,
+                    height: 800,
+                    info  : diffResult.image.info
+                };
+                return controllers.images.createDiff(imageProperties, diffResult.image.contents);
+            }).then(function(theImage){
+                diff.setImage(theImage);
+                diff.state = "Complete";
+                return diff.save();
+            }).fail(function(error){
+                LOG.error("Error executing on Diff: ", error);
+                diff.output = error.toString();
+                diff.state = "Failure";
+                return diff.save().then(function(){Q.reject(error);});
+            });
     };
 
-    var build = function build(snapshotA, snapshotB){
+    var build = function build(snapshotAId, snapshotBId, properties){
         LOG.info("Building Snapshot Diff");
         if(!controllers && !models){
             throw new Error("Factory must be initialized first");
         }
 
-        if(!snapshotA || !snapshotB){
+        if(!snapshotAId || !snapshotBId){
             return Q.reject(new controllers.shared.ValidationError('SnapshotA and SnapshotB are required'));
         }
-        var properties = {
-            SnapshotAId: snapshotA.id,
-            SnapshotBId: snapshotB.id
-        };
+        properties = properties || {};
+        properties.snapshotAId = snapshotAId;
+        properties.snapshotBId = snapshotBId;
+        properties.state = "Queued";
 
-        var diffRaw;
-
-
-        return Q.all([
-            snapshotA.getImage(),
-            snapshotB.getImage()
-        ]).spread(function(imageA, imageB){
-            LOG.info("Retrieved Images: ", imageA.url, imageB.url);
-            return Q.all([
-                controllers.images.getImageContents(imageA.url),
-                controllers.images.getImageContents(imageB.url)
-            ]);
-        }).spread(function(imageAContents, imageBContents) {
-            LOG.info("Launching Charybdis to diff snapshots: " + typeof imageAContents);
-            return controllers.charybdis.diffTwoSnapshots(imageAContents, imageBContents);
-        }).then(function(diffResult) {
-            LOG.info("Diff generated, saving Image");
-            //console.log(require('util').inspect(diffResult));
-            diffRaw = merge(properties, diffResult);
-            var imageProperties = {
-                width : 800,
-                height: 800,
-                info  : diffRaw.image.info
-            };
-            //Remove image from the raw results
-            var fileContents = diffRaw.image.contents;
-            delete diffRaw.image;
-            return controllers.images.createDiff(imageProperties, fileContents);
-        }).then(function(theImage){
-            diffRaw.ImageId = theImage.id;
-            return controllers.shared.buildAndValidateModel(models.SnapshotDiff, diffRaw);
-        }).fail(function(error){
-            LOG.error("Snapshot Diff Factory Failed",error);
-        })
-
-
-
-
+        return controllers.shared.buildAndValidateModel(models.SnapshotDiff, properties);
     };
+
+    var buildAndExecute = function(snapAId, snapBId){
+        return build(snapAId, snapBId)
+            .then(function(diff){return execute(diff.id);});
+    };
+
+
 
     return {
         init:init,
         build:build,
-        shortcut:shortcut
+        execute:execute,
+        buildAndExecute:buildAndExecute
     };
 }();

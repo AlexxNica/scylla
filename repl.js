@@ -37,4 +37,5 @@ for(var modelName in models){
     scyllaRepl.context[modelName] = models[modelName];
 }
 scyllaRepl.context.controllers = controllers;
+scyllaRepl.context.seed = require('./test/manual/seed');
 
