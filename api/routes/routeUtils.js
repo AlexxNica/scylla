@@ -20,6 +20,23 @@ module.exports = (function(){
             }
         };
     };
+    var forwardSuccess = function forwardSuccess(res, next){
+        return function(value){
+            if(value){
+                try{
+                    res.header('Location', '/resources/' + value.url);
+                    res.send(302);
+                } catch(err){
+                    console.log("ERROR?", util.inspect(err));
+                }
+                //console.log("Sending: ", value);
+                return next();
+            } else {
+                res.send(404, new Error('Resource Not Found'));
+                return next(new restify.ResourceNotFound("Not Found"));
+            }
+        };
+    };
 
     var emptyOkSuccess = function(res,next){
         return function(value){
@@ -73,6 +90,7 @@ module.exports = (function(){
 
     return {
         success:normalSuccess,
+        successRedirect:forwardSuccess,
         successImage:imageSuccess,
         successEmptyOk:emptyOkSuccess,
         fail:normalFail

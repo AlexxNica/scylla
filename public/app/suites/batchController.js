@@ -11,8 +11,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("BatchController", function($scope, $http, Page) {
-        Page.setFirstLevelNavId("batchesNav");
+    return scyllaApp.controller("BatchController", function($scope, $http, Header) {
+        Header.setFirstLevelNavId("batchesNav");
         $scope.batches = [];
         $scope.reportToDelete = {};
         $scope.showDeleteBatch = false;
@@ -36,7 +36,7 @@ define([
 
         $scope.showNewBatchWindow = function(){
             $scope.showNewBatch = true;
-            $http.get("/reports")
+            $http.get("/pages")
                 .success(function(reports){
                     $scope.availableReports = reports;
                 })
@@ -46,7 +46,7 @@ define([
         };
 
         $scope.addBatch = function(batchName, reportIds){
-            var batch = {name:batchName, reports:reportIds};
+            var batch = {name:batchName, pages:reportIds};
             batch.scheduleEnabled = $scope.batchScheduleEnabled;
             batch.schedule = {days:[]}
             for(var i=0; i < dayList.length; i++){
@@ -73,7 +73,7 @@ define([
             $http.delete("/batches/" + batch._id)
                 .success(function(deleteResult){
                     toastr.success("Batch " + batch.name + " deleted");
-                    $scope.getAllBatches();
+                    $scope.getAllSuites();
                     $scope.showDeleteBatch = false;
                     $scope.isProcessing = false;
                 });
@@ -82,7 +82,7 @@ define([
         $scope.saveBatch = function(batch){
             return $http.post("/batches", batch)
                 .success(function(batch){
-                    $scope.getAllBatches();
+                    $scope.getAllSuites();
                     toastr.success("Batch Saved: " + batch.name);
                 })
                 .error(function(err){
@@ -90,7 +90,7 @@ define([
                 })
         };
 
-        $scope.getAllBatches = function(){
+        $scope.getAllSuites = function(){
             $http.get("/batches", {params:{includeResults:"true"}})
                 .success(function(batches){
                              $scope.batches = batches
@@ -99,7 +99,7 @@ define([
                            alert(err)
                        });
         };
-        $scope.getAllBatches();
+        $scope.getAllSuites();
 
         $scope.dateFormat = function(isoString) {
             return moment(isoString).format("MMMM Do, h:mm A");

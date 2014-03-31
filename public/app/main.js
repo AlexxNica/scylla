@@ -13,25 +13,25 @@ require.config({
 require([
     'angular',
     'scyllaApp',
-    'resultDiffs/resultDiffDetailController',
-    'home/pageController',
+    'snapshotDiffs/resultDiffDetailController',
+    'home/headerController',
     'home/homeController',
-    'reports/reportController',
-    'reports/reportBookmarkletController',
-    'reports/reportDetailController',
+    'pages/pageController',
+    'pages/pageBookmarkletController',
+    'pages/pageDetailController',
     'compares/comparesController',
     'compares/compareDetailController',
     'compares/compareResultDetailController',
-    'batches/batchController',
-    'batches/batchDetailController',
-    'batches/batchResultController',
+    'suites/batchController',
+    'suites/batchDetailController',
+    'suites/batchResultController'
 ], function (
     angular,
     scyllaApp,
     DiffDetailController,
-    PageController,
+    HeaderController,
     HomeController,
-    ReportController,
+    PageController,
     ReportBookmarkletController,
     ReportDetailController,
     ComparesController,
@@ -50,15 +50,15 @@ require([
             .when('/home',
                   {templateUrl:'app/home/home.html',
                       controller:"HomeController"})
-            .when('/reports',
-                  {templateUrl:'app/reports/reports.html',
-                      controller:"ReportController"})
-            .when('/reports/bookmarklet',
-                  {templateUrl:'app/reports/reportBookmarklet.html',
-                      controller:"ReportBookmarkletController"})
-            .when('/reports/:id',
-                  {templateUrl:'app/reports/reportDetail.html',
-                      controller:"ReportDetailController"})
+            .when('/pages',
+                  {templateUrl:'app/pages/pages.html',
+                      controller:"PageController"})
+            .when('/pages/bookmarklet',
+                  {templateUrl:'app/pages/pageBookmarklet.html',
+                      controller:"PageBookmarkletController"})
+            .when('/pages/:id',
+                  {templateUrl:'app/pages/pageDetail.html',
+                      controller:"PageDetailController"})
             .when('/compares',
                   {templateUrl:'app/compares/compares.html',
                       controller:"ComparesController"})

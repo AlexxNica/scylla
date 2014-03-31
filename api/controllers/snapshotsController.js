@@ -13,6 +13,10 @@ module.exports = function(LOG, models, controllers){
         return Q(models.Snapshot.find({where:{id:id}, include:[models.Image]}));
     };
 
+    var findByPageId = function findByPageId(id){
+        return Q(models.Snapshot.find({where:{PageId:id}, include:[models.Image]}));
+    };
+
     var create = function create(properties, pageId){
         return snapshotFactory.build(properties, pageId);
     };
@@ -39,6 +43,7 @@ module.exports = function(LOG, models, controllers){
         create:create,
         update:update,
         findById:findById,
+        findByPageId:findByPageId,
         destroy:destroy
     };
 

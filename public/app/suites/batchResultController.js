@@ -13,8 +13,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("BatchResultController", function($scope, $route, $routeParams, $http, Page) {
-        Page.setFirstLevelNavId("batchesNav");
+    return scyllaApp.controller("BatchResultController", function($scope, $route, $routeParams, $http, Header) {
+        Header.setFirstLevelNavId("batchesNav");
 
         $scope.batch = {};
         $scope.batchResult = {};

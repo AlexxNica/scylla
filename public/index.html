@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-controller="PageController">
+<html ng-controller="HeaderController">
 <head>
     <title>Scylla - Keeping Mariners on their toes for 10,000 years</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,7 @@
     <!-- Required, angular 1.1+, hence -unstable -->
     <script type="text/javascript" src="components/angular-unstable/angular.js"></script>
     <script type="text/javascript" src="components/spin.js/spin.js"></script>
+    <!--<script src="/socket.io/socket.io.js"></script> -->
 </head>
 <body>
 <div class="navbar">
@@ -22,8 +23,8 @@
 
             <div ng-cloak>
                 <ul class="nav">
-                    <li ng-repeat="page in pages" ng-id="{{page.id}}" ng-class="isActive(page)">
-                        <a ng-href="{{page.href}}"><i class="{{page.icon}} icon-large"></i> {{page.label}}</a>
+                    <li ng-repeat="header in headers" ng-id="{{header.id}}" ng-class="isActive(header)">
+                        <a ng-href="{{header.href}}"><i class="{{header.icon}} icon-large"></i> {{header.label}}</a>
                     </li>
                 </ul>
             </div>
@@ -42,5 +43,14 @@
 </div>
 
 <script data-main="app/main" src="components/requirejs/require.js"></script>
+
+<script>/*
+    var socket = io.connect('https://scylla:8091');
+    socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+    });*/
+</script>
+
 </body>
 </html>

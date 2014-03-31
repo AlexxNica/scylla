@@ -19,10 +19,10 @@ define([
         "fadeOut": 500,
         "timeOut": 3000,
         "extendedTimeOut": 1000
-    }
+    };
 
     return app;
 
-})
+});
 
 

@@ -6,7 +6,7 @@ module.exports = function(LOG, server, models, controllers){
 
     /*
 
-    server.get('/reports/:reportId/run', function(req, res, next){
+    server.get('/pages/:reportId/run', function(req, res, next){
         controllers.charybdis.executeOnReport(req.params.reportId)
             .then(utils.success(res, next), utils.fail(res, next));
     });

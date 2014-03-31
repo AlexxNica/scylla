@@ -10,7 +10,7 @@ define([
     'use strict';
 
     return scyllaApp.controller("ReportBookmarkletController", function($scope, $http, $location, Page) {
-        Page.setFirstLevelNavId("reportsNav");
+        Header.setFirstLevelNavId("reportsNav");
         $scope.isProcessing = false;
         $scope.newReportTitle = $location.search().title;
         $scope.newReportUrl = $location.search().url;
@@ -18,10 +18,10 @@ define([
         $scope.addReport = function(name, url, width, height){
             $scope.isProcessing = true;
             console.log("New Report: ", name, url, width, height);
-            $http.post("/reports", {name:name,url:url, width:width, height:height})
+            $http.post("/pages", {name:name,url:url, width:width, height:height})
                 .success(function(report){
                     toastr.success("New Report Created: " + report.name + "<br>Now capturing first screenshot.");
-                    $http.get("/reports/" + report._id + "/newMaster" )
+                    $http.get("/pages/" + report._id + "/newMaster" )
                         .success(function(report){
                             toastr.success("Captured Screen for Report: " + name);
                             $scope.isProcessing = false;

@@ -11,8 +11,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("BatchDetailController", function($scope, $route, $routeParams, $http, Page) {
-        Page.setFirstLevelNavId("batchesNav");
+    return scyllaApp.controller("BatchDetailController", function($scope, $route, $routeParams, $http, Header) {
+        Header.setFirstLevelNavId("batchesNav");
         $scope.batch = {};
         $scope.isProcessing = false;
 
@@ -49,7 +49,7 @@ define([
 
 
         var filterOutAlreadyIncludedReports = function(report){
-            return !$scope.batch.reports.some(function(includedReport){
+            return !$scope.batch.pages.some(function(includedReport){
                 return (includedReport._id == report._id);
             });
         };
@@ -90,7 +90,7 @@ define([
 
         $scope.showAddReportsModal = function(){
             $scope.showAddReport = true;
-            $http.get("/reports")
+            $http.get("/pages")
                 .success(function(reports){
                     $scope.availableReports = reports.filter(filterOutAlreadyIncludedReports);
                 })
@@ -113,8 +113,8 @@ define([
         }
 
         $scope.addReports = function(reportsToAdd){
-            $scope.batch.reports = $scope.batch.reports.concat(reportsToAdd);
-            $http.post("/batches/" + $scope.batch._id + "/reports", reportsToAdd)
+            $scope.batch.pages = $scope.batch.pages.concat(reportsToAdd);
+            $http.post("/batches/" + $scope.batch._id + "/pages", reportsToAdd)
                 .success(function(batch){
                     $scope.showAddReport = false;
                     $scope.getBatch(batch._id);
@@ -127,9 +127,9 @@ define([
 
         $scope.removeReport = function(reportIdToRemove){
             $scope.isProcessing = true;
-            $http.delete("/batches/" + $scope.batch._id + "/reports/" + reportIdToRemove)
+            $http.delete("/batches/" + $scope.batch._id + "/pages/" + reportIdToRemove)
                 .success(function(batch){
-                    $scope.batch.reports = batch.reports
+                    $scope.batch.pages = batch.pages
                     $scope.isProcessing = false;
                 })
                 .error(function(err){
@@ -172,7 +172,7 @@ define([
         };
 
         $scope.getThumbnail = function getThumbnail(report){
-            return "/reports/" + report._id + "/thumb";
+            return "/pages/" + report._id + "/thumb";
         };
 
         $scope.getResultClass = function(result) {

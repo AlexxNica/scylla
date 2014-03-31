@@ -28,7 +28,7 @@ describe("Report Results", function(){
             url:"http://google.com/"
         }
         var resultId;
-        return h.getJsonObject(h.getRequest("/reports"))
+        return h.getJsonObject(h.getRequest("/pages"))
             .then(function(reports){
                 var report = reports[0];
                 var result = {
@@ -36,7 +36,7 @@ describe("Report Results", function(){
                     timestamp:new Date().toISOString(),
                     result:unitTestImage
                 }
-                return h.getJsonObject(h.postRequest("/reports/" + report._id + "/results", result))
+                return h.getJsonObject(h.postRequest("/pages/" + report._id + "/results", result))
                     //Create
                     .then(function(savedResult){
                         resultId = savedResult._id;

@@ -1,0 +1,72 @@
+<div>
+    <processing show="isProcessing"></processing>
+    <div class="pull-right">
+        <a class="btn btn-primary" ng-click="showNewReport = true"><i class="icon-plus-sign"></i> New</a>
+    </div>
+    <h1>Pages</h1>
+    <div class="media" ng-repeat="page in pages">
+        <a class="pull-left" ng-href="#/pages/{{page.id}}">
+            <img class="media-object bigThumb" ng-src="{{ getThumbnail(page) }}">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading"><a ng-href="#/pages/{{page.id}}">{{page.name}}</a>
+                <a ng-click="deleteReport(report);" class="clickable"><i class="icon-trash" title="Delete Page"></i></a></h4>
+            <span>{{page.url}}</span><br/>
+            <span># of Screenshots: {{page.results.length}}</span><br/>
+            <span>Master: {{ dateFormat(page.masterResult.timestamp)}} </span>
+        </div>
+    </div>
+    <div id="newPage" class="modal hide fade" tabindex="-1" modal="showNewPage" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="showNewPage = false;" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Create a New Page</h3>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-error" style="display:none">
+                    There was an error.
+                </div>
+                <form class="form-horizontal" ng-submit="addPage(newPageTitle, newPageUrl)">
+                    <input id="page-title" type="text" ng-model="newPageTitle"
+                           placeholder="Identifiable Page Name" required
+                           class="input-xxlarge" />
+                    <input id="page-url" type="text" ng-model="newPageUrl"
+                           placeholder="http://test.com/" required
+                           class="input-xxlarge" />
+                    <input id="page-width" type="number" ng-model="newPageWidth"
+                           placeholder="600"
+                           class="input-mini" />x
+                    <input id="page-height" type="number" ng-model="newReportHeight"
+                           placeholder="600"
+                           class="input-mini" />
+                    <!--
+                    <label for="new-batch-name">Include this page in a new batch?</label>
+                    <input id="new-batch-name" type="text" ng-model="newBatchName"
+                           placeholder="Brand New Batch Name"
+                           class="input-xxlarge" />
+                    <label ng-if="{batches.length > 0}">Or an existing ones?</label>
+                    <select ng-if="{batches.length > 0}" multiple="multiple" ng-model="newPageBatchIds" class="input-xxlarge">
+                        <option ng-repeat="batch in batches" value="{{batch.id}}">{{batch.name}}</option>
+                    </select>
+                    -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" ng-click="showNewPage = false;" aria-hidden="true">Close</button>
+                <button class="btn btn-primary" ng-click="addPage(newPageTitle, newPageUrl, newPageWidth, newPageHeight);">Add Page</button>
+            </div>
+    </div>
+    <div id="deletePage" class="modal hide fade" tabindex="-1" modal="showDeletePage" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="deleteModalLabel">Delete Page</h3>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to delete this page?<br/>
+            {{pageToDelete.results.length}} Snapshots and all associated diffs will be deleted as well.
+        </div>
+        <div class="modal-footer">
+            <button class="btn" ng-click="showDeletePage = false;" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" ng-click="confirmDeletePage(pageToDelete)">Delete Page</button>
+        </div>
+    </div>
+</div>

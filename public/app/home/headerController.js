@@ -1,23 +1,23 @@
 define([
     "scyllaApp",
-    "home/page"
+    "home/header"
 ], function(
     scyllaApp,
-    Page
+    Header
     ){
     'use strict';
 
-    return scyllaApp.controller("PageController", function($scope, $http, Page) {
-        $scope.Page = Page;
-        $scope.pages = [
+    return scyllaApp.controller("HeaderController", function($scope, $http, Header) {
+        $scope.Header = Header;
+        $scope.headers = [
             {label:"Home", href:"#", id:"homeNav", icon:"icon-home", active:false},
-            {label:"Reports", href:"#/reports", id:"reportsNav", icon:"icon-th-list", active:false},
-            {label:"Batches", href:"#/batches", id:"batchesNav", icon:"icon-sitemap", active:false},
-            {label:"AB Compare", href:"#/compares", id:"comparesNav", icon:"icon-exchange", active:false}
+            {label:"Pages", href:"#/pages", id:"pagesNav", icon:"icon-th-list", active:false},
+            {label:"Suites", href:"#/suites", id:"suitesNav", icon:"icon-sitemap", active:false}/*,
+            {label:"AB Compare", href:"#/compares", id:"comparesNav", icon:"icon-exchange", active:false}*/
         ];
         $scope.isActive = function(item){
             //console.log(item.id, Page.firstLevelNavId());
-            return item.id === Page.firstLevelNavId() ? "active" : "";
+            return item.id === Header.firstLevelNavId() ? "active" : "";
         };
 
 

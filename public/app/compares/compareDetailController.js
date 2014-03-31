@@ -11,8 +11,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("CompareDetailController", function($scope, $route, $routeParams, $http, Page) {
-        Page.setFirstLevelNavId("comparesNav");
+    return scyllaApp.controller("CompareDetailController", function($scope, $route, $routeParams, $http, Header) {
+        Header.setFirstLevelNavId("comparesNav");
         $scope.isProcessing = false;
         $scope.compare = {};
         $scope.showEditModal = false;

@@ -7,8 +7,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("ComparesController", function($scope, $http, Page) {
-        Page.setFirstLevelNavId("comparesNav");
+    return scyllaApp.controller("ComparesController", function($scope, $http, Header) {
+        Header.setFirstLevelNavId("comparesNav");
 
         $scope.compares = [];
         $scope.compareToDelete = {};

@@ -11,8 +11,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("ReportDetailController", function($scope, $route, $routeParams, $http, Page) {
-        Page.setFirstLevelNavId("reportsNav");
+    return scyllaApp.controller("PageDetailController", function($scope, $route, $routeParams, $http, Header) {
+        Header.setFirstLevelNavId("reportsNav");
         $scope.isProcessing = false;
         $scope.report = {};
         $scope.showEditModal = false;
@@ -23,7 +23,7 @@ define([
 
         $scope.getReport = function(id){
 
-            $http.get("/reports/" + id, {params:{includeResults:true}})
+            $http.get("/pages/" + id, {params:{includeResults:true}})
                 .success(function(report){
                              $scope.loaded = true;
                              if(report.results){
@@ -42,7 +42,7 @@ define([
         $scope.getReport($routeParams.id);
 
         $scope.loadResultDiffs = function(result){
-            $http.get("/report-results/" + result._id + "/diffs")
+            $http.get("/report-results/" + result.id + "/diffs")
                 .success(function(resultDiffs){
                     result.resultDiffs = resultDiffs;
                             })
@@ -56,7 +56,7 @@ define([
             return moment(isoString).format("MMMM Do, h:mm A");
         };
         $scope.getResultClass = function(result) {
-            if($scope.report.masterResult && result._id == $scope.report.masterResult._id) {
+            if($scope.report.masterResult && result.id == $scope.report.masterResult.id) {
                 return "masterResult"
             }
             return "notMasterResult";
@@ -66,10 +66,10 @@ define([
             if($scope.report.masterResult &&
             //Initially we have just the IDs, but later we'll have the entire object...
             // so our comparison has to take both into account.
-               (resultDiff.reportResultA._id || resultDiff.reportResultA) == $scope.report.masterResult._id) {
+               (resultDiff.reportResultA.id || resultDiff.reportResultA) == $scope.report.masterResult.id) {
                 classes.push( "resultAIsMaster");
             } else if($scope.report.masterResult &&
-               (resultDiff.reportResultB._id || resultDiff.reportResultB) == $scope.report.masterResult._id) {
+               (resultDiff.reportResultB.id || resultDiff.reportResultB) == $scope.report.masterResult.id) {
                 classes.push( "resultBIsMaster");
             }
             classes.push (resultDiff.distortion > 0 ? "fail" : "pass");
@@ -86,7 +86,7 @@ define([
         $scope.setNewMaster = function setNewMaster(result){
             $scope.isProcessing = true
             $scope.report.masterResult = result;
-            $http.put("/reports/" + $scope.report._id + "/masterResult", result)
+            $http.put("/pages/" + $scope.report.id + "/masterResult", result)
                 .success(function(){
                     toastr.success("Master Result Set");
                     $scope.isProcessing = false;
@@ -101,7 +101,7 @@ define([
 
         $scope.runReport = function runReport(){
             $scope.isProcessing = true
-            $http.get("/reports/" + $scope.report._id + "/run")
+            $http.get("/pages/" + $scope.report.id + "/run")
                 .success(function(mishMash){
                     var result = mishMash.result;
                     var resultDiff = mishMash.resultDiff;
@@ -110,7 +110,7 @@ define([
                     if($scope.report.masterResult){
                         var i = $scope.report.results.length;
                         while(i-- > 0){
-                            if($scope.report.results[i]._id === $scope.report.masterResult._id){
+                            if($scope.report.results[i].id === $scope.report.masterResult.id){
                                 $scope.report.results[i].resultDiffs.unshift(resultDiff);
                                 i = 0;
                             }
@@ -140,7 +140,7 @@ define([
 
         $scope.saveReport = function(report){
             console.log("Save Report: ", report);
-            return $http.put("/reports/" + report._id, report)
+            return $http.put("/pages/" + report.id, report)
                 .success(function(report){
                     toastr.success("Report Saved: " + report.name);
                  })

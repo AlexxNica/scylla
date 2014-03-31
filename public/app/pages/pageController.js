@@ -11,11 +11,11 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("ReportController", function($scope, $http, Page) {
-        Page.setFirstLevelNavId("reportsNav");
+    return scyllaApp.controller("PageController", function($scope, $http, Header) {
+        Header.setFirstLevelNavId("pagesNav");
         $scope.isProcessing = false;
-        $scope.reports = [];
-        $scope.batches = [];
+        $scope.pages = [];
+        $scope.suites = [];
         $scope.reportToDelete = {};
 
         $scope.dateFormat = function(isoString) {
@@ -24,32 +24,32 @@ define([
         };
 
         $scope.getThumbnail = function getThumbnail(report){
-            return "/reports/" + report._id + "/thumb";
+            return "/pages/" + report.id + "/thumb";
         };
 
-        $scope.getAllReports = function(){
+        $scope.getAllPages = function(){
 
-            $http.get("/reports")
-                .success(function(reports){
+            $http.get("/pages")
+                .success(function(pages){
                              $scope.loaded = true;
-                             $scope.reports = reports
+                             $scope.pages = pages;
                          })
                 .error(function(err){
                            alert(err)
                        });
         };
-        $scope.getAllReports();
+        $scope.getAllPages();
 
-        $scope.getAllBatches = function(){
-            $http.get("/batches", {params:{includeResults:"false"}})
-                .success(function(batches){
-                    $scope.batches = batches
+        $scope.getAllSuites = function(){
+            $http.get("/suites", {params:{includeResults:"false"}})
+                .success(function(suites){
+                    $scope.suites = suites
                 })
                 .error(function(err){
                     alert(err)
                 });
         };
-        $scope.getAllBatches();
+        $scope.getAllSuites();
 
         $scope.deleteReport = function deleteReport(report){
             $scope.showDeleteReport = true
@@ -67,17 +67,17 @@ define([
         $scope.confirmDeleteReport = function confirmDeleteReport(report){
             $scope.isProcessing = true;
             console.log("Deleting Report", report);
-            $http.get("/reports/" + report._id, {params:{includeResults:true}})
+            $http.get("/pages/" + report.id, {params:{includeResults:true}})
                 .success(function(report){
                     if(report.results){
                         report.results.forEach(function(result){
-                            $scope.deleteResult(result._id);
+                            $scope.deleteResult(result.id);
                         });
                     }
-                    $http.delete("/reports/" + report._id)
+                    $http.delete("/pages/" + report.id)
                         .success(function(deletedReport){
                             console.log("Deleted Report",deletedReport);
-                            $scope.getAllReports();
+                            $scope.getAllPages();
                             $scope.showDeleteReport = false;
                             $scope.isProcessing = false;
                         })
@@ -91,15 +91,15 @@ define([
         $scope.addReport = function(name, url, width, height){
             $scope.isProcessing = true;
             console.log("New Report: ", name, url, width, height);
-            $http.post("/reports", {name:name,url:url, width:width, height:height})
+            $http.post("/pages", {name:name,url:url, width:width, height:height})
                 .success(function(report){
                     $scope.showNewReport = false;
                     toastr.success("New Report Created: " + report.name + "<br>Now capturing first screenshot.");
-                    $http.get("/reports/" + report._id + "/newMaster" )
+                    $http.get("/pages/" + report.id + "/newMaster" )
                         .success(function(report){
                             toastr.success("Captured Screen for Report: " + name);
                             //Or, just replace the report
-                            $scope.getAllReports();
+                            $scope.getAllPages();
                             $scope.isProcessing = false;
                         });
                  })

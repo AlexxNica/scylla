@@ -5,7 +5,7 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.factory('Page', function(){
+    return scyllaApp.factory('Header', function(){
         var firstLevelNavId = "";
         return {
             firstLevelNavId:function(){return firstLevelNavId;},
