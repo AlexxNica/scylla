@@ -1,4 +1,5 @@
 var LOG, controllers, models;
+var DiffFactory,SnapshotFactory;
 
 var Q = require('q');
 var Qe = require('charybdis')().qExtension;
@@ -10,6 +11,8 @@ module.exports = function SuiteRunFactory(){
         LOG = LOG_in;
         models = models_in;
         controllers = controllers_in;
+        DiffFactory = controllers.factories.diff;
+        SnapshotFactory = controllers.factories.snapshot;
         LOG.info("SuiteRun Factory Initialized");
     };
 
@@ -30,90 +33,46 @@ module.exports = function SuiteRunFactory(){
         var suite;
 
 
-
 //Create Suite Run from Suite
         return Q.all([
-                suiteRun.save(),
-                controllers.suites.findById(suiteId)
-            ]).spread(function(suiteRun, theSuite){
+                controllers.suites.findById(suiteId),
+                suiteRun.save()
+            ]).spread(function(theSuite, theRun ) {
                 suite = theSuite;
 //Get all Page/Master Combos
-                return Q.all(suite.masterSnapshots.map(function(master){
-//Create Preliminary Diff Object for each Master
-                    return models.SnapshotDiff.create({
-                        SuiteRunId:suiteRun.id,
-                        SnapshotAId:master.id
-                    }).then(function(diff){
-                            return {
-                                page:master.snapshot.page,
-                                snapA:master.snapshot,
-                                diff:diff
-                            }
-                        });
-                }));
-
-            }).then(function(workloads){
-//Create new Snapshot for each Master/Diff
-                var queuePromise = Qe.eachItemIn(workloads).aggregateThisPromise(function(workload){
-                    console.log("Capturing New Snapshot for Page: ", workload.page.url);
-                    return controllers.factories.snapshot.build({}, workload.page.id)
-                        .then(function(snapB){
-//Update Diff w/ Snapshot
-                            workload.snapB = snapB;
-                            workload.diff.setSnapshotB(snapB);
-//Save Diff
-                            return workload.diff.save();
-                        })
-                        .then(function(){
-                            return workload;
+//Create Preliminary Snapshot and Diff Object for each Master
+                return Qe.eachItemIn(suite.masterSnapshots).aggregateThisPromise(function (master) {
+                    return SnapshotFactory.build({}, master.snapshot.page.id)
+                        .then(function (newSnapshot) {
+                            return DiffFactory.build(master.snapshot.id, newSnapshot.id)
+                                .then(function (diff) {
+                                    diff.setSuiteRun(theRun);
+                                    return diff.save();
+                                })
+                                .then(function (diff) {
+                                    return {
+                                        master: master,
+                                        snap  : newSnapshot,
+                                        diff  : diff
+                                    }
+                                });
                         });
                 });
-                return queuePromise;
+
+            }).then(function(workloads){
+                return Qe.eachItemIn(workloads).aggregateThisPromise(function(workload){
+                    //TODO: move snapshotting to two-stage approach.
+                    console.log("Executing Diff #" + workload.diff.id +
+                                " for page: ", workload.master.snapshot.page.name);
+                    return controllers.factories.diff.execute(workload.diff.id)
+                });
             })
-            .then(function(workloads){
-//Create Diff Image for each diff
-//Save Diff
+            .then(function(completedDiffs){
                 LOG.info("Received Completed Diffs:", completedDiffs.length);
             });
-            ;
-            /*
-            .then(function(snapshotResult){
-                snapshotRaw = merge(properties,snapshotResult);
-                var imageProperties = {
-                    width:800,
-                    height:800,
-                    info:snapshotRaw.image.info
-                }
-                var fileContents = snapshotRaw.image.contents;
-                delete snapshotRaw.image;
+    };
 
-                return controllers.images.create(imageProperties, pageId, fileContents)
-            })
-            .then(function(theImage){
-                image = theImage;
-                snapshotRaw.state = "Complete";
-                return controllers.shared.buildAndValidateModel(models.Snapshot, snapshotRaw)
-            })
-            .then(function(theSnapshot){
-                snapshot = theSnapshot;
-                page.addSnapshot(snapshot);
-                snapshot.setPage(page);
-                snapshot.setImage(image);
-                image.setSnapshot(snapshot);
-                return Q.all([
-                        snapshot.save(),
-                        image.save(),
-                        page.save()
-                ])
-            })
-            .then(function(){
-                return snapshot;
-            })
-            .fail(function(error){
-                LOG.error("Error in SnapshotFactory.build", error);
-            });
-            */
-
+    var execute = function execute(suiteId){
 
     };
 
