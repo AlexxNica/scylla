@@ -1,25 +1,32 @@
 <div>
     <processing show="isProcessing"></processing>
     <div>
-        <h2 style="display:inline-block">{{report.name}}</h2>&nbsp;&nbsp;&nbsp;
-        <a class="clickable headerIcon" ng-click="showEditModal = true;"><i class="icon-edit icon-2x" title="Edit Report"></i></a>
-        <a class="clickable headerIcon" ng-click="runReport()"><i class="icon-play-sign icon-2x" title="Run Report"></i></a>
+        <h2 style="display:inline-block">{{page.name}}</h2>&nbsp;&nbsp;&nbsp;
+        <a class="clickable headerIcon" ng-click="showEditModal = true;"><i class="icon-edit icon-2x" title="Edit Page"></i></a>
+        <a class="clickable headerIcon" ng-click="snapshotPage()"><i class="icon-play-sign icon-2x" title="Capture Snapshot"></i></a>
     </div>
-    <div class="media {{getResultClass(result)}}" ng-repeat="result in report.results">
+    <div class="media" ng-repeat="snapshot in page.snapshots">
         <a class="pull-left">
-            <img class="media-object bigThumb" ng-src="{{result.thumb}}">
+            <img class="media-object bigThumb" ng-src="/resources/{{snapshot.image.url}}">
         </a>
         <div class="media-body">
-            <h4 class="media-heading">{{formatResultHeader(result)}}
+            <h4 class="media-heading">{{formatResultHeader(snapshot)}}
                 <i class="icon-star masterStar" title="Master"></i>
-                <a class="clickable notMasterStar" ng-click="setNewMaster(result)"><i class="icon-star-empty" title="Set as New Master"></i></a>
+                <!--<a class="clickable notMasterStar" ng-click="setNewMaster(result)"><i class="icon-star-empty" title="Set as New Master"></i></a>-->
             </h4>
             <ol>
-                <li ng-repeat="resultDiff in result.resultDiffs" class="diff {{getResultDiffClass(resultDiff)}}">
-                    <span class="resultA">{{dateFormat(resultDiff.reportResultAName)}}</span>
+                <li ng-repeat="diff in snapshot.snapshotDiffA" class="diff {{getSnapshotDiffClass(snapshot, diff.snapshotB)}}">
+                    <span class="resultA">{{dateFormat(snapshot.createdAt)}}</span>
                     <i class="icon-arrow-right"></i>
-                    <span class="resultB">{{dateFormat(resultDiff.reportResultBName)}}</span>
-                    <span class="distortion">{{resultDiff.distortion}}</span>
+                    <span class="resultB">{{dateFormat(diff.snapshotB.createdAt)}}</span>
+                    <span class="distortion">{{diff.distortion}}</span>
+                    <span class="viewDiff"><a href="#/result-diffs/{{resultDiff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
+                </li>
+                <li ng-repeat="diff in snapshot.snapshotDiffB" class="diff {{getSnapshotDiffClass(diff.snapshotA, snapshot)}}">
+                    <span class="resultA">{{dateFormat(diff.snapshotA.createdAt)}}</span>
+                    <i class="icon-arrow-right"></i>
+                    <span class="resultB">{{dateFormat(snapshot.createdAt)}}</span>
+                    <span class="distortion">{{diff.distortion}}</span>
                     <span class="viewDiff"><a href="#/result-diffs/{{resultDiff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
                 </li>
             </ol>

@@ -77,12 +77,28 @@ module.exports = function SnapshotDiffFactory(){
         if(!snapshotAId || !snapshotBId){
             return Q.reject(new controllers.shared.ValidationError('SnapshotA and SnapshotB are required'));
         }
+
         properties = properties || {};
-        properties.snapshotAId = snapshotAId;
-        properties.snapshotBId = snapshotBId;
         properties.state = "Queued";
 
-        return controllers.shared.buildAndValidateModel(models.SnapshotDiff, properties);
+        return Q.all([
+            controllers.shared.buildAndValidateModel(models.SnapshotDiff, properties),
+            controllers.snapshots.findById(snapshotAId),
+            controllers.snapshots.findById(snapshotBId)
+        ]).spread(function(diff, snapA, snapB){
+            diff.setSnapshotA(snapA);
+            //snapA.addSnapshotDiffA(diff);
+            diff.setSnapshotB(snapB);
+            //snapB.addSnapshotDiffB(diff);
+            return Q.all([
+                diff.save(),
+                snapA.save(),
+                snapB.save()
+            ]).spread(function(diff){
+                return diff;
+            })
+        });
+
     };
 
     var buildAndExecute = function(snapAId, snapBId){

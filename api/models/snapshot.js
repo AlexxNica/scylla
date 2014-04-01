@@ -30,7 +30,12 @@ module.exports = function(ORM){
                 model:  "MasterSnapshot"
             },{
                 kind:   "hasMany",
-                model:  "SnapshotDiff"
+                model:  "SnapshotDiff",
+                options:{ as:"snapshotDiffA", foreignKey:"snapshotAId"}
+            },{
+                kind:   "hasMany",
+                model:  "SnapshotDiff",
+                options:{ as:"snapshotDiffB", foreignKey:"snapshotBId"}
             }
 
         ]

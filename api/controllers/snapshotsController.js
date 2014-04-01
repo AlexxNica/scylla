@@ -10,7 +10,14 @@ module.exports = function(LOG, models, controllers){
     };
 
     var findById = function findById(id){
-        return Q(models.Snapshot.find({where:{id:id}, include:[models.Image]}));
+        return Q(models.Snapshot.find({where:{id:id},
+            include:[
+                models.Image,
+                models.MasterSnapshot,
+                {model:models.SnapshotDiff, as:"snapshotDiffA", foreignKey:"snapshotAId"},
+                {model:models.SnapshotDiff, as:"snapshotDiffB", foreignKey:"snapshotBId"}
+            ]
+        }));
     };
 
     var findByPageId = function findByPageId(id){

@@ -8,7 +8,18 @@ module.exports = function(LOG, models){
     };
 
     var findById = function findById(id){
-        return Q(models.Page.find(id));
+        return Q(models.Page.find({where:{id:id}, include:[
+            {model:models.Snapshot, include:[
+                {model:models.Image},
+                {model:models.MasterSnapshot},
+                {model:models.SnapshotDiff, as:"snapshotDiffA", include:[
+                    {model:models.Snapshot, as:"snapshotB"}
+                ]},
+                {model:models.SnapshotDiff, as:"snapshotDiffB", include:[
+                    {model:models.Snapshot, as:"snapshotA"}
+                ]}
+            ]}
+        ]}));
     };
 
     var create = function create(properties){
