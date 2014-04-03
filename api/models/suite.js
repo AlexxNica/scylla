@@ -31,6 +31,9 @@ module.exports = function(ORM){
             },{
                 kind:   "hasMany",
                 model:  "MasterSnapshot"
+            },{
+                kind:   "hasMany",
+                model:  "SuiteRun"
             }
         ]
     };

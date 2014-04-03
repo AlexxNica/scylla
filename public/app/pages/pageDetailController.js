@@ -76,7 +76,7 @@ define([
             classes.push (resultDiff.distortion > 0 ? "fail" : "pass");
 
             return classes.join(" ");
-        }
+        };
 
         $scope.formatResultHeader = function(result){
             var label = $scope.dateFormat(result.createdAt);

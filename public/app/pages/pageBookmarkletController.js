@@ -21,7 +21,7 @@ define([
             $http.post("/pages", {name:name,url:url, width:width, height:height})
                 .success(function(report){
                     toastr.success("New Report Created: " + report.name + "<br>Now capturing first screenshot.");
-                    $http.get("/pages/" + report._id + "/newMaster" )
+                    $http.get("/pages/" + report.id + "/newMaster" )
                         .success(function(report){
                             toastr.success("Captured Screen for Report: " + name);
                             $scope.isProcessing = false;

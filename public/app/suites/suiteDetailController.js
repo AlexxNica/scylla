@@ -11,14 +11,14 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("BatchDetailController", function($scope, $route, $routeParams, $http, Header) {
-        Header.setFirstLevelNavId("batchesNav");
-        $scope.batch = {};
+    return scyllaApp.controller("SuiteDetailController", function($scope, $route, $routeParams, $http, Header) {
+        Header.setFirstLevelNavId("suitesNav");
+        $scope.suite = {};
         $scope.isProcessing = false;
 
-        $scope.showEditBatch = false;
-        $scope.batchScheduleEnabled = false;
-        $scope.batchScheduleTime = "";
+        $scope.showEditSuite = false;
+        $scope.suiteScheduleEnabled = false;
+        $scope.suiteScheduleTime = "";
         var dayList =["sun", "mon", "tues", "wed","thurs","fri","sat"];
         $scope.days = {
             sun: false,
@@ -41,16 +41,16 @@ define([
         /*
         dpd.batchresults.on("create", function(batchResult){
             console.log("DPD Event", batchResult);
-            if(batchResult.batchId == $scope.batch._id){
-                $scope.getBatch($scope.batch._id);
+            if(batchResult.batchId == $scope.batch.id){
+                $scope.getBatch($scope.batch.id);
             }
         });
         */
 
 
         var filterOutAlreadyIncludedReports = function(report){
-            return !$scope.batch.pages.some(function(includedReport){
-                return (includedReport._id == report._id);
+            return !$scope.suite.pages.some(function(includedReport){
+                return (includedReport.id == report.id);
             });
         };
 
@@ -63,23 +63,23 @@ define([
 
         $scope.showEditWatchersModal = function showEditWatchersModal(){
             $scope.showEditWatchers = true;
-            $scope.watchers = ($scope.batch.watchers) ? $scope.batch.watchers.join("\n") : "";
+            $scope.watchers = ($scope.suite.watchers) ? $scope.suite.watchers.join("\n") : "";
         };
 
         $scope.saveWatchers = function(watchersString){
             var w = watchersString.split("\n").map(function(item){return item.trim()});
-            $scope.batch.watchers = w;
-            $scope.saveBatch($scope.batch)
+            $scope.suite.watchers = w;
+            $scope.saveSuite($scope.suite)
                 .then(function(){
                     $scope.showEditWatchers = false;
                 })
         };
 
-        $scope.runBatch = function(){
+        $scope.runSuite = function(){
             $scope.isProcessing = true;
-            $http.get("/batches/" + $scope.batch._id + "/run")
-                .success(function(batchRunResult){
-                    $scope.batch.results.unshift(batchRunResult.batchResult);
+            $http.post("/suites/" + $scope.suite.id + "/suiteRuns", {})
+                .success(function(suiteRunResult){
+                    $scope.suite.suiteRuns.unshift(suiteRunResult.suiteRun);
                     $scope.isProcessing = false;
                 })
                 .error(function(err){
@@ -88,37 +88,39 @@ define([
                 })
         };
 
-        $scope.showAddReportsModal = function(){
-            $scope.showAddReport = true;
+        $scope.showAddPagesModal = function(){
+            $scope.showAddPage = true;
             $http.get("/pages")
-                .success(function(reports){
-                    $scope.availableReports = reports.filter(filterOutAlreadyIncludedReports);
+                .success(function(pages){
+                    $scope.availablePages = pages.filter(filterOutAlreadyIncludedPages);
                 })
                 .error(function(err){
                     alert(err);
                 });
         };
 
-        $scope.showEditBatchModal = function(){
-            $scope.showEditBatch = true;
-            $scope.batchScheduleEnabled = $scope.batch.scheduleEnabled;
-            var sch = $scope.batch.schedule;
+        $scope.showEditSuiteModal = function(){
+            $scope.showEditSuite = true;
+            $scope.suiteScheduleEnabled = $scope.suite.scheduleEnabled;
+            /*
+            var sch = $scope.suite.schedule;
             for(var i in dayList){
                 $scope.days[dayList[i]] = (sch.days.indexOf(parseInt(i)) != -1);
             }
             var localTime = new moment().utc().hours(sch.hour).minutes(sch.minute);
-            $scope.batchScheduleTime = localTime.local().format("HH:mm");
+            $scope.suiteScheduleTime = localTime.local().format("HH:mm");
             console.log($scope.days);
-            console.log($scope.batchScheduleTime);
+            console.log($scope.suiteScheduleTime);
+            */
         }
 
-        $scope.addReports = function(reportsToAdd){
-            $scope.batch.pages = $scope.batch.pages.concat(reportsToAdd);
-            $http.post("/batches/" + $scope.batch._id + "/pages", reportsToAdd)
-                .success(function(batch){
+        $scope.addPages = function(pagesToAdd){
+            $scope.suite.pages = $scope.suite.pages.concat(reportsToAdd);
+            $http.post("/suites/" + $scope.suite.id + "/pages", reportsToAdd)
+                .success(function(suite){
                     $scope.showAddReport = false;
-                    $scope.getBatch(batch._id);
-                    toastr.success("Batch Saved: " + batch.name);
+                    $scope.getSuite(suite.id);
+                    toastr.success("Suite Saved: " + suite.name);
                 })
                 .error(function(err){
                     alert(err);
@@ -127,9 +129,9 @@ define([
 
         $scope.removeReport = function(reportIdToRemove){
             $scope.isProcessing = true;
-            $http.delete("/batches/" + $scope.batch._id + "/pages/" + reportIdToRemove)
-                .success(function(batch){
-                    $scope.batch.pages = batch.pages
+            $http.delete("/suites/" + $scope.suite.id + "/pages/" + reportIdToRemove)
+                .success(function(suite){
+                    $scope.suite.pages = suite.pages
                     $scope.isProcessing = false;
                 })
                 .error(function(err){
@@ -139,27 +141,27 @@ define([
                 });
         };
 
-        $scope.editBatch = function(batch){
-            batch.scheduleEnabled = $scope.batchScheduleEnabled
-            batch.schedule.days = [];
+        $scope.editSuite = function(suite){
+            suite.scheduleEnabled = $scope.suiteScheduleEnabled
+            sutie.schedule.days = [];
             for(var i=0; i < dayList.length; i++){
-                if($scope.days[dayList[i]]) batch.schedule.days.push(i);
+                if($scope.days[dayList[i]]) suite.schedule.days.push(i);
             }
-            var time = $scope.batchScheduleTime.split(":");
+            var time = $scope.suiteScheduleTime.split(":");
             var d = new moment().hours(time[0]).minutes(time[1]).utc();
-            batch.schedule.hour = d.hours();
-            batch.schedule.minute = d.minutes();
-            $scope.saveBatch(batch)
-                .success(function(batch){
-                    $scope.showEditBatch = false;
+            suite.schedule.hour = d.hours();
+            suite.schedule.minute = d.minutes();
+            $scope.saveSuite(suite)
+                .success(function(suite){
+                    $scope.showEditSuite = false;
                 })
         };
 
-        $scope.saveBatch = function(batch){
-            return $http.put("/batches/" + batch._id, batch)
-                .success(function(batch){
-                    $scope.getBatch(batch._id);
-                    toastr.success("Batch Saved: " + batch.name);
+        $scope.saveSuite = function(suite){
+            return $http.put("/suites/" + suite.id, suite)
+                .success(function(suite){
+                    $scope.getSuite(suite.id);
+                    toastr.success("Suite Saved: " + suite.name);
                 })
                 .error(function(err){
                     alert(err);
@@ -171,8 +173,8 @@ define([
             return moment(isoString).format("MMMM Do, h:mm A");
         };
 
-        $scope.getThumbnail = function getThumbnail(report){
-            return "/pages/" + report._id + "/thumb";
+        $scope.getThumbnail = function getThumbnail(page){
+            return "/pages/" + page.id + "/thumb";
         };
 
         $scope.getResultClass = function(result) {
@@ -182,25 +184,25 @@ define([
             return "notMasterResult";
         };
 
-        $scope.getReportResultClass = function(reportResult) {
-            if(reportResult.distortion == -1) {
+        $scope.getDiffClass = function(diff) {
+            if(diff.distortion == -1) {
                 return "exception";
-            } else if(reportResult.distortion == 0) {
+            } else if(diff.distortion == 0) {
                 return "pass";
             } else {
                 return "fail";
             }
         };
 
-        $scope.getBatch = function(id){
-            $http.get("/batches/" + id, {params:{includeResults:true, includeReports:true}})
-                .success(function(batch){
-                     $scope.batch = batch
+        $scope.getSuite = function(id){
+            $http.get("/suites/" + id)
+                .success(function(suite){
+                     $scope.suite = suite
                 })
                 .error(function(err){
                     alert(err)
                 });
         }
-        $scope.getBatch($routeParams.id);
+        $scope.getSuite($routeParams.id);
     });
 });

@@ -39,7 +39,10 @@ module.exports = function(log, server, models, controllers){
 
     server.post('/suites/:suiteId/suiteRuns', function(req, res, next) {
         controllers.suiteRuns.create(req.body, req.params.suiteId)
-            .then(utils.success(res, next))
+            .then(function(value){
+                return controllers.suiteRuns.findById(value.id)
+                    .then(utils.success(res, next));
+            })
             .fail(utils.fail(res, next));
 
     });

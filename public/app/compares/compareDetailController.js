@@ -44,7 +44,7 @@ define([
 
         $scope.runCompare = function(){
             $scope.isProcessing = true;
-            $http.get("/abcompares/" + $scope.compare._id + "/run")
+            $http.get("/abcompares/" + $scope.compare.id + "/run")
                 .success(function(compareRunResult){
                     $scope.compare.results.unshift(compareRunResult.abCompareResult);
                     $scope.isProcessing = false;
@@ -78,7 +78,7 @@ define([
 
         $scope.saveCompare = function(compare){
             console.log("Save Compare: ", compare);
-            return $http.put("/abcompares/" + compare._id, compare)
+            return $http.put("/abcompares/" + compare.id, compare)
                 .success(function(compare){
                     toastr.success("Compare Saved: " + compare.name);
                  })

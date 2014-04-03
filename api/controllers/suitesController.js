@@ -13,6 +13,19 @@ module.exports = function(LOG, models){
                 {model:models.Snapshot, include:[
                     {model:models.Page}
                 ]}
+            ]},
+            {model:models.SuiteRun, include:[
+                {model:models.SnapshotDiff, include:[
+                    models.Image,
+                    {model:models.Snapshot, as:"snapshotA", include:[
+                        models.Page,
+                        models.Image
+                    ]},
+                    {model:models.Snapshot, as:"snapshotB", include:[
+                        models.Page,
+                        models.Image
+                    ]}
+                ]}
             ]}
         ]}));
     };

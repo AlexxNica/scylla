@@ -13,12 +13,12 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("BatchResultController", function($scope, $route, $routeParams, $http, Header) {
-        Header.setFirstLevelNavId("batchesNav");
+    return scyllaApp.controller("SnapshotRunController", function($scope, $route, $routeParams, $http, Header) {
+        Header.setFirstLevelNavId("suitesNav");
 
-        $scope.batch = {};
-        $scope.batchResult = {};
-        $scope.diff = {};
+        $scope.suite = {};
+        $scope.suiteRun = {};
+        $scope.snapshotDiff = {};
 
         /*
         dpd.batchresults.on("create", function(batchResult){

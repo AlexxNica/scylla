@@ -69,6 +69,7 @@ module.exports = function SuiteRunFactory(){
             })
             .then(function(completedDiffs){
                 LOG.info("Received Completed Diffs:", completedDiffs.length);
+                return suiteRun;
             });
     };
 

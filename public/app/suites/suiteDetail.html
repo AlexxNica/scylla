@@ -1,0 +1,137 @@
+<div>
+    <processing show="isProcessing"></processing>
+    <div class="pull-right">
+        <a ng-click="showAddPagesModal()" class="btn btn-primary"><i class="icon-plus-sign"></i> Add Page</a>
+        <a ng-click="showEditWatchersModal()" class="btn btn-primary"><i class="icon-edit" ></i> Edit Watchers</a>
+    </div>
+    <div>
+        <h2 style="display:inline-block">{{suite.name}}</h2>&nbsp;&nbsp;&nbsp;
+        <a class="clickable headerIcon" ng-click="showEditSuiteModal()"><i class="icon-edit icon-2x" title="Edit Suite"></i></a>
+        <a class="clickable headerIcon" ng-click="runSuite()"><i class="icon-play-sign icon-2x" title="Run Suite Now"></i></a>
+
+    </div>
+    <div class="row-fluid">
+        <div class="span5">
+            <h3 style="display:inline">Snapshots</h3>
+            <div class="media" ng-repeat="masterSnapshot in suite.masterSnapshots">
+                <a class="pull-left" ng-href="#/masterSnapshots/{{masterSnapshot.id}}">
+                    <img class="media-object bigThumb" ng-src="{{ getThumbnail(masterSnapshot) }}">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading"><a ng-href="#/masterSnapshots/{{masterSnapshot.id}}">{{masterSnapshot.page.name}}</a>
+                        <a  ng-click="removePage(page.id)" class="clickable"><i class="icon-minus-sign" title="Remove page from this batch"></i></a></h4>
+                    <span style="font-size: 10px">{{masterSnapshot.page.url}}</span><br/>
+                    <span># of Screenshots: {{page.results.length}}</span><br/>
+                    <span>Master: {{ dateFormat(page.masterResult.timestamp)}} </span>
+                </div>
+            </div>
+        </div>
+        <div class="span5">
+            <h3>Suite Runs</h3>
+            <div class="media" ng-repeat="suiteRun in suite.suiteRuns">
+                <div class="media-body">
+                    <h4 class="media-heading"><a href="#/suites/{{suite.id}}/suiteRuns/{{suiteRun.id}}" class="clickable">{{dateFormat(suiteRun.updatedAt)}}</a></h4>
+                    <ol>
+                        <li ng-repeat="snapshotDiff in suiteRun.snapshotDiffs" class="snapshotDiff">
+                            <span class="">{{snapshotDiff.snapshotB.page.name}}</span>
+                            (<span class="{{getReportResultClass(reportResult)}}">{{snapshotDiff.distortion}}</span>)
+                            <span class="viewDiff"><a href="#/snapshotDiffs/{{snapshotDiff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <h3>Watchers</h3>
+            <div ng-repeat="watcher in suite.watchers">
+                <img class="media-object gravatar80" ng-src="{{ getAvatarUrl(watcher)}}" title="{{watcher}}" alt="{{watcher}}"
+                        onerror="this.onerror = null;$(this).replaceWith('{{watcher}}')">
+            </div>
+        </div>
+    </div>
+    <div id="addReport" class="modal hide fade" tabindex="-1" modal="showAddReport" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="showAddReport = false" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Add Report to Suite</h3>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-error" style="display:none">
+                There was an error.
+            </div>
+            <form class="form-horizontal" ng-submit="addReports(selectedReportsToAdd)">
+                <select multiple="multiple" ng-model="selectedReportsToAdd" class="input-xxlarge">
+                    <option ng-repeat="report in availableReports" value="{{report.id}}">{{report.name}}</option>
+                </select>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" ng-click="showAddReport = false" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" ng-click="addReports(selectedReportsToAdd)">Add Report</button>
+        </div>
+    </div>
+    <div id="editWatchers" class="modal hide fade" tabindex="-1" modal="showEditWatchers" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="showEditWatchers = false" aria-hidden="true">×</button>
+            <h3 id="editWatchersModalLabel">Edit Watchers List</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" ng-submit="addReports(selectedReportsToAdd)">
+                <label for="watcherList">Enter Emails below, one per line</label>
+                <textarea id="watcherList" ng-model="watchers">
+
+                </textarea>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" ng-click="showEditWatchers = false;" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" ng-click="saveWatchers(watchers)">Save Watchers</button>
+        </div>
+    </div>
+    <div id="editSuite" class="modal hide fade" tabindex="-1" modal="showEditSuite" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="showEditSuite = false;" aria-hidden="true">×</button>
+            <h3 id="myEditSuiteModalLabel">Edit Suite</h3>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-error" style="display:none">
+                There was an error.
+            </div>
+            <form class="form-vertical" ng-submit="editSuite(suite)">
+                <input id="suite-title" type="text" ng-model="suite.name"
+                       placeholder="Identifiable Suite Name" required
+                       class="input-xxlarge" />
+                <br/>
+                <input id="suite-schedule-enabled" type="checkbox"
+                       ng-model="suiteScheduleEnabled"/>
+                <label for="suite-schedule-enabled">Run at Scheduled Times:</label><br/>
+                <fieldset ng-disabled="!suiteScheduleEnabled">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
+                                ng-model="days.sun" btn-checkbox>Sun</button>
+                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
+                                ng-model="days.mon" btn-checkbox>Mon</button>
+                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
+                                ng-model="days.tues" btn-checkbox>Tues</button>
+                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
+                                ng-model="days.wed" btn-checkbox>Wed</button>
+                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
+                                ng-model="days.thurs" btn-checkbox>Thurs</button>
+                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
+                                ng-model="days.fri" btn-checkbox>Fri</button>
+                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
+                                ng-model="days.sat" btn-checkbox>Sat</button>
+                    </div>
+                    @
+                    <input type="time" class="input-small" style="margin-top: 8px; width:100px" ng-model="suiteScheduleTime">
+
+                </fieldset>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" ng-click="showEditSuite = false;" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" ng-click="editSuite(suite)">Save Suite</button>
+        </div>
+    </div>
+
+</div>

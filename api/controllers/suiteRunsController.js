@@ -10,7 +10,19 @@ module.exports = function(LOG, models){
     };
 
     var findById = function findById(id){
-        return Q(SuiteRun.find({where:{id:id}, include:[models.SnapshotDiff]}));
+        return Q(SuiteRun.find({where:{id:id}, include:[
+            {model:models.SnapshotDiff, include:[
+                models.Image,
+                {model:models.Snapshot, as:"snapshotA", include:[
+                    models.Page,
+                    models.Image
+                ]},
+                {model:models.Snapshot, as:"snapshotB", include:[
+                    models.Page,
+                    models.Image
+                ]}
+            ]}
+        ]}));
     };
 
     var create = function create(properties, suiteId){

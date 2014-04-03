@@ -22,9 +22,9 @@ require([
     'compares/comparesController',
     'compares/compareDetailController',
     'compares/compareResultDetailController',
-    'suites/batchController',
-    'suites/batchDetailController',
-    'suites/batchResultController'
+    'suites/suiteController',
+    'suites/suiteDetailController',
+    'suites/snapshotRunController'
 ], function (
     angular,
     scyllaApp,
@@ -37,9 +37,9 @@ require([
     ComparesController,
     CompareDetailController,
     CompareResultDetailController,
-    BatchController,
-    BatchDetailController,
-    BatchResultController
+    SuiteController,
+    SuiteDetailController,
+    SuiteRunController
     ) {
 
     'use strict';
@@ -71,16 +71,16 @@ require([
             .when('/result-diffs/:id',
                   {templateUrl:'app/resultDiffs/resultDiffDetail.html',
                       controller:"ResultDiffDetailController"})
-            .when('/batches',
-                  {templateUrl:'app/batches/batches.html',
-                      controller:"BatchController"})
-            .when('/batches/:batchId/results/:resultId',
-                  {templateUrl:'app/batches/batchResult.html',
-                      controller:"BatchResultController",
+            .when('/suites',
+                  {templateUrl:'app/suites/suites.html',
+                      controller:"SuiteController"})
+            .when('/suites/:suiteId/runs/:suiteRunId',
+                  {templateUrl:'app/batches/suiteRun.html',
+                      controller:"SuiteRunController",
                       reloadOnSearch:false})
-            .when('/batches/:id',
-                  {templateUrl:'app/batches/batchDetail.html',
-                      controller:"BatchDetailController"})
+            .when('/suites/:id',
+                  {templateUrl:'app/suites/suiteDetail.html',
+                      controller:"SuiteDetailController"})
             .otherwise({redirectTo:"/home"})
     }]);
 

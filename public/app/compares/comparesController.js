@@ -51,14 +51,14 @@ define([
 
         $scope.confirmDeleteCompare = function confirmDeleteCompare(compare){
             console.log("Deleting AB Compare", compare);
-            $http.get("/abcompares/" + compare._id, {params:{includeResults:true}})
+            $http.get("/abcompares/" + compare.id, {params:{includeResults:true}})
                 .success(function(compare){
                     if(compare.results){
                         compare.results.forEach(function(result){
-                            $scope.deleteResult(result._id);
+                            $scope.deleteResult(result.id);
                         });
                     }
-                    $http.delete("/abcompares/" + compare._id)
+                    $http.delete("/abcompares/" + compare.id)
                         .success(function(deletedCompare){
                             console.log("Deleted Compare",deletedCompare);
                             $scope.getAllCompares();
