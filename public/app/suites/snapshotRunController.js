@@ -68,10 +68,10 @@ define([
         };
 
         $scope.getResultDiff = function(id){
-            $http.get("/result-diffs/" + id, {params:{includeResults:true, includeReports:true}})
+            $http.get("/snapshotDiffs/" + id)
                 .success(function(resultDiff){
                     $scope.currentResultDiff = resultDiff;
-                    $scope.diff = diffAdapter.reportResultToDiff(resultDiff);
+                    $scope.diff = resultDiff; //diffAdapter.reportResultToDiff(resultDiff);
                 })
                 .error(function(err){
                     alert(err)

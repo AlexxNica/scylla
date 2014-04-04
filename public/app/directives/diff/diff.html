@@ -20,9 +20,9 @@
             </span>
             <input id="slider" type="range" min="0" step="0.2" max="100" value="100" style="width:100%" />
         </div>
-        <img class="master" ng-src="{{diff.resultA}}"
-                /><img class="output" ng-src="{{diff.resultB}}"
-                /><img class="diff" ng-src="{{diff.image}}" />
+        <img class="master" ng-src="/resources/{{diff.snapshotA.image.url}}"
+                /><img class="output" ng-src="/resources/{{diff.snapshotB.image.url}}"
+                /><img class="diff" ng-src="/resources/{{diff.image.url}}" />
 
     </div>
     <script>

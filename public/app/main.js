@@ -13,7 +13,7 @@ require.config({
 require([
     'angular',
     'scyllaApp',
-    'snapshotDiffs/resultDiffDetailController',
+    'snapshotDiffs/snapshotDiffDetailController',
     'home/headerController',
     'home/homeController',
     'pages/pageController',
@@ -28,7 +28,7 @@ require([
 ], function (
     angular,
     scyllaApp,
-    DiffDetailController,
+    SnapshotDiffDetailController,
     HeaderController,
     HomeController,
     PageController,
@@ -68,9 +68,9 @@ require([
             .when('/compares/:compareId/results/:id',
                   {templateUrl:'app/compares/compareResultDetail.html',
                       controller:"CompareResultDetailController"})
-            .when('/result-diffs/:id',
-                  {templateUrl:'app/resultDiffs/resultDiffDetail.html',
-                      controller:"ResultDiffDetailController"})
+            .when('/snapshotDiffs/:id',
+                  {templateUrl:'app/snapshotDiffs/snapshotDiffDetail.html',
+                      controller:"SnapshotDiffDetailController"})
             .when('/suites',
                   {templateUrl:'app/suites/suites.html',
                       controller:"SuiteController"})

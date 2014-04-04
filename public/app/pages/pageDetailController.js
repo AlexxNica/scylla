@@ -62,18 +62,15 @@ define([
             }
             return "notMasterResult";
         };
-        $scope.getSnapshotDiffClass = function(snapshot){
+        $scope.getSnapshotDiffClass = function(snapshotDiff, snapshotA, snapshotB){
             var classes = [];
-            if($scope.page.masterResult &&
-            //Initially we have just the IDs, but later we'll have the entire object...
-            // so our comparison has to take both into account.
-               (resultDiff.reportResultA.id || resultDiff.reportResultA) == $scope.report.masterResult.id) {
+            if(snapshotA.masterSnapshots && snapshotA.masterSnapshots.length > 0) {
                 classes.push( "resultAIsMaster");
-            } else if($scope.report.masterResult &&
-               (resultDiff.reportResultB.id || resultDiff.reportResultB) == $scope.report.masterResult.id) {
+            }
+            if(snapshotB.masterSnapshots && snapshotB.masterSnapshots.length > 0) {
                 classes.push( "resultBIsMaster");
             }
-            classes.push (resultDiff.distortion > 0 ? "fail" : "pass");
+            classes.push (snapshotDiff.distortion > 0 ? "fail" : "pass");
 
             return classes.join(" ");
         };
