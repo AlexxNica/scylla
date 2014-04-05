@@ -28,11 +28,13 @@ describe('Snapshot Diff Factory', function(){
     });
 
     var snapshotA = {
+        save:sinon.stub().returns(Q.resolve({})),
         getImage:sinon.stub().returns(Q.resolve({
             url:"image/a/url"
         }))
     };
     var snapshotB = {
+        save:sinon.stub().returns(Q.resolve({})),
         getImage:sinon.stub().returns(Q.resolve({
             url:"image/b/url"
         }))
@@ -60,7 +62,13 @@ describe('Snapshot Diff Factory', function(){
         save:function(){return Q.resolve({})},
         setImage:function(){}
     };
-    var sharedBuildAndValidateModelSuccessResponse = { id:123123};
+    var finalSavedDiff = {};
+    var sharedBuildAndValidateModelSuccessResponse = {
+        id:123123,
+        save:sinon.stub().returns(Q.resolve(finalSavedDiff)),
+        setSnapshotA:function(){},
+        setSnapshotB:function(){},
+    };
 
 
     describe('build and execute', function(){
@@ -77,6 +85,9 @@ describe('Snapshot Diff Factory', function(){
                     return Q.resolve(diffsFindByIdSuccessResponse)
                 }
             };
+            controllers.snapshots = {
+                findById:sinon.stub().returns(Q.resolve(snapshotA))
+            }
             controllers.images = {
                 getImageContents:function(){return Q.resolve("Binary Contents")},
                 createDiff:function(){return Q.resolve(imagesCreateDiffSuccessResponse)}
@@ -95,11 +106,9 @@ describe('Snapshot Diff Factory', function(){
             var sharedSpy = sinon.spy(controllers.shared, "buildAndValidateModel" );
             return Factory.build(snapAId, snapBId, {})
                 .then(function(snapshotDiff){
-                    expect(snapshotDiff).to.equal(sharedBuildAndValidateModelSuccessResponse);
+                    expect(snapshotDiff).to.equal(finalSavedDiff);
 
                     expect(sharedSpy.calledWith(models.SnapshotDiff, {
-                            snapshotAId:snapAId,
-                            snapshotBId:snapBId,
                             state:"Queued"
                         })).to.be.true;
                     done();
@@ -116,11 +125,11 @@ describe('Snapshot Diff Factory', function(){
             var createDiff = sinon.spy(controllers.images, "createDiff");
             return Factory.execute(diffId)
                 .then(function(){
-                    expect(diffSave.callCount).to.equal(2);
-                    expect(getImageContents.callCount).to.equal(2);
-                    expect(diffTwoSnapshots.callCount).to.equal(1);
-                    expect(createDiff.callCount).to.equal(1);
-                    expect(diffsFindByIdSuccessResponse.state).to.equal("Complete");
+                    expect(diffSave.callCount, "diffSave.callCount").to.equal(2);
+                    expect(getImageContents.callCount, "getImageContents.callCount").to.equal(2);
+                    expect(diffTwoSnapshots.callCount, "diffTwoSnapshots.callCount").to.equal(1);
+                    expect(createDiff.callCount, "createDiff.callCount,").to.equal(1);
+                    expect(diffsFindByIdSuccessResponse.state, "diff.state").to.equal("Complete");
                     done();
                 }).fail(function(error){
                     done(new Error( error));

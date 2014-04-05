@@ -87,9 +87,7 @@ module.exports = function SnapshotDiffFactory(){
             controllers.snapshots.findById(snapshotBId)
         ]).spread(function(diff, snapA, snapB){
             diff.setSnapshotA(snapA);
-            //snapA.addSnapshotDiffA(diff);
             diff.setSnapshotB(snapB);
-            //snapB.addSnapshotDiffB(diff);
             return Q.all([
                 diff.save(),
                 snapA.save(),

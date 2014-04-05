@@ -9,6 +9,9 @@ var mocha = new Mocha({
     timeout: 500
 });
 
+var Q = require('q');
+Q.longStackSupport = true;
+
 var testDir = './test/unit/controllers/factories/snapshotDiffFactoryTest.js';
 glob(testDir, function (err, files) {
     if (err) {
