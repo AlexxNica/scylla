@@ -24,7 +24,7 @@ require([
     'compares/compareResultDetailController',
     'suites/suiteController',
     'suites/suiteDetailController',
-    'suites/snapshotRunController'
+    'suites/suiteRunController'
 ], function (
     angular,
     scyllaApp,
@@ -74,8 +74,8 @@ require([
             .when('/suites',
                   {templateUrl:'app/suites/suites.html',
                       controller:"SuiteController"})
-            .when('/suites/:suiteId/runs/:suiteRunId',
-                  {templateUrl:'app/batches/suiteRun.html',
+            .when('/suites/:suiteId/suiteRuns/:suiteRunId',
+                  {templateUrl:'app/suites/suiteRun.html',
                       controller:"SuiteRunController",
                       reloadOnSearch:false})
             .when('/suites/:id',
