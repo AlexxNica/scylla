@@ -1,6 +1,6 @@
 module.exports = function(log, server, models, controllers){
     'use strict';
-    var utils = require('./routeUtils');
+    var utils = require('./routeUtils')(models);
 
     server.get('/suites/:suiteId/masterSnapshots', function(req, res, next) {
         controllers.masterSnapshots.findBySuite(req.params.suiteId)

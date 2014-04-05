@@ -1,4 +1,4 @@
-module.exports = (function(){
+module.exports = function(models){
     'use strict';
     var restify = require('restify');
     var Q = require('q');
@@ -56,25 +56,6 @@ module.exports = (function(){
         };
     }
 
-    var imageSuccess = function(res, imagePlucker, next){
-        return function(value){
-            var image = imagePlucker(value);
-            if(image){
-                //res.contentType("image/png");
-                res.setHeader('Content-Type', 'image/png');
-                var imageContents = image.replace(/^data:image\/png;base64,/, "");
-                var imageBuffer = new Buffer(imageContents, 'base64');
-                //res.write(imageBuffer);
-                res.end(imageBuffer, 'binary');
-                return next();
-            } else {
-                console.log("No Image Found");
-                res.send(404, new Error('Image Not Found'));
-                return next(new restify.ResourceNotFound("Not Found"));
-            }
-        }
-    };
-
     var normalFail = function(res, next){
         return function(error){
             if(error instanceof restify.RestError){
@@ -87,12 +68,41 @@ module.exports = (function(){
         };
     };
 
+    var respond = {
+        notFound:function(message){
+            return Q.reject(new restify.ResourceNotFoundError(message || "Resource Not Found"));
+        }
+    }
+
+    var respondBasedOnSnapshotState = function respondBasedOnSnapshotState(){
+        return function(snapshot){
+            switch(snapshot.state){
+                //TODO: This should actually look at thumbnails...
+                case models.Snapshot.COMPLETE:
+                    return snapshot;
+                    break;
+                case models.Snapshot.QUEUED:
+                    return respond.notFound("Snapshot currently queued for capture.");
+                    break;
+                case models.Snapshot.CAPTURING:
+                    return respond.notFound("Snapshot currently being captured.");
+                    break;
+                case models.Snapshot.FAILURE:
+                    return respond.notFound("Snapshot failed to generate");
+                    break;
+                default:
+                    throw new Error("Unknown Snapshot State: " + snapshot.state + " on Snapshot: " + req.params.id);
+            }
+        }
+    }
+
 
     return {
+        respond:respond,
+        respondBasedOnSnapshotState:respondBasedOnSnapshotState,
         success:normalSuccess,
         successRedirect:forwardSuccess,
-        successImage:imageSuccess,
         successEmptyOk:emptyOkSuccess,
         fail:normalFail
     };
-})();
+};

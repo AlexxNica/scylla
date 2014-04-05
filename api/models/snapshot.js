@@ -18,7 +18,14 @@ module.exports = function(ORM){
                 }
             }
         },
-        options:{},
+        options:{
+            classMethods:{
+                'QUEUED':'Queued',
+                'CAPTURING':'Capturing',
+                'COMPLETE':'Complete',
+                'FAILURE':'Failure'
+            }
+        },
         relationships:[
             {   kind:   "belongsTo",
                 model:  "Page"

@@ -23,6 +23,11 @@ cli.main(function(args, options) {
     var SendGrid        = require('sendgrid');
     var mailConfig      = require('./config/mail');
     var databaseConfig  = require('./config/database');
+    databaseConfig.properties.logging = function(message){
+        //If we pass Bunyan's log functions directly to Sequelize, it throws errors...
+        //So we have to create this passthrough :-/
+        LOG.debug('Sequelize', message);
+    }
     //Restify does some odd things, so this folder needs to be 2x deep
     var imagePath       = path.resolve( "images", "resources");
 

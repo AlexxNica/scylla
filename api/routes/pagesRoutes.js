@@ -1,6 +1,6 @@
 module.exports = function(log, server, models, controllers){
     'use strict';
-    var utils = require('./routeUtils');
+    var utils = require('./routeUtils')(models);
 
     server.get('/pages', function(req, res, next) {
         controllers.pages.list()
@@ -17,9 +17,8 @@ module.exports = function(log, server, models, controllers){
     });
     server.get('/pages/:id/thumb', function(req, res, next) {
         controllers.snapshots.findByPageId(req.params.id)
-            .then(function(snapshot){
-                return snapshot.image;
-            })
+            .then(utils.respondBasedOnSnapshotState())
+            .then(function(snapshot){return snapshot.image})
             .then(utils.successRedirect(res, next))
             .fail(utils.fail(res, next));
 

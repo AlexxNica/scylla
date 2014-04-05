@@ -1,6 +1,6 @@
 module.exports = function(LOG, server, models, controllers){
     'use strict';
-    var utils = require('./routeUtils');
+    var utils = require('./routeUtils')(models);
 
 
 
