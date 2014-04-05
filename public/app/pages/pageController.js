@@ -16,15 +16,15 @@ define([
         $scope.isProcessing = false;
         $scope.pages = [];
         $scope.suites = [];
-        $scope.reportToDelete = {};
+        $scope.pageToDelete = {};
 
         $scope.dateFormat = function(isoString) {
             if(typeof isoString === "undefined") return "";
             return moment(isoString).format("MMMM Do, h:mm A");
         };
 
-        $scope.getThumbnail = function getThumbnail(report){
-            return "/pages/" + report.id + "/thumb";
+        $scope.getThumbnail = function getThumbnail(page){
+            return "/pages/" + page.id + "/thumb";
         };
 
         $scope.getAllPages = function(){
@@ -51,34 +51,27 @@ define([
         };
         $scope.getAllSuites();
 
-        $scope.deleteReport = function deleteReport(report){
-            $scope.showDeleteReport = true
-            $scope.reportToDelete = report;
-            console.log("Report to Delete", report);
+        $scope.deletePage = function deletePage(page){
+            $scope.showDeletePage = true
+            $scope.pageToDelete = page;
+            console.log("Page to Delete", page);
         };
 
-        $scope.deleteResult = function deleteResult(resultId){
-            $http.delete("/report-results/" + resultId)
-                .error(function(error){
-                    console.error("Error Deleting Result", resultId, error);
-                })
-        };
-
-        $scope.confirmDeleteReport = function confirmDeleteReport(report){
+        $scope.confirmDeletePage = function confirmDeletePage(page){
             $scope.isProcessing = true;
-            console.log("Deleting Report", report);
-            $http.get("/pages/" + report.id, {params:{includeResults:true}})
-                .success(function(report){
-                    if(report.results){
-                        report.results.forEach(function(result){
+            console.log("Deleting Page", page);
+            $http.get("/pages/" + page.id, {params:{includeResults:true}})
+                .success(function(page){
+                    if(page.results){
+                        page.results.forEach(function(result){
                             $scope.deleteResult(result.id);
                         });
                     }
-                    $http.delete("/pages/" + report.id)
-                        .success(function(deletedReport){
-                            console.log("Deleted Report",deletedReport);
+                    $http.delete("/pages/" + page.id)
+                        .success(function(deletedPage){
+                            console.log("Deleted Page",deletedPage);
                             $scope.getAllPages();
-                            $scope.showDeleteReport = false;
+                            $scope.showDeletePage = false;
                             $scope.isProcessing = false;
                         })
                         .error(function(err){
@@ -88,24 +81,24 @@ define([
                 });
         };
 
-        $scope.addReport = function(name, url, width, height){
+        $scope.addPage = function addPage(name, url, width, height){
             $scope.isProcessing = true;
-            console.log("New Report: ", name, url, width, height);
+            console.log("New Page: ", name, url, width, height);
             $http.post("/pages", {name:name,url:url, width:width, height:height})
-                .success(function(report){
-                    $scope.showNewReport = false;
-                    toastr.success("New Report Created: " + report.name + "<br>Now capturing first screenshot.");
-                    $http.get("/pages/" + report.id + "/newMaster" )
-                        .success(function(report){
-                            toastr.success("Captured Screen for Report: " + name);
-                            //Or, just replace the report
+                .success(function(page){
+                    $scope.showNewPage = false;
+                    toastr.success("New Page Created: " + page.name + "<br>Now capturing first screenshot.");
+                    $http.post("/pages/" + page.id + "/snapshots" )
+                        .success(function(page){
+                            toastr.success("Captured Screen for Page: " + name);
+                            //Or, just replace the page
                             $scope.getAllPages();
                             $scope.isProcessing = false;
                         });
                  })
                 .error(function(error){
-                    console.error("Error Saving Report: ", error);
-                    $("#newReport .alert").show();
+                    console.error("Error Saving Page: ", error);
+                    $("#newPage .alert").show();
                     $scope.isProcessing = false;
                     //TODO: Show Specific Failure Message
 

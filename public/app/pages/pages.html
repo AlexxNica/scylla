@@ -1,7 +1,7 @@
 <div>
     <processing show="isProcessing"></processing>
     <div class="pull-right">
-        <a class="btn btn-primary" ng-click="showNewReport = true"><i class="icon-plus-sign"></i> New</a>
+        <a class="btn btn-primary" ng-click="showNewPage = true"><i class="icon-plus-sign"></i> New</a>
     </div>
     <h1>Pages</h1>
     <div class="media" ng-repeat="page in pages">
@@ -10,7 +10,7 @@
         </a>
         <div class="media-body">
             <h4 class="media-heading"><a ng-href="#/pages/{{page.id}}">{{page.name}}</a>
-                <a ng-click="deleteReport(report);" class="clickable"><i class="icon-trash" title="Delete Page"></i></a></h4>
+                <a ng-click="deletePage(page);" class="clickable"><i class="icon-trash" title="Delete Page"></i></a></h4>
             <span>{{page.url}}</span><br/>
             <span># of Screenshots: {{page.results.length}}</span><br/>
             <span>Master: {{ dateFormat(page.masterResult.timestamp)}} </span>
@@ -35,7 +35,7 @@
                     <input id="page-width" type="number" ng-model="newPageWidth"
                            placeholder="600"
                            class="input-mini" />x
-                    <input id="page-height" type="number" ng-model="newReportHeight"
+                    <input id="page-height" type="number" ng-model="newPageHeight"
                            placeholder="600"
                            class="input-mini" />
                     <!--

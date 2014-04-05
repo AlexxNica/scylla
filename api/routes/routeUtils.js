@@ -76,6 +76,7 @@ module.exports = function(LOG, models){
 
     var respondBasedOnSnapshotState = function respondBasedOnSnapshotState(){
         return function(snapshot){
+            if(!snapshot) return respond.notFound("Snapshot Not Found");
             switch(snapshot.state){
                 //TODO: This should actually look at thumbnails...
                 case models.Snapshot.COMPLETE:
