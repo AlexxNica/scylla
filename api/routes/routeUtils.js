@@ -1,4 +1,4 @@
-module.exports = function(models){
+module.exports = function(LOG, models){
     'use strict';
     var restify = require('restify');
     var Q = require('q');
@@ -10,13 +10,13 @@ module.exports = function(models){
                 try{
                     res.send(value);
                 } catch(err){
-                   console.log("ERROR?", util.inspect(err));
+                   LOG.info("ERROR?", util.inspect(err));
                 }
-                //console.log("Sending: ", value);
+                //LOG.info("Sending: ", value);
                 return next();
             } else {
                 res.send(404, new Error('Resource Not Found'));
-                return next(new restify.ResourceNotFound("Not Found"));
+                return next(new restify.ResourceNotFoundError("Not Found"));
             }
         };
     };
@@ -27,9 +27,9 @@ module.exports = function(models){
                     res.header('Location', '/resources/' + value.url);
                     res.send(302);
                 } catch(err){
-                    console.log("ERROR?", util.inspect(err));
+                    LOG.info("ERROR?", util.inspect(err));
                 }
-                //console.log("Sending: ", value);
+                //LOG.info("Sending: ", value);
                 return next();
             } else {
                 res.send(404, new Error('Resource Not Found'));
@@ -40,14 +40,14 @@ module.exports = function(models){
 
     var emptyOkSuccess = function(res,next){
         return function(value){
-                console.log("Returning a 204", value);
+            //LOG.info("Returning a 204", value);
             if(value){
                 try{
                     res.send(value);
                 } catch(err){
-                    console.log("ERROR?", util.inspect(err));
+                    LOG.info("ERROR?", util.inspect(err));
                 }
-                //console.log("Sending: ", value);
+                //LOG.info("Sending: ", value);
                 return next();
             } else {
                 res.send(204, undefined);
@@ -62,7 +62,7 @@ module.exports = function(models){
                 return next(error);
             } else {
                 console.error("\nRoute Failure: ", util.inspect(error));
-                console.log(error.stack);
+                LOG.info(error.stack);
                 return next(new restify.InternalError(util.inspect(error)));
             }
         };

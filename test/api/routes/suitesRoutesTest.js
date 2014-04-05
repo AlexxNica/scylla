@@ -49,7 +49,10 @@ describe("Suites", function(){
     it('can retrieve a suite', function(){
         return h.getJsonObject(h.getRequest("/suites/" + createdSuite.id))
             .then(function(result){
-                expect(result).to.deep.equal(createdSuite);
+                expect(result.id).to.equal(createdSuite.id);
+                expect(result.name).to.equal(createdSuite.name);
+                expect(result.schedule).to.equal(createdSuite.schedule);
+                expect(result.createdAt).to.equal(createdSuite.createdAt);
             });
     });
 

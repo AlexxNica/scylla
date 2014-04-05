@@ -14,7 +14,8 @@ describe("Pages", function(){
     it('can create a page', function(){
         var page = {
             url:"http://test.com/",
-            name:"Pages Routes Test Post"
+            name:"Pages Routes Test Post",
+            snapshots:[]
         };
         return h.getJsonObject(h.postRequest("/pages", page))
             .then(function(result){
@@ -50,12 +51,12 @@ describe("Pages", function(){
     it('can retrieve a page', function(){
         return h.getJsonObject(h.getRequest("/pages/" + createdPage.id))
             .then(function(result){
-                expect(result).to.deep.equal(createdPage);
+                expect(result.name).to.equal(createdPage.name);
+                expect(result.url).to.equal(createdPage.url);
             });
     });
 
     it('can modify a page', function(){
-        //console.log(require('util').inspect(createdPage));
         createdPage.name = "Pages Routes Test Modify";
 
         return h.getJsonObject(h.putRequest("/pages/" + createdPage.id, createdPage))

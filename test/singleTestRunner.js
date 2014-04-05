@@ -12,7 +12,7 @@ var mocha = new Mocha({
 var Q = require('q');
 Q.longStackSupport = true;
 
-var testDir = './test/unit/controllers/factories/snapshotDiffFactoryTest.js';
+var testDir = './test/api/routes/suitesRoutesTest.js';
 glob(testDir, function (err, files) {
     if (err) {
         console.log(err);

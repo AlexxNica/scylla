@@ -55,13 +55,14 @@ describe("Snapshots", function(){
         //console.log(require('util').inspect(createdSnapshot));
         return h.getJsonObject(h.getRequest("/snapshots/" + createdSnapshot.id))
             .then(function(result){
-                var image = result.image;
-                delete result.image;
-                //These'll seem to be null for some reason... no biggie for now.
-                delete result.imageId;
-                delete result.thumbId;
-                //console.log(require('util').inspect(result));
-                expect(result).to.deep.equal(createdSnapshot);
+                expect(result.PageId).to.equal(createdSnapshot.PageId);
+                expect(result.console).to.equal(createdSnapshot.console);
+                expect(result.createdAt).to.equal(createdSnapshot.createdAt);
+                expect(result.updatedAt).to.equal(createdSnapshot.updatedAt);
+                expect(result.id).to.equal(createdSnapshot.id);
+                expect(result.notes).to.equal(createdSnapshot.notes);
+                expect(result.params).to.equal(createdSnapshot.params);
+                expect(result.state).to.equal(createdSnapshot.state);
             });
     });
 

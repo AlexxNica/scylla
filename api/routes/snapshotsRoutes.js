@@ -1,6 +1,6 @@
 module.exports = function(log, server, models, controllers){
     'use strict';
-    var utils = require('./routeUtils')(models);
+    var utils = require('./routeUtils')(log, models);
 
     server.get('/pages/:pageId/snapshots', function(req, res, next) {
         controllers.pages.findById(req.params.pageId)
