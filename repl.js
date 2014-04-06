@@ -10,8 +10,19 @@ var repl = require("repl");
 var options = {syslog:false};
 
 var LOG = require('./config/logging')(options.syslog);
+LOG = {
+    info:console.log,
+    debug:console.log,
+    error:console.log,
+    child:function(){return LOG;}
+}
 
 var databaseConfig  = require('./config/database');
+databaseConfig.properties.logging = function(message){
+    //If we pass Bunyan's log functions directly to Sequelize, it throws errors...
+    //So we have to create this passthrough :-/
+    //LOG.debug('Sequelize', message);
+}
 //Restify does some odd things, so this folder needs to be 2x deep
 var imagePath       = path.resolve( "images", "resources");
 
