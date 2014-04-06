@@ -42,7 +42,7 @@ module.exports = function SuiteRunFactory(){
 //Get all Page/Master Combos
 //Create Preliminary Snapshot and Diff Object for each Master
                 return Qe.eachItemIn(suite.masterSnapshots).aggregateThisPromise(function (master) {
-                    return SnapshotFactory.build({}, master.snapshot.page.id)
+                    return SnapshotFactory.buildAndExecute(master.snapshot.page.id, {})
                         .then(function (newSnapshot) {
                             return DiffFactory.build(master.snapshot.id, newSnapshot.id)
                                 .then(function (diff) {

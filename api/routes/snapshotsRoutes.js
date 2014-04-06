@@ -14,7 +14,7 @@ module.exports = function(log, server, models, controllers){
     });
 
     server.post('/pages/:pageId/snapshots', function(req, res, next) {
-        controllers.snapshots.create(req.body, parseInt(req.params.pageId, 10))
+        controllers.snapshots.create(parseInt(req.params.pageId, 10), req.body)
             .then(utils.success(res, next))
             .fail(utils.fail(res, next));
 

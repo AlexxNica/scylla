@@ -12,6 +12,7 @@ module.exports = function(LOG, models, controllers){
     var findById = function findById(id){
         return Q(models.Snapshot.find({where:{id:id},
             include:[
+                models.Page,
                 models.Image,
                 models.MasterSnapshot,
                 {model:models.SnapshotDiff, as:"snapshotDiffA", foreignKey:"snapshotAId"},
@@ -24,8 +25,8 @@ module.exports = function(LOG, models, controllers){
         return Q(models.Snapshot.find({where:{PageId:id}, include:[models.Image]}));
     };
 
-    var create = function create(properties, pageId){
-        return snapshotFactory.build(properties, pageId);
+    var create = function create(pageId, properties){
+        return snapshotFactory.buildAndExecute(pageId, properties);
     };
 
     var update = function update(id, properties){

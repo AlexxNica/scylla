@@ -44,7 +44,7 @@ module.exports = function(LOG){
     var validateModel = function validateModel(model){
         var validations = model.validate();
         if(validations != null){
-            LOG.info("Validations Failed", validations);
+            LOG.info("Validations Failed", model, validations);
             return Q.reject(new ValidationError(require('util').inspect(validations)));
         }
         return Q(model.save());

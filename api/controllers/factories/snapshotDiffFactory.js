@@ -20,22 +20,22 @@ module.exports = function SnapshotDiffFactory(){
         return controllers.snapshotDiffs.findById(snapshotDiffId)
             .then(function(foundDiff){
                 diff = foundDiff;
-                if(diff.state != "Queued"){
+                if(diff.state != models.SnapshotDiff.QUEUED){
                     return Q.reject(
-                        new ValidationError("Diff is cannot be executed when in state: " + diff.state))
+                        new ValidationError("Diff cannot be executed when in state: " + diff.state))
                 }
-                if(!diff.snapshotA || diff.snapshotA.state != "Complete"){
+                if(!diff.snapshotA || diff.snapshotA.state != models.Snapshot.COMPLETE){
                     return Q.reject(
                         new ValidationError("Snapshot " + diff.snapshotAId +
                                                         " is in invalid state: " + diff.snapshotA))
                 }
-                if(! diff.snapshotB || diff.snapshotB.state != "Complete"){
+                if(! diff.snapshotB || diff.snapshotB.state != models.Snapshot.COMPLETE){
                     return Q.reject(
                         new ValidationError("Snapshot " + diff.snapshotBId +
                                                         " is in invalid state: " + diff.snapshotB))
                 }
                 LOG.info("Retrieving Images: ", diff.snapshotA.image.url, diff.snapshotB.image.url);
-                diff.state = "Capturing";
+                diff.state = models.SnapshotDiff.CAPTURING;
                 return Q.all([
                     controllers.images.getImageContents(diff.snapshotA.image.url),
                     controllers.images.getImageContents(diff.snapshotB.image.url),
@@ -58,12 +58,12 @@ module.exports = function SnapshotDiffFactory(){
                 return controllers.images.createDiff(imageProperties, diffResult.image.contents);
             }).then(function(theImage){
                 diff.setImage(theImage);
-                diff.state = "Complete";
+                diff.state = models.SnapshotDiff.COMPLETE;
                 return diff.save();
             }).fail(function(error){
                 LOG.error("Error executing on Diff: ", error);
                 diff.output = error.toString();
-                diff.state = "Failure";
+                diff.state = models.SnapshotDiff.FAILURE;
                 return diff.save().then(function(){Q.reject(error);});
             });
     };
@@ -79,8 +79,8 @@ module.exports = function SnapshotDiffFactory(){
         }
 
         properties = properties || {};
-        properties.state = "Queued";
-
+        properties.state = models.SnapshotDiff.QUEUED;
+        console.log(snapshotAId, snapshotBId, properties);
         return Q.all([
             controllers.shared.buildAndValidateModel(models.SnapshotDiff, properties),
             controllers.snapshots.findById(snapshotAId),

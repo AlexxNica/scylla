@@ -27,6 +27,10 @@ module.exports = function(ORM){
         },
         options:{
             classMethods:{
+                'QUEUED':'Queued',
+                'CAPTURING':'Capturing',
+                'COMPLETE':'Complete',
+                'FAILURE':'Failure',
                 findByTwoIds:function(snapIdA, snapIdB, include){
                     return this.find({
                         where:ORM.or(

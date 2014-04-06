@@ -8,8 +8,8 @@ module.exports = function(controllers){
         }).then(function(page){
             console.log("Page Created, Starting snapshot creation for id: " + page.id);
             return Q.all([
-                controllers.snapshots.create({},page.id),
-                controllers.snapshots.create({},page.id)
+                controllers.snapshots.create(page.id),
+                controllers.snapshots.create(page.id)
             ]).spread(function(snapA, snapB){
                 console.log("Snapshots Captured: " + snapA.id + ", " + snapB.id);
                 return controllers.snapshotDiffs.findOrCreate(snapA.id, snapB.id);
@@ -33,9 +33,9 @@ module.exports = function(controllers){
             })
         ]).spread(function(suite,firstPage,secondPage,thirdPage){
             return Q.all([
-                controllers.snapshots.create({}, firstPage.id),
-                controllers.snapshots.create({}, secondPage.id),
-                controllers.snapshots.create({}, thirdPage.id)
+                controllers.snapshots.create(firstPage.id),
+                controllers.snapshots.create(secondPage.id),
+                controllers.snapshots.create(thirdPage.id)
             ]).spread(function(firstSnap, secondSnap, thirdSnap){
                 return Q.all([
                     controllers.masterSnapshots.create({SnapshotId: firstSnap.id}, suite.id),

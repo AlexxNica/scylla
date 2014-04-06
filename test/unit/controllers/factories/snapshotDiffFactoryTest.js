@@ -95,7 +95,13 @@ describe('Snapshot Diff Factory', function(){
             controllers.charybdis = {
                 diffTwoSnapshots:function(){return Q.resolve(charybdisDiffSuccessResult)}
             };
-            models.SnapshotDiff = {};
+            models.SnapshotDiff = {
+                QUEUED:"Queued",
+                COMPLETE:"Complete",
+            };
+            models.Snapshot = {
+                COMPLETE:"Complete"
+            };
 
             Factory.init(log, models, controllers);
         });
@@ -107,10 +113,8 @@ describe('Snapshot Diff Factory', function(){
             return Factory.build(snapAId, snapBId, {})
                 .then(function(snapshotDiff){
                     expect(snapshotDiff).to.equal(finalSavedDiff);
-
-                    expect(sharedSpy.calledWith(models.SnapshotDiff, {
-                            state:"Queued"
-                        })).to.be.true;
+                    expect(sharedSpy.getCall(0).args[0]).to.equal(models.SnapshotDiff)
+                    expect(sharedSpy.getCall(0).args[1]).to.deep.equal( {state:models.SnapshotDiff.QUEUED} );
                     done();
                 }).fail(function(error){
                     done(new Error( error));
