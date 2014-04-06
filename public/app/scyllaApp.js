@@ -9,7 +9,7 @@ define([
     ){
     'use strict';
 
-    var app = angular.module("scyllaApp",["ui.bootstrap"]);
+    var app = angular.module("scyllaApp",["ngRoute", "ui.bootstrap"]);
 
     toastr.options = {
         "debug": false,
