@@ -41,7 +41,7 @@ define([
         $scope.getAllPages();
 
         $scope.getAllSuites = function(){
-            $http.get("/suites", {params:{includeResults:"false"}})
+            $http.get("/suites")
                 .success(function(suites){
                     $scope.suites = suites
                 })
@@ -60,7 +60,7 @@ define([
         $scope.confirmDeletePage = function confirmDeletePage(page){
             $scope.isProcessing = true;
             console.log("Deleting Page", page);
-            $http.get("/pages/" + page.id, {params:{includeResults:true}})
+            $http.get("/pages/" + page.id)
                 .success(function(page){
                     if(page.results){
                         page.results.forEach(function(result){

@@ -2,18 +2,20 @@ define([
     "scyllaApp",
     "moment",
     "toastr",
+    "services/suitesService",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
     moment,
     toastr,
+    theSuitesService,
     processingSpinner
     ){
     'use strict';
 
-    return scyllaApp.controller("SuiteController", function($scope, $http, Header) {
+    return scyllaApp.controller("SuiteController", function($scope, $modal, Header, SuitesService) {
         Header.setFirstLevelNavId("suitesNav");
-        $scope.suites = [];
+        $scope.suites = SuitesService.suites;
         $scope.reportToDelete = {};
         $scope.showDeleteSuite = false;
 
@@ -23,6 +25,7 @@ define([
         $scope.newSuiteReportIds = [];
         $scope.suiteScheduleEnabled = false;
         $scope.suiteScheduleTime = "06:00";
+
         var dayList =["sun", "mon", "tues", "wed","thurs","fri","sat"];
         $scope.days = {
             sun: false,
@@ -34,35 +37,38 @@ define([
             sat:false
         };
 
-        $scope.showNewSuiteWindow = function(){
-            $scope.showNewSuite = true;
-            $http.get("/pages")
-                .success(function(reports){
-                    $scope.availableReports = reports;
-                })
-                .error(function(err){
-                    alert(err);
-                });
+
+        $scope.showNew = function () {
+
+            /*
+             var sch = $scope.suite.schedule;
+             for(var i in dayList){
+             $scope.days[dayList[i]] = (sch.days.indexOf(parseInt(i)) != -1);
+             }
+             var localTime = new moment().utc().hours(sch.hour).minutes(sch.minute);
+             $scope.suiteScheduleTime = localTime.local().format("HH:mm");
+             console.log($scope.days);
+             console.log($scope.suiteScheduleTime);
+             */
+
+            var modalInstance = $modal.open({
+                templateUrl: 'app/suites/dialogs/suiteEditor.html',
+                controller: 'DialogSuiteEditor',
+                resolve: {
+                    suite: function () {
+                        return {};
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (suite) {
+                $scope.saveSuite(suite);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
         };
 
-        $scope.addSuite = function(suiteName, reportIds){
-            var suite = {name:suiteName, pages:reportIds};
-            /*
-            suite.scheduleEnabled = $scope.suiteScheduleEnabled;
-            suite.schedule = {days:[]}
-            for(var i=0; i < dayList.length; i++){
-                if($scope.days[dayList[i]]) suite.schedule.days.push(i);
-            }
-            var time = $scope.suiteScheduleTime.split(":");
-            var d = new moment().hours(time[0]).minutes(time[1]).utc();
-            suite.schedule.hour = d.hours();
-            suite.schedule.minute = d.minutes();
-            */
-            $scope.saveSuite(suite)
-                .success(function(suite){
-                    $scope.showNewSuite = false;
-                })
-        };
+
         $scope.askToConfirmDelete = function(suite){
             $scope.showDeleteSuite = true;
             $scope.suiteToDelete = suite;
@@ -72,7 +78,7 @@ define([
         $scope.deleteSuite = function(suite){
             $scope.isProcessing = true
             console.log("Deleting Suite", suite);
-            $http.delete("/suites/" + suite.id)
+            SuitesService.delete(suite)
                 .success(function(deleteResult){
                     toastr.success("Suite " + suite.name + " deleted");
                     $scope.getAllSuites();
@@ -82,25 +88,16 @@ define([
         };
 
         $scope.saveSuite = function(suite){
-            return $http.post("/suites", suite)
+            return SuitesService.save( suite)
                 .success(function(suite){
-                    $scope.getAllSuites();
                     toastr.success("Suite Saved: " + suite.name);
-                })
-                .error(function(err){
-                    alert(err);
-                })
+                });
         };
 
         $scope.getAllSuites = function(){
-            $http.get("/suites", {params:{includeResults:"true"}})
-                .success(function(suites){
-                             $scope.suites = suites
-                         })
-                .error(function(err){
-                           alert(err)
-                       });
+            return SuitesService.list();
         };
+
         $scope.getAllSuites();
 
         $scope.dateFormat = function(isoString) {

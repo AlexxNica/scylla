@@ -2,16 +2,20 @@ define([
     "scyllaApp",
     "toastr",
     "moment",
+    "suites/dialogs/suiteEditor",
+    "services/SuitesService",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
     toastr,
     moment,
+    DialogSuiteEditor,
+    TheSuitesService,
     processingSpinner
     ){
     'use strict';
 
-    return scyllaApp.controller("SuiteDetailController", function($scope, $route, $routeParams, $http, Header) {
+    return scyllaApp.controller("SuiteDetailController", function($scope, $modal, $route, $routeParams, $log, $http, SuitesService, Header) {
         Header.setFirstLevelNavId("suitesNav");
         $scope.suite = {};
         $scope.isProcessing = false;
@@ -36,16 +40,6 @@ define([
         $scope.selectedReportsToAdd = [];
         $scope.availableReports = [];
 
-        //TODO: Tear this down when controller destroyed.
-        //TODO: Move to Socket.io
-        /*
-        dpd.batchresults.on("create", function(batchResult){
-            console.log("DPD Event", batchResult);
-            if(batchResult.batchId == $scope.batch.id){
-                $scope.getBatch($scope.batch.id);
-            }
-        });
-        */
 
 
         var filterOutAlreadyIncludedReports = function(report){
@@ -77,6 +71,7 @@ define([
 
         $scope.runSuite = function(){
             $scope.isProcessing = true;
+
             $http.post("/suites/" + $scope.suite.id + "/suiteRuns", {})
                 .success(function(suiteRunResult){
                     $scope.suite.suiteRuns.unshift(suiteRunResult.suiteRun);
@@ -98,21 +93,6 @@ define([
                     alert(err);
                 });
         };
-
-        $scope.showEditSuiteModal = function(){
-            $scope.showEditSuite = true;
-            $scope.suiteScheduleEnabled = $scope.suite.scheduleEnabled;
-            /*
-            var sch = $scope.suite.schedule;
-            for(var i in dayList){
-                $scope.days[dayList[i]] = (sch.days.indexOf(parseInt(i)) != -1);
-            }
-            var localTime = new moment().utc().hours(sch.hour).minutes(sch.minute);
-            $scope.suiteScheduleTime = localTime.local().format("HH:mm");
-            console.log($scope.days);
-            console.log($scope.suiteScheduleTime);
-            */
-        }
 
         $scope.addPages = function(pagesToAdd){
             $scope.suite.pages = $scope.suite.pages.concat(reportsToAdd);
@@ -141,9 +121,41 @@ define([
                 });
         };
 
+
+        $scope.edit = function () {
+
+            /*
+             var sch = $scope.suite.schedule;
+             for(var i in dayList){
+             $scope.days[dayList[i]] = (sch.days.indexOf(parseInt(i)) != -1);
+             }
+             var localTime = new moment().utc().hours(sch.hour).minutes(sch.minute);
+             $scope.suiteScheduleTime = localTime.local().format("HH:mm");
+             console.log($scope.days);
+             console.log($scope.suiteScheduleTime);
+             */
+
+            var modalInstance = $modal.open({
+                templateUrl: 'app/suites/dialogs/suiteEditor.html',
+                controller: 'DialogSuiteEditor',
+                resolve: {
+                    suite: function () {
+                        return angular.copy($scope.suite);
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (suite) {
+                $scope.saveSuite(suite);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+
         $scope.editSuite = function(suite){
             suite.scheduleEnabled = $scope.suiteScheduleEnabled
-            sutie.schedule.days = [];
+            suite.schedule.days = [];
             for(var i=0; i < dayList.length; i++){
                 if($scope.days[dayList[i]]) suite.schedule.days.push(i);
             }
@@ -157,15 +169,15 @@ define([
                 })
         };
 
-        $scope.saveSuite = function(suite){
-            return $http.put("/suites/" + suite.id, suite)
-                .success(function(suite){
-                    $scope.getSuite(suite.id);
+        $scope.saveSuite = function saveSuite(suite){
+            var p = SuitesService.save( suite )
+                .then(function(suite){
+                    angular.extend($scope.suite, suite);
                     toastr.success("Suite Saved: " + suite.name);
                 })
-                .error(function(err){
+                .catch(function(err){
                     alert(err);
-                })
+                });
         };
 
 
@@ -195,7 +207,7 @@ define([
         };
 
         $scope.getSuite = function(id){
-            $http.get("/suites/" + id)
+            var promise = SuitesService.get( id )
                 .success(function(suite){
                      $scope.suite = suite
                 })

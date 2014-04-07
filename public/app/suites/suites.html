@@ -1,6 +1,6 @@
 <div>
     <div class="pull-right">
-        <a ng-click="showNewSuiteWindow()" class="btn btn-primary"><span class="icon-plus-sign"></span> New Suite</a>
+        <a ng-click="showNew()" class="btn btn-primary"><span class="icon-plus-sign"></span> New Suite</a>
     </div>
 
     <h1>Suites</h1>
@@ -14,52 +14,6 @@
                     <span class="pass">{{suiteRun.pass}}</span>/<span class="fail">{{suiteRun.fail}}</span>/<span class="exception">{{result.exception}}</span>
                 </li>
             </ol>
-        </div>
-    </div>
-    <div id="addSuite" class="modal hide fade" tabindex="-1" modal="showNewSuite" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myEditSuiteModalLabel">Add New Suite</h3>
-        </div>
-        <div class="modal-body">
-            <div class="alert alert-error" style="display:none">
-                There was an error.
-            </div>
-            <form class="form-horizontal" ng-submit="addSuite(newSuiteName, newSuiteReportIds)">
-                <input id="report-title" type="text" ng-model="newSuiteName"
-                       placeholder="Identifiable Suite Name" required
-                       class="input-xxlarge" />
-                <select multiple="multiple" ng-model="newSuiteReportIds" class="input-xxlarge">
-                    <option ng-repeat="report in availableReports" value="{{report.id}}">{{report.name}}</option>
-                </select>
-                <input id="suite-schedule-enabled" type="checkbox"
-                       ng-model="suiteScheduleEnabled"/>
-                <label for="suite-schedule-enabled">Run at Scheduled Times:</label><br/>
-                <fieldset ng-disabled="!suiteScheduleEnabled">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
-                                ng-model="days.sun" btn-checkbox>Sun</button>
-                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
-                                ng-model="days.mon" btn-checkbox>Mon</button>
-                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
-                                ng-model="days.tues" btn-checkbox>Tues</button>
-                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
-                                ng-model="days.wed" btn-checkbox>Wed</button>
-                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
-                                ng-model="days.thurs" btn-checkbox>Thurs</button>
-                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
-                                ng-model="days.fri" btn-checkbox>Fri</button>
-                        <button type="button" class="btn btn-primary btn-mini" ng-class="{disabled:!suiteScheduleEnabled}"
-                                ng-model="days.sat" btn-checkbox>Sat</button>
-                    </div>
-                    @
-                    <input type="time" class="input-medium" style="margin-top: 8px; width:100px" ng-model="suiteScheduleTime">
-                </fieldset>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="showNewSuite = false" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" ng-click="addSuite(newSuiteName, newSuiteReportIds)">Add Suite</button>
         </div>
     </div>
     <div id="deleteSuite" class="modal hide fade" tabindex="-1" modal="showDeleteSuite" aria-hidden="true">
