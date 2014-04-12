@@ -9,7 +9,7 @@ module.exports = function(ORM){
         schema:{
             enabled:{
                 type:ORM.BOOLEAN,
-                defaultValue:false
+                defaultValue:true
             }
         },
         options:{},

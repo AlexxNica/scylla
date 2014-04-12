@@ -25,6 +25,10 @@ module.exports = function(ORM){
                     notNull:true,
                     isUrl:true
                 }
+            },
+            enabled:{
+                type:ORM.BOOLEAN,
+                defaultValue:true
             }
         },
         options:{},

@@ -4,11 +4,11 @@ module.exports = function(LOG, models){
     var shared = require('./commonController')(LOG);
 
     var list = function list(){
-        return Q(models.Suite.findAll());
+        return Q(models.Suite.findAll({where:{enabled:true}}));
     };
 
     var findById = function findById(id){
-        return Q(models.Suite.find({where:{id:id}, include:[
+        return Q(models.Suite.find({where:{id:id, enabled:true}, include:[
             {model:models.MasterSnapshot, include:[
                 {model:models.Snapshot, include:[
                     {model:models.Page}
@@ -42,13 +42,7 @@ module.exports = function(LOG, models){
     };
 
     var destroy = function destroy(id){
-        return Q(models.Suite.find(id)
-            .success(function(suite){
-                return suite.destroy()
-                    .success(function(){
-                        return undefined;
-                    });
-            }));
+        return shared.softDelete(models.Suite, id);
     };
 
     return {

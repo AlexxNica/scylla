@@ -6,11 +6,11 @@ module.exports = function(LOG, models){
     var SuiteRun = models.SuiteRun;
 
     var list = function list(){
-        return Q(SuiteRun.findAll());
+        return Q(SuiteRun.findAll({where:{enabled:true}}));
     };
 
     var findById = function findById(id){
-        return Q(SuiteRun.find({where:{id:id}, include:[
+        return Q(SuiteRun.find({where:{id:id, enabled:true}, include:[
             {model:models.SnapshotDiff, include:[
                 models.Image,
                 {model:models.Snapshot, as:"snapshotA", include:[
@@ -37,13 +37,7 @@ module.exports = function(LOG, models){
     };
 
     var destroy = function destroy(id){
-        return Q(SuiteRun.find(id)
-            .success(function(suiteRun){
-                return suiteRun.destroy()
-                    .success(function(){
-                        return undefined;
-                    });
-            }));
+        return shared.softDelete(SuiteRun, id);
     };
 
     return {

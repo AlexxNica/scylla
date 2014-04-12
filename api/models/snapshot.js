@@ -16,6 +16,10 @@ module.exports = function(ORM){
                 validate:{
                     isIn:[['Queued', 'Capturing', 'Complete', 'Failure']]
                 }
+            },
+            enabled:{
+                type:ORM.BOOLEAN,
+                defaultValue:true
             }
         },
         options:{

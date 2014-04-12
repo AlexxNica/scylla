@@ -16,11 +16,11 @@ module.exports = function(LOG, models, controllers){
     ];
 
     var list = function list(){
-        return Q(SnapshotDiff.findAll({include:[models.Image]}));
+        return Q(SnapshotDiff.findAll({where:{enabled:true}, include:[models.Image]}));
     };
 
     var findById = function findById(id){
-        return Q(SnapshotDiff.find({where:{id:id}, include:fullProperties}));
+        return Q(SnapshotDiff.find({where:{id:id, enabled:true}, include:fullProperties}));
     };
 
     var findOrCreate = function findOrCreate(snapshotAId, snapshotBId){
@@ -54,13 +54,7 @@ module.exports = function(LOG, models, controllers){
     };
 
     var destroy = function destroy(id){
-        return Q(SnapshotDiff.find(id)
-            .success(function(snapshotDiff){
-                return snapshotDiff.destroy()
-                    .success(function(){
-                        return undefined;
-                    });
-            }));
+        return shared.softDelete(models.SnapshotDiff, id);
     };
 
     return {

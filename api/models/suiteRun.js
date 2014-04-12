@@ -10,6 +10,10 @@ module.exports = function(ORM){
             runBySchedule:{
                 type:ORM.BOOLEAN,
                 defaultValue:false
+            },
+            enabled:{
+                type:ORM.BOOLEAN,
+                defaultValue:true
             }
         },
         options:{},

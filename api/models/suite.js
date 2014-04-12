@@ -17,6 +17,10 @@ module.exports = function(ORM){
             },
             schedule:{
                 type:ORM.TEXT
+            },
+            enabled:{
+                type:ORM.BOOLEAN,
+                defaultValue:true
             }
         },
         options:{},

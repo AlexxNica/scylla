@@ -36,6 +36,27 @@ module.exports = function(LOG){
         return results[0];
     };
 
+    var softDelete = function softDelete(Model, id ){
+        return Q(Model.find(id)
+            .success(function(instance){
+                instance.enabled = false;
+                return instance.save()
+                    .success(function(savedInstance){
+                        return savedInstance;
+                    });
+            }));
+    };
+    var softUnDelete = function softUnDelete(Model, id ){
+        return Q(Model.find(id)
+            .success(function(instance){
+                instance.enabled = true;
+                return instance.save()
+                    .success(function(savedInstance){
+                        return savedInstance;
+                    });
+            }));
+    };
+
     var buildAndValidateModel = function buildAndValidateModel(Model, properties){
         var model = Model.build(properties);
         return validateModel(model);
@@ -65,6 +86,8 @@ module.exports = function(LOG){
         execDeferredBridge:execDeferredBridge,
         execDeferredDeleteBridge:execDeferredDeleteBridge,
         first:first,
+        softDelete:softDelete,
+        softUnDelete:softUnDelete,
         buildAndValidateModel:buildAndValidateModel,
         validateModel:validateModel,
         ValidationError:ValidationError
