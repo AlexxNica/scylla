@@ -8,6 +8,8 @@ if [ ! -f /var/log/0usersetup ];
 then
     echo -e "${yellow}Setting up User: Scylla${NC}"
     useradd -d /home/scylla -m scylla -p scylla
+    #When we login, we always want to get dumped into the /vagrant directory... add this to .bashrc
+    echo cd /vagrant >> /home/vagrant/.bashrc
     touch /var/log/0usersetup
 fi
 
