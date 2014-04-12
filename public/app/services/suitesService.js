@@ -77,6 +77,15 @@ define([
                         */
                     });
             };
+
+            this.run = function (suite){
+                return $http.post("/suites/" + suite.id + "/suiteRuns", {})
+                    .then(function(response){
+                        suite.suiteRuns.unshift(response.data);
+                        return response.data;
+                    })
+            };
+
             this.addPageSnapshotAsMaster = function(suite, snapshot){
                 return $http.post("/suites/" + suite.id + "/masterSnapshots", {
                     SnapshotId:snapshot.id

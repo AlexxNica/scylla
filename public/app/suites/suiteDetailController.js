@@ -68,12 +68,10 @@ define([
         $scope.runSuite = function(){
             $scope.isProcessing = true;
 
-            $http.post("/suites/" + $scope.suite.id + "/suiteRuns", {})
-                .success(function(suiteRunResult){
-                    $scope.suite.suiteRuns.unshift(suiteRunResult.suiteRun);
+            SuitesService.run($scope.suite)
+                .then(function(suiteRun){
                     $scope.isProcessing = false;
-                })
-                .error(function(err){
+                },function(err){
                     alert(err);
                     $scope.isProcessing = false;
                 })
