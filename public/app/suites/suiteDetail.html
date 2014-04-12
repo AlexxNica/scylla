@@ -1,7 +1,7 @@
 <div>
     <processing show="isProcessing"></processing>
     <div class="pull-right">
-        <a ng-click="showAddPagesModal()" class="btn btn-primary"><i class="icon-plus-sign"></i> Add Page</a>
+        <a ng-click="showAddPages()" class="btn btn-primary"><i class="icon-plus-sign"></i> Add Page</a>
         <a ng-click="showEditWatchersModal()" class="btn btn-primary"><i class="icon-edit" ></i> Edit Watchers</a>
     </div>
     <div>
@@ -19,11 +19,10 @@
                     <img class="media-object bigThumb" ng-src="{{ getThumbnail(masterSnapshot) }}">
                 </a>
                 <div class="media-body">
-                    <h4 class="media-heading"><a ng-href="#/masterSnapshots/{{masterSnapshot.id}}">{{masterSnapshot.page.name}}</a>
-                        <a  ng-click="removePage(page.id)" class="clickable"><i class="icon-minus-sign" title="Remove page from this batch"></i></a></h4>
-                    <span style="font-size: 10px">{{masterSnapshot.page.url}}</span><br/>
-                    <span># of Screenshots: {{page.results.length}}</span><br/>
-                    <span>Master: {{ dateFormat(page.masterResult.timestamp)}} </span>
+                    <h4 class="media-heading"><a ng-href="#/masterSnapshots/{{masterSnapshot.id}}">{{masterSnapshot.snapshot.page.name}}</a>
+                        <a  ng-click="removePage(masterSnapshot.id)" class="clickable"><i class="icon-minus-sign" title="Remove page from this batch"></i></a></h4>
+                    <span>Taken: {{ dateFormat(masterSnapshot.snapshot.updatedAt)}} </span><br/>
+                    <span style="font-size: 10px">{{masterSnapshot.snapshot.page.url}}</span><br/>
                 </div>
             </div>
         </div>

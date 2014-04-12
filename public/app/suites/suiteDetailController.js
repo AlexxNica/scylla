@@ -3,13 +3,15 @@ define([
     "toastr",
     "moment",
     "suites/dialogs/suiteEditor",
+    "suites/dialogs/addPageToSuite",
     "services/SuitesService",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
     toastr,
     moment,
-    DialogSuiteEditor,
+    TheDialogSuiteEditor,
+    AddPageToSuite,
     TheSuitesService,
     processingSpinner
     ){
@@ -33,13 +35,7 @@ define([
             fri:true,
             sat:false
         };
-        $scope.showAddReport = false;
-        $scope.showEditWatchers = false;
         $scope.watchers = "";
-
-        $scope.selectedReportsToAdd = [];
-        $scope.availableReports = [];
-
 
 
         var filterOutAlreadyIncludedReports = function(report){
@@ -83,15 +79,27 @@ define([
                 })
         };
 
-        $scope.showAddPagesModal = function(){
-            $scope.showAddPage = true;
-            $http.get("/pages")
-                .success(function(pages){
-                    $scope.availablePages = pages.filter(filterOutAlreadyIncludedPages);
-                })
-                .error(function(err){
-                    alert(err);
-                });
+        $scope.showAddPages = function () {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'app/suites/dialogs/addPageToSuite.html',
+                controller: 'DialogAddPageToSuite',
+                resolve: {
+                    suite: function () {
+                        return $scope.suite;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (snapshot) {
+                SuitesService.addPageSnapshotAsMaster($scope.suite, snapshot)
+                    .then(function(master){
+                        $scope.suite.masterSnapshots.push(master);
+                        $log.info(master);
+                    })
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
         };
 
         $scope.addPages = function(pagesToAdd){
@@ -185,8 +193,8 @@ define([
             return moment(isoString).format("MMMM Do, h:mm A");
         };
 
-        $scope.getThumbnail = function getThumbnail(page){
-            return "/pages/" + page.id + "/thumb";
+        $scope.getThumbnail = function getThumbnail(master){
+            return "/snapshots/" + master.SnapshotId + "/image";
         };
 
         $scope.getResultClass = function(result) {
@@ -214,7 +222,9 @@ define([
                 .error(function(err){
                     alert(err)
                 });
-        }
+        };
+
+
         $scope.getSuite($routeParams.id);
     });
 });

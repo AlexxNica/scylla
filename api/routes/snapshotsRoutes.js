@@ -38,7 +38,7 @@ module.exports = function(log, server, models, controllers){
         controllers.snapshots.findById(req.params.snapId)
             .then(utils.respondBasedOnSnapshotState())
             .then(function(snapshot){return snapshot.image})
-            .then(utils.success(res, next))
+            .then(utils.successRedirect(res, next))
             .fail(utils.fail(res, next));
 
     });

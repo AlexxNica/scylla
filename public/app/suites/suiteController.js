@@ -76,7 +76,7 @@ define([
         };
 
         $scope.deleteSuite = function(suite){
-            $scope.isProcessing = true
+            $scope.isProcessing = true;
             console.log("Deleting Suite", suite);
             SuitesService.delete(suite)
                 .success(function(deleteResult){
@@ -95,7 +95,10 @@ define([
         };
 
         $scope.getAllSuites = function(){
-            return SuitesService.list();
+            return SuitesService.list()
+                .then(function(suites){
+                    $scope.suites = suites;
+                });
         };
 
         $scope.getAllSuites();

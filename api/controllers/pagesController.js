@@ -4,7 +4,7 @@ module.exports = function(LOG, models){
     var shared = require('./commonController')(LOG);
 
     var list = function list(){
-        return Q(models.Page.findAll());
+        return Q(models.Page.findAll({include:[models.Snapshot]}));
     };
 
     var findById = function findById(id){
