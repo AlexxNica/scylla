@@ -7,27 +7,13 @@
     <div class="media suite" ng-repeat="suite in suites">
         <div class="media-body">
             <h4 class="media-heading"><a href="#/suites/{{suite.id}}">{{suite.name}}</a>
-                <a ng-click="askToConfirmDelete(suite);" class="clickable"><i class="icon-trash" title="Delete Suite"></i></a></h4>
+                <a ng-click="confirmDeleteSuite(suite);" class="clickable"><i class="icon-trash" title="Delete Suite"></i></a></h4>
             <ol>
                 <li ng-repeat="result in suite.suiteRuns">
                     <a href="#/suites/{{suite.id}}/suiteRuns/{{suite.id}}">{{dateFormat(suiteRun.updatedAt)}}</a>
                     <span class="pass">{{suiteRun.pass}}</span>/<span class="fail">{{suiteRun.fail}}</span>/<span class="exception">{{result.exception}}</span>
                 </li>
             </ol>
-        </div>
-    </div>
-    <div id="deleteSuite" class="modal hide fade" tabindex="-1" modal="showDeleteSuite" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" ng-click="showDeleteSuite = false;" aria-hidden="true">×</button>
-            <h3 id="deleteModalLabel">Delete Suite</h3>
-        </div>
-        <div class="modal-body">
-            Are you sure you want to delete this suite?<br/>
-            {{suiteToDelete.results.length}} Results will be deleted, however the reports and the diffs generated will remain.
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="showDeleteSuite = false;" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" ng-click="deleteSuite(suiteToDelete)">Delete Report</button>
         </div>
     </div>
 </div>

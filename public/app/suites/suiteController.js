@@ -3,17 +3,21 @@ define([
     "moment",
     "toastr",
     "services/suitesService",
+    "suites/dialogs/suiteEditor",
+    "suites/dialogs/deleteSuite",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
     moment,
     toastr,
     theSuitesService,
+    theDialogSuiteEditor,
+    theDialogDeleteSuite,
     processingSpinner
     ){
     'use strict';
 
-    return scyllaApp.controller("SuiteController", function($scope, $modal, Header, SuitesService) {
+    return scyllaApp.controller("SuiteController", function($scope, $modal, $log, Header, SuitesService) {
         Header.setFirstLevelNavId("suitesNav");
         $scope.suites = SuitesService.suites;
         $scope.reportToDelete = {};
@@ -68,28 +72,40 @@ define([
             });
         };
 
+        $scope.confirmDeleteSuite = function(suite){
+            var modalInstance = $modal.open({
+                templateUrl: 'app/suites/dialogs/deleteSuite.html',
+                controller: 'DialogDeleteSuite',
+                resolve: {
+                    suite: function () {
+                        return suite;
+                    }
+                }
+            });
 
-        $scope.askToConfirmDelete = function(suite){
-            $scope.showDeleteSuite = true;
-            $scope.suiteToDelete = suite;
-            console.log("Suite to Delete", suite);
+            modalInstance.result.then(function (suite) {
+                $scope.deleteSuite(suite);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
         };
+
 
         $scope.deleteSuite = function(suite){
             $scope.isProcessing = true;
             console.log("Deleting Suite", suite);
             SuitesService.delete(suite)
-                .success(function(deleteResult){
+                .then(function(deleteResult){
                     toastr.success("Suite " + suite.name + " deleted");
                     $scope.getAllSuites();
-                    $scope.showDeleteSuite = false;
                     $scope.isProcessing = false;
                 });
         };
 
         $scope.saveSuite = function(suite){
             return SuitesService.save( suite)
-                .success(function(suite){
+                .then(function(suite){
+                    $scope.suites.push(suite);
                     toastr.success("Suite Saved: " + suite.name);
                 });
         };
