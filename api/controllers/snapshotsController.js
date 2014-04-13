@@ -14,7 +14,10 @@ module.exports = function(LOG, models, controllers){
             include:[
                 models.Page,
                 models.Image,
-                models.MasterSnapshot,
+                {
+                    model:models.MasterSnapshot,
+                    where:{deletedAt:null}
+                },
                 {model:models.SnapshotDiff, as:"snapshotDiffA", foreignKey:"snapshotAId"},
                 {model:models.SnapshotDiff, as:"snapshotDiffB", foreignKey:"snapshotBId"}
             ]

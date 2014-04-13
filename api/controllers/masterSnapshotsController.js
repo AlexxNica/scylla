@@ -23,7 +23,7 @@ module.exports = function(LOG, models, controllers){
     };
 
     var findBySuite = function findBySuite(suiteId){
-        return Q(MasterSnapshot.find({where:{SuiteId:suiteId}, include:[models.Snapshot]}))
+        return Q(MasterSnapshot.find({where:{SuiteId:suiteId, enabled:true}, include:[models.Snapshot]}))
     };
 
     var create = function create(properties, suiteId){

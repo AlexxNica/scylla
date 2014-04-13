@@ -39,7 +39,7 @@ module.exports = function(LOG){
     var softDelete = function softDelete(Model, id ){
         return Q(Model.find(id)
             .success(function(instance){
-                return instance.delete()
+                return instance.destroy()
                     .success(function(){
                         return instance;
                     });
