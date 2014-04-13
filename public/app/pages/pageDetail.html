@@ -6,7 +6,7 @@
         <a class="clickable headerIcon" ng-click="snapshotPage()"><i class="icon-play-sign icon-2x" title="Capture Snapshot"></i></a>
     </div>
     <div class="media" ng-repeat="snapshot in page.snapshots">
-        <a class="pull-left">
+        <a class="pull-left" href="#/snapshots/{{snapshot.id}}">
             <img class="media-object bigThumb" ng-src="/resources/{{snapshot.image.url}}">
         </a>
         <div class="media-body">

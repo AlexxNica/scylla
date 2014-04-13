@@ -23,6 +23,7 @@ require([
     'compares/comparesController',
     'compares/compareDetailController',
     'compares/compareResultDetailController',
+    'snapshots/snapshotDetailController',
     'suites/suiteController',
     'suites/suiteDetailController',
     'suites/suiteRunController'
@@ -39,6 +40,7 @@ require([
     ComparesController,
     CompareDetailController,
     CompareResultDetailController,
+    SnapshotDetailController,
     SuiteController,
     SuiteDetailController,
     SuiteRunController
@@ -83,6 +85,9 @@ require([
             .when('/suites/:id',
                   {templateUrl:'app/suites/suiteDetail.html',
                       controller:"SuiteDetailController"})
+            .when('/snapshots/:id',
+                  {templateUrl:'app/snapshots/snapshotDetail.html',
+                      controller:"SnapshotDetailController"})
             .otherwise({redirectTo:"/home"})
     }]);
 
