@@ -2,16 +2,20 @@ define([
     "scyllaApp",
     "toastr",
     "moment",
+    "services/pagesService",
+    "pages/dialogs/pageEditor",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
     toastr,
     moment,
+    ThePagesService,
+    ThePageEditor,
     processingSpinner
     ){
     'use strict';
 
-    return scyllaApp.controller("PageController", function($scope, $http, Header) {
+    return scyllaApp.controller("PageController", function($scope, $http, $modal, Header, PagesService) {
         Header.setFirstLevelNavId("pagesNav");
         $scope.isProcessing = false;
         $scope.pages = [];
@@ -52,7 +56,7 @@ define([
         $scope.getAllSuites();
 
         $scope.deletePage = function deletePage(page){
-            $scope.showDeletePage = true
+            $scope.showDeletePage = true;
             $scope.pageToDelete = page;
             console.log("Page to Delete", page);
         };
@@ -81,28 +85,46 @@ define([
                 });
         };
 
-        $scope.addPage = function addPage(name, url, width, height){
-            $scope.isProcessing = true;
-            console.log("New Page: ", name, url, width, height);
-            $http.post("/pages", {name:name,url:url, width:width, height:height})
-                .success(function(page){
-                    $scope.showNewPage = false;
-                    toastr.success("New Page Created: " + page.name + "<br>Now capturing first screenshot.");
-                    $http.post("/pages/" + page.id + "/snapshots" )
-                        .success(function(page){
-                            toastr.success("Captured Screen for Page: " + name);
-                            //Or, just replace the page
-                            $scope.getAllPages();
-                            $scope.isProcessing = false;
-                        });
-                 })
-                .error(function(error){
-                    console.error("Error Saving Page: ", error);
-                    $("#newPage .alert").show();
-                    $scope.isProcessing = false;
-                    //TODO: Show Specific Failure Message
+        $scope.showNew = function () {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/pages/dialogs/pageEditor.html',
+                controller: 'DialogPageEditor',
+                resolve: {
+                    page: function () {
+                        return {};
+                    }
+                }
+            });
 
+            modalInstance.result.then(function (page) {
+                $scope.savePage(page)
+                    .then(function(newPage){
+                        toastr.success("New Page Created: " + newPage.name + "<br>Now capturing first screenshot.");
+                        $scope.snapshotPage(newPage);
+                    })
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        $scope.savePage = function savePage(page){
+            $scope.isProcessing = true;
+            return PagesService.save(page)
+                .then(function(newPage){
+                    $scope.pages.push(newPage);
+                    $scope.isProcessing = false;
+                    return newPage;
                 });
         };
+
+        $scope.snapshotPage = function snapshotPage(page){
+            $scope.isProcessing = true;
+            PagesService.snapshotPage(page)
+                .then(function(newSnapshot){
+                    $scope.isProcessing = false;
+                    toastr.success("Captured Screen for Page: " + page.name);
+                });
+        };
+
     });
 });

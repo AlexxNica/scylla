@@ -47,5 +47,12 @@ define([
                     });
             };
 
+            this.snapshotPage = function snapshotPage(page){
+                return $http.post("/pages/" + page.id + "/snapshots", {})
+                    .then(function(response){
+                        return response.data;
+                    })
+            }
+
         });
 });
