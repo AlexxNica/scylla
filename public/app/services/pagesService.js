@@ -18,13 +18,9 @@ define([
 
             this.get = function get(id){
                 return $http.get("/pages/" + id)
-                    .success(function(response){
+                    .then(function(response){
                         return response.data;
                     })
-                    .error(function(err){
-                        $log(err);
-                        return err;
-                    });
             };
 
 

@@ -1,56 +1,37 @@
 define([
     "scyllaApp",
     "toastr",
-    "moment",
+    "services/pagesService",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
     toastr,
-    moment,
+    ThePagesService,
     processingSpinner
     ){
     'use strict';
 
-    return scyllaApp.controller("PageDetailController", function($scope, $route, $routeParams, $http, Header) {
+    return scyllaApp.controller("PageDetailController", function($scope, $route, $routeParams, $modal, PagesService, Header) {
         Header.setFirstLevelNavId("reportsNav");
         $scope.isProcessing = false;
         $scope.page = {};
-        $scope.showEditModal = false;
 
-        var resultSort = function(a,b){
+        var sortCreatedAt = function(a,b){
             return a.createdAt < b.createdAt;
         };
 
         $scope.getPage = function(id){
-
-            $http.get("/pages/" + id)
-                .success(function(page){
-                     $scope.loaded = true;
-                     if(page.snapshots){
-                         page.snapshots.sort(resultSort);
-                         /*
-                         for(var i in page.snapshots){
-                             $scope.loadResultDiffs(page.snapshots[i]);
-                         }*/
-                     }
-
-                     $scope.page = page;
-                 })
-                .error(function(err){
-                    alert(err)
+            PagesService.get(id)
+                .then(function(page){
+                    if(page.snapshots){
+                        page.snapshots.sort(sortCreatedAt);
+                    }
+                    $scope.page = page;
+                    console.log("Got Page", $scope.page);
                 });
         };
         $scope.getPage($routeParams.id);
 
-        $scope.loadResultDiffs = function(result){
-            $http.get("/report-results/" + result.id + "/diffs")
-                .success(function(resultDiffs){
-                    result.resultDiffs = resultDiffs;
-                            })
-                .error(function(err){
-                    alert(err)
-                });
-        };
 
         $scope.getResultClass = function(result) {
             if($scope.report.masterResult && result.id == $scope.report.masterResult.id) {
@@ -77,61 +58,47 @@ define([
             return label;
         };
 
-        $scope.setNewMaster = function setNewMaster(result){
+        $scope.snapshotPageNow = function snapshotPageNow(page){
             $scope.isProcessing = true;
-            $scope.page.masterResult = result;
-            $http.put("/pages/" + $scope.page.id + "/masterResult", result)
-                .success(function(){
-                    toastr.success("Master Result Set");
-                    $scope.isProcessing = false;
-                })
-                .error(function(error){
-                    console.error("Error Saving Master: ", error);
-                    alert(error);
-                    $scope.isProcessing = false;
-                });
-            //$scope.saveReport($scope.page);
-        };
-
-        $scope.runReport = function runReport(){
-            $scope.isProcessing = true
-            $http.get("/pages/" + $scope.page.id + "/snapshot")
-                .success(function(snapshot){
+            PagesService.snapshotPage(page)
+                .then(function(snapshot){
                     $scope.page.snapshots.unshift(snapshot);
                     toastr.success("Page Snapshot Finished");
                     $scope.isProcessing = false;
-                })
-                .error(function(error){
+                },function(error){
                     console.error("Error Capturing Page: ", error);
                     alert(error);
-                    $scope.isProcessing = false;
-                })
-        };
-
-        $scope.editPage = function(page) {
-            $scope.isProcessing = true;
-            $scope.savePage(page)
-                .success(function(){
-                    $scope.showEditModal = false;
-                    $scope.isProcessing = false;
-                })
-                .error(function(error){
                     $scope.isProcessing = false;
                 });
         };
 
-        $scope.savePage = function(page){
-            console.log("Save Page: ", page);
-            return $http.put("/pages/" + page.id, page)
-                .success(function(page){
-                    toastr.success("Page Saved: " + page.name);
-                 })
-                .error(function(error){
-                    console.error("Error Saving Page: ", error);
-                    $("#savePage .alert").show();
-                    //TODO: Show Specific Failure Message
+        $scope.showEdit = function showEdit() {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/pages/dialogs/pageEditor.html',
+                controller: 'DialogPageEditor',
+                resolve: {
+                    page: function () {
+                        return angular.copy($scope.page);
+                    }
+                }
+            });
 
-                })
-        }
+            modalInstance.result.then(function (page) {
+                $scope.savePage(page);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+
+        $scope.savePage = function savePage(page){
+            $scope.isProcessing = true;
+            return PagesService.save(page)
+                .then(function(newPage){
+                    $scope.page = newPage;
+                    $scope.isProcessing = false;
+                    return newPage;
+                });
+        };
     });
 });

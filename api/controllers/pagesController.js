@@ -27,10 +27,13 @@ module.exports = function(LOG, models){
     };
 
     var update = function update(id, properties){
-        return Q(models.Page.find(id)
-            .success(function(page){
+        return Q(models.Page.find(id))
+            .then(function(page){
                 return page.updateAttributes(properties);
-            }));
+            })
+            .then(function(page){
+                return findById(page.id);
+            });
     };
 
     var destroy = function destroy(id){
