@@ -39,17 +39,16 @@ module.exports = function(LOG){
     var softDelete = function softDelete(Model, id ){
         return Q(Model.find(id)
             .success(function(instance){
-                instance.enabled = false;
-                return instance.save()
-                    .success(function(savedInstance){
-                        return savedInstance;
+                return instance.delete()
+                    .success(function(){
+                        return instance;
                     });
             }));
     };
     var softUnDelete = function softUnDelete(Model, id ){
         return Q(Model.find(id)
             .success(function(instance){
-                instance.enabled = true;
+                instance.deletedAt = null;
                 return instance.save()
                     .success(function(savedInstance){
                         return savedInstance;
