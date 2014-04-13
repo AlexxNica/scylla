@@ -38,21 +38,27 @@ module.exports = function(controllers){
             controllers.pages.create({
                 name:"Javascript Exception",
                 url:"http://127.0.0.1:3000/testFodder/javascriptException.html"
+            }),
+            controllers.pages.create({
+                name:"404 Not Found",
+                url:"http://127.0.0.1:3000/testFodder/notFound.html"
             })
-        ]).spread(function(suite,firstPage,secondPage,thirdPage, fourthPage, fifthPage){
+        ]).spread(function(suite,firstPage,secondPage,thirdPage, fourthPage, fifthPage, sixthPage){
             return Q.all([
                 controllers.snapshots.create(firstPage.id),
                 controllers.snapshots.create(secondPage.id),
                 controllers.snapshots.create(thirdPage.id),
                 controllers.snapshots.create(fourthPage.id),
-                controllers.snapshots.create(fifthPage.id)
-            ]).spread(function(firstSnap, secondSnap, thirdSnap, fourthSnap, fifthSnap){
+                controllers.snapshots.create(fifthPage.id),
+                controllers.snapshots.create(sixthPage.id)
+            ]).spread(function(firstSnap, secondSnap, thirdSnap, fourthSnap, fifthSnap, sixthSnap){
                 return Q.all([
                     controllers.masterSnapshots.create({SnapshotId: firstSnap.id}, suite.id),
                     controllers.masterSnapshots.create({SnapshotId: secondSnap.id}, suite.id),
                     controllers.masterSnapshots.create({SnapshotId: thirdSnap.id}, suite.id),
                     controllers.masterSnapshots.create({SnapshotId: fourthSnap.id}, suite.id),
-                    controllers.masterSnapshots.create({SnapshotId: fifthSnap.id}, suite.id)
+                    controllers.masterSnapshots.create({SnapshotId: fifthSnap.id}, suite.id),
+                    controllers.masterSnapshots.create({SnapshotId: sixthSnap.id}, suite.id)
                 ]);
             }).then(function(){
                 return controllers.suiteRuns.create({}, suite.id);
