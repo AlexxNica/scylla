@@ -21,7 +21,7 @@
                 <div class="media-body">
                     <h4 class="media-heading"><a ng-href="#/masterSnapshots/{{masterSnapshot.id}}">{{masterSnapshot.snapshot.page.name}}</a>
                         <a  ng-click="removeSnapshot(masterSnapshot)" class="clickable"><i class="icon-minus-sign" title="Remove page from this batch"></i></a></h4>
-                    <span>Taken: {{ dateFormat(masterSnapshot.snapshot.updatedAt)}} </span><br/>
+                    <span>Taken: {{ masterSnapshot.snapshot.updatedAt | dateFormatter}} </span><br/>
                     <span style="font-size: 10px">{{masterSnapshot.snapshot.page.url}}</span><br/>
                 </div>
             </div>
@@ -30,7 +30,7 @@
             <h3>Suite Runs</h3>
             <div class="media" ng-repeat="suiteRun in suite.suiteRuns">
                 <div class="media-body">
-                    <h4 class="media-heading"><a href="#/suites/{{suite.id}}/suiteRuns/{{suiteRun.id}}" class="clickable">{{dateFormat(suiteRun.updatedAt)}}</a></h4>
+                    <h4 class="media-heading"><a href="#/suites/{{suite.id}}/suiteRuns/{{suiteRun.id}}" class="clickable">{{suiteRun.updatedAt | dateFormatter}}</a></h4>
                     <ol>
                         <li ng-repeat="snapshotDiff in suiteRun.snapshotDiffs" class="snapshotDiff">
                             <span class="">{{snapshotDiff.snapshotB.page.name}}</span>

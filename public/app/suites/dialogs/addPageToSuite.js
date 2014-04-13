@@ -30,10 +30,6 @@ define([
                 return "/snapshots/" + snapshot.id + "/image";
             };
 
-            $scope.dateFormat = function(isoString) {
-                return moment(isoString).format("MMMM Do, h:mm A");
-            };
-
             $scope.updateSnapshots = function(selected){
                 $scope.pages.forEach(function(page){
                     if(page.id == selected){

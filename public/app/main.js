@@ -13,6 +13,7 @@ require.config({
 require([
     'angular',
     'scyllaApp',
+    'filters/formatters',
     'snapshotDiffs/snapshotDiffDetailController',
     'home/headerController',
     'home/homeController',
@@ -28,6 +29,7 @@ require([
 ], function (
     angular,
     scyllaApp,
+    ScyllaFormatters,
     SnapshotDiffDetailController,
     HeaderController,
     HomeController,

@@ -11,7 +11,7 @@
         </a>
         <div class="media-body">
             <h4 class="media-heading">
-                {{formatResultHeader(result)}}
+                {{result.timestamp | dateFormatter}}
                 <span class="viewDiff"><a href="#/compares/{{compare.id}}/results/{{result.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
             </h4>
             <div class=>Diff: <span class="{{getDistortionClass(result)}}">{{result.distortion}}</span></div>

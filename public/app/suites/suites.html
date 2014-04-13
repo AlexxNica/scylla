@@ -10,7 +10,7 @@
                 <a ng-click="confirmDeleteSuite(suite);" class="clickable"><i class="icon-trash" title="Delete Suite"></i></a></h4>
             <ol>
                 <li ng-repeat="result in suite.suiteRuns">
-                    <a href="#/suites/{{suite.id}}/suiteRuns/{{suite.id}}">{{dateFormat(suiteRun.updatedAt)}}</a>
+                    <a href="#/suites/{{suite.id}}/suiteRuns/{{suite.id}}">{{suiteRun.updatedAt | dateFormatter}}</a>
                     <span class="pass">{{suiteRun.pass}}</span>/<span class="fail">{{suiteRun.fail}}</span>/<span class="exception">{{result.exception}}</span>
                 </li>
             </ol>

@@ -52,10 +52,6 @@ define([
                 });
         };
 
-        $scope.dateFormat = function(isoString) {
-            if(typeof isoString === "undefined") return "";
-            return moment(isoString).format("MMMM Do, h:mm A");
-        };
         $scope.getResultClass = function(result) {
             if($scope.report.masterResult && result.id == $scope.report.masterResult.id) {
                 return "masterResult"

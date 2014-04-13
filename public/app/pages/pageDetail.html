@@ -10,22 +10,22 @@
             <img class="media-object bigThumb" ng-src="/resources/{{snapshot.image.url}}">
         </a>
         <div class="media-body">
-            <h4 class="media-heading">{{formatResultHeader(snapshot)}}
+            <h4 class="media-heading">{{snapshot.createdAt | dateFormatter}}
                 <i class="icon-star masterStar" title="Master"></i>
                 <!--<a class="clickable notMasterStar" ng-click="setNewMaster(result)"><i class="icon-star-empty" title="Set as New Master"></i></a>-->
             </h4>
             <ol>
                 <li ng-repeat="diff in snapshot.snapshotDiffA" class="diff {{getSnapshotDiffClass(diff, snapshot, diff.snapshotB)}}">
-                    <span class="resultA">{{dateFormat(snapshot.createdAt)}}</span>
+                    <span class="resultA">{{snapshot.createdAt | dateFormatter}}</span>
                     <i class="icon-arrow-right"></i>
-                    <span class="resultB">{{dateFormat(diff.snapshotB.createdAt)}}</span>
+                    <span class="resultB">{{diff.snapshotB.createdAt | dateFormatter}}</span>
                     <span class="distortion">{{diff.distortion}}</span>
                     <span class="viewDiff"><a href="#/snapshotDiffs/{{diff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
                 </li>
                 <li ng-repeat="diff in snapshot.snapshotDiffB" class="diff {{getSnapshotDiffClass(diff, diff.snapshotA, snapshot)}}">
-                    <span class="resultA">{{dateFormat(diff.snapshotA.createdAt)}}</span>
+                    <span class="resultA">{{diff.snapshotA.createdAt | dateFormatter}}</span>
                     <i class="icon-arrow-right"></i>
-                    <span class="resultB">{{dateFormat(snapshot.createdAt)}}</span>
+                    <span class="resultB">{{snapshot.createdAt | dateFormatter}}</span>
                     <span class="distortion">{{diff.distortion}}</span>
                     <span class="viewDiff"><a href="#/snapshotDiffs/{{diff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
                 </li>

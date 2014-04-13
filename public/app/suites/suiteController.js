@@ -119,9 +119,6 @@ define([
 
         $scope.getAllSuites();
 
-        $scope.dateFormat = function(isoString) {
-            return moment(isoString).format("MMMM Do, h:mm A");
-        };
     });
 
 })

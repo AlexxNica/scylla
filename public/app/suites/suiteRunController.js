@@ -33,10 +33,6 @@ define([
             $scope.suiteRun.snapshotDiffs.forEach(function(diff){
                 if(selectedDiffId == diff.id) $scope.diff = diff;
             })
-        }
-
-        $scope.dateFormat = function(isoString) {
-            return moment(isoString).format("MMMM Do, h:mm A");
         };
 
 

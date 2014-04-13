@@ -175,10 +175,6 @@ define([
         };
 
 
-        $scope.dateFormat = function(isoString) {
-            return moment(isoString).format("MMMM Do, h:mm A");
-        };
-
         $scope.getThumbnail = function getThumbnail(master){
             return "/snapshots/" + master.SnapshotId + "/image";
         };

@@ -38,9 +38,6 @@ define([
         }
         $scope.getCompare($routeParams.id);
 
-        $scope.dateFormat = function(isoString) {
-            return moment(isoString).format("MMMM Do, h:mm A");
-        };
 
         $scope.runCompare = function(){
             $scope.isProcessing = true;
