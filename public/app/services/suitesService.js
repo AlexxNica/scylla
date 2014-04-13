@@ -68,6 +68,9 @@ define([
 
             this.delete = function (suite){
                 return $http.delete("/suites/" + suite.id)
+                    .then(function(response){
+                        return response.data;
+                    })
                     .finally(function(){
                         /*
                         var index = suitesList.indexOf(suite);
@@ -83,7 +86,7 @@ define([
                     .then(function(response){
                         suite.suiteRuns.unshift(response.data);
                         return response.data;
-                    })
+                    });
             };
 
             this.addPageSnapshotAsMaster = function(suite, snapshot){
@@ -91,7 +94,19 @@ define([
                     SnapshotId:snapshot.id
                 }).then(function(response){
                     return response.data;
-                })
+                });
+            };
+
+            this.removeSnapshotFromSuite = function removeSnapshotFromSuite(suite, master){
+                return $http.delete("/suites/" + suite.id + "/masterSnapshots/" + master.id)
+                    .then(function(response){
+                        for(var i = 0; i < suite.masterSnapshots.length; i++){
+                            if(suite.masterSnapshots[i].id == master.id){
+                                suite.masterSnapshots.splice(i,1);
+                            }
+                        }
+                        return response.data;
+                    });
             };
 
 

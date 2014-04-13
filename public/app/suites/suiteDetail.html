@@ -20,7 +20,7 @@
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading"><a ng-href="#/masterSnapshots/{{masterSnapshot.id}}">{{masterSnapshot.snapshot.page.name}}</a>
-                        <a  ng-click="removePage(masterSnapshot.id)" class="clickable"><i class="icon-minus-sign" title="Remove page from this batch"></i></a></h4>
+                        <a  ng-click="removeSnapshot(masterSnapshot)" class="clickable"><i class="icon-minus-sign" title="Remove page from this batch"></i></a></h4>
                     <span>Taken: {{ dateFormat(masterSnapshot.snapshot.updatedAt)}} </span><br/>
                     <span style="font-size: 10px">{{masterSnapshot.snapshot.page.url}}</span><br/>
                 </div>

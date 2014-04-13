@@ -100,30 +100,18 @@ define([
             });
         };
 
-        $scope.addPages = function(pagesToAdd){
-            $scope.suite.pages = $scope.suite.pages.concat(reportsToAdd);
-            $http.post("/suites/" + $scope.suite.id + "/pages", reportsToAdd)
-                .success(function(suite){
-                    $scope.showAddReport = false;
-                    $scope.getSuite(suite.id);
-                    toastr.success("Suite Saved: " + suite.name);
-                })
-                .error(function(err){
-                    alert(err);
-                });
-        };
 
-        $scope.removeReport = function(reportIdToRemove){
+        $scope.removeSnapshot = function(masterSnapshot){
             $scope.isProcessing = true;
-            $http.delete("/suites/" + $scope.suite.id + "/pages/" + reportIdToRemove)
-                .success(function(suite){
-                    $scope.suite.pages = suite.pages
+            SuitesService.removeSnapshotFromSuite($scope.suite, masterSnapshot)
+                .then(function(){
                     $scope.isProcessing = false;
-                })
-                .error(function(err){
-                    console.error(err);
-                    alert(err);
+
+                },function(error){
+                    console.error(error);
+                    alert(error);
                     $scope.isProcessing = false;
+
                 });
         };
 

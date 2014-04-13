@@ -58,5 +58,12 @@ module.exports = function(log, server, models, controllers){
 
     });
 
+    server.del('/suites/:suiteId/masterSnapshots/:masterId', function(req, res, next) {
+        controllers.masterSnapshots.destroy(req.params.masterId)
+            .then(utils.successEmptyOk(res, next))
+            .fail(utils.fail(res, next));
+
+    });
+
 
 };
