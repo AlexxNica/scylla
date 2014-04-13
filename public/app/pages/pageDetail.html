@@ -7,12 +7,11 @@
     </div>
     <div class="media" ng-repeat="snapshot in page.snapshots">
         <a class="pull-left" href="#/snapshots/{{snapshot.id}}">
-            <img class="media-object bigThumb" ng-src="/resources/{{snapshot.image.url}}">
+            <img class="media-object bigThumb" ng-src="{{snapshot | snapshotThumb}}">
         </a>
         <div class="media-body">
             <h4 class="media-heading">{{snapshot.createdAt | dateFormatter}}
                 <i class="icon-star masterStar" title="Master"></i>
-                <!--<a class="clickable notMasterStar" ng-click="setNewMaster(result)"><i class="icon-star-empty" title="Set as New Master"></i></a>-->
             </h4>
             <ol>
                 <li ng-repeat="diff in snapshot.snapshotDiffA" class="diff {{getSnapshotDiffClass(diff, snapshot, diff.snapshotB)}}">
@@ -30,35 +29,6 @@
                     <span class="viewDiff"><a href="#/snapshotDiffs/{{diff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
                 </li>
             </ol>
-        </div>
-    </div>
-    <div id="editReport" class="modal hide fade" tabindex="-1" modal="showEditModal" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" ng-click="showEditModal = false;" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Edit Report</h3>
-        </div>
-        <div class="modal-body">
-            <div class="alert alert-error" style="display:none">
-                There was an error.
-            </div>
-            <form class="form-horizontal" ng-submit="editReport(report)">
-                <input id="report-title" type="text" ng-model="report.name"
-                       placeholder="Identifiable Report Name" required
-                       class="input-xxlarge" />
-                <input id="report-url" type="text" ng-model="report.url"
-                       placeholder="http://app.simplymeasured.com/report/id" required
-                       class="input-xxlarge" />
-                <input id="report-width" type="number" ng-model="report.width"
-                       placeholder="600"
-                       class="input-small" />x
-                <input id="report-height" type="number" ng-model="report.height"
-                       placeholder="600"
-                       class="input-small" />
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="showEditModal = false;" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" ng-click="editReport(report)">Save Report</button>
         </div>
     </div>
 </div>

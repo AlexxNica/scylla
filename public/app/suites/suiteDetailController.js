@@ -175,10 +175,6 @@ define([
         };
 
 
-        $scope.getThumbnail = function getThumbnail(master){
-            return "/snapshots/" + master.SnapshotId + "/image";
-        };
-
         $scope.getResultClass = function(result) {
             if(result.fail > 0 || result.exception > 0) {
                 return "masterResult"

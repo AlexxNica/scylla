@@ -6,7 +6,7 @@
     <h1>Pages</h1>
     <div class="media" ng-repeat="page in pages">
         <a class="pull-left" ng-href="#/pages/{{page.id}}">
-            <img class="media-object bigThumb" ng-src="{{ getThumbnail(page) }}">
+            <img class="media-object bigThumb" ng-src="{{page | pageThumb }}">
         </a>
         <div class="media-body">
             <h4 class="media-heading"><a ng-href="#/pages/{{page.id}}">{{page.name}}</a>

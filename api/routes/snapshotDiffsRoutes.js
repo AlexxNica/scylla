@@ -26,14 +26,18 @@ module.exports = function(log, server, models, controllers){
 
     server.get('/snapshotDiffs/:diffId/image', function(req, res, next) {
         snapshotDiffs.findById(req.params.diffId)
-            .then(utils.success(res, next))
+            .then(utils.respondBasedOnSnapshotState())
+            .then(function(snapshot){return snapshot.image})
+            .then(utils.successRedirect(res, next))
             .fail(utils.fail(res, next));
 
     });
 
     server.get('/snapshotDiffs/:diffId/thumb', function(req, res, next) {
         snapshotDiffs.findById(req.params.diffId)
-            .then(utils.success(res, next))
+            .then(utils.respondBasedOnSnapshotState())
+            .then(function(snapshot){return snapshot.image})
+            .then(utils.successRedirect(res, next))
             .fail(utils.fail(res, next));
 
     });

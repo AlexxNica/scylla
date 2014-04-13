@@ -43,13 +43,6 @@ module.exports = function(log, server, models, controllers){
 
     });
 
-    server.get('/snapshots/:snapId/image/file', function(req, res, next) {
-        controllers.snapshots.findById(req.params.snapId)
-            .then(utils.respondBasedOnSnapshotState())
-            .then(function(snapshot){return snapshot.image})
-            .then(utils.successRedirect(res, next))
-            .fail(utils.fail(res, next));
-    });
 
     /*
     //TODO: Implement Thumbnails.
@@ -60,13 +53,6 @@ module.exports = function(log, server, models, controllers){
 
     });
 
-    server.get('/snapshots/:snapId/image/thumb/file', function(req, res, next) {
-        controllers.snapshots.findById(req.params.snapId)
-            .then(utils.respondBasedOnSnapshotState())
-            .then(utils.success(res, next))
-            .fail(utils.fail(res, next));
-
-    });
     */
 
     server.put('/snapshots/:snapId', function(req, res, next) {

@@ -16,7 +16,7 @@
             <h3 style="display:inline">Snapshots</h3>
             <div class="media" ng-repeat="masterSnapshot in suite.masterSnapshots">
                 <a class="pull-left" ng-href="#/masterSnapshots/{{masterSnapshot.id}}">
-                    <img class="media-object bigThumb" ng-src="{{ getThumbnail(masterSnapshot) }}">
+                    <img class="media-object bigThumb" ng-src="{{ masterSnapshot.snapshot | snapshotThumb }}">
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading"><a ng-href="#/masterSnapshots/{{masterSnapshot.id}}">{{masterSnapshot.snapshot.page.name}}</a>

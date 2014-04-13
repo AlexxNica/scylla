@@ -25,10 +25,6 @@ define([
         $scope.pageToDelete = {};
 
 
-        $scope.getThumbnail = function getThumbnail(page){
-            return "/pages/" + page.id + "/thumb";
-        };
-
         $scope.getAllPages = function(){
             $scope.isProcessing = true;
             PagesService.list()
