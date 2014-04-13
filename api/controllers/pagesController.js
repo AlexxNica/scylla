@@ -4,11 +4,11 @@ module.exports = function(LOG, models){
     var shared = require('./commonController')(LOG);
 
     var list = function list(){
-        return Q(models.Page.findAll({where:{enabled:true}, include:[models.Snapshot]}));
+        return Q(models.Page.findAll({include:[models.Snapshot]}));
     };
 
     var findById = function findById(id){
-        return Q(models.Page.find({where:{id:id, enabled:true}, include:[
+        return Q(models.Page.find({where:{id:id}, include:[
             {model:models.Snapshot, include:[
                 {model:models.Image},
                 {model:models.MasterSnapshot},

@@ -10,13 +10,16 @@ module.exports = function(ORM){
             runBySchedule:{
                 type:ORM.BOOLEAN,
                 defaultValue:false
-            },
-            enabled:{
-                type:ORM.BOOLEAN,
-                defaultValue:true
             }
         },
-        options:{},
+        options:{
+            paranoid:true,
+            scopes:{
+                deleted:{
+                    where:['deletedAt IS NOT NULL']
+                }
+            }
+        },
         relationships:[
             {   kind:   "belongsTo",
                 model:  "Suite"

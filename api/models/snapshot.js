@@ -16,10 +16,6 @@ module.exports = function(ORM){
                 validate:{
                     isIn:[['Queued', 'Capturing', 'Complete', 'Failure']]
                 }
-            },
-            enabled:{
-                type:ORM.BOOLEAN,
-                defaultValue:true
             }
         },
         options:{
@@ -28,6 +24,12 @@ module.exports = function(ORM){
                 'CAPTURING':'Capturing',
                 'COMPLETE':'Complete',
                 'FAILURE':'Failure'
+            },
+            paranoid:true,
+            scopes:{
+                deleted:{
+                    where:['deletedAt IS NOT NULL']
+                }
             }
         },
         relationships:[

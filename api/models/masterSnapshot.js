@@ -7,12 +7,15 @@ module.exports = function(ORM){
     return {
         name:'MasterSnapshot',
         schema:{
-            enabled:{
-                type:ORM.BOOLEAN,
-                defaultValue:true
+        },
+        options:{
+            paranoid:true,
+            scopes:{
+                deleted:{
+                    where:['deletedAt IS NOT NULL']
+                }
             }
         },
-        options:{},
         relationships:[
             {   kind:   "belongsTo",
                 model:  "Suite"

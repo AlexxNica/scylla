@@ -10,9 +10,6 @@ describe('MasterSnapshot Spec', function(){
      */
 
     describe('Properties', function(){
-        it('enabled', function(){
-            expect(MasterSnapshot.rawAttributes.enabled).to.exist;
-        });
 
     });
 

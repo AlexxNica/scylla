@@ -25,13 +25,16 @@ module.exports = function(ORM){
                     notEmpty:true,
                     notNull:true
                 }
-            },
-            enabled:{
-                type:ORM.BOOLEAN,
-                defaultValue:true
             }
         },
-        options:{},
+        options:{
+            paranoid:true,
+            scopes:{
+                deleted:{
+                    where:['deletedAt IS NOT NULL']
+                }
+            }
+        },
         relationships:[
             {   kind:   "hasOne",
                 model:  "Snapshot"

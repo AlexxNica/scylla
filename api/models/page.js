@@ -18,14 +18,15 @@ module.exports = function(ORM){
                     notEmpty:true,
                     notNull:true
                 }
-            },
-            enabled:{
-                type:ORM.BOOLEAN,
-                defaultValue:true
             }
         },
         options:{
-
+            paranoid:true,
+            scopes:{
+                deleted:{
+                    where:['deletedAt IS NOT NULL']
+                }
+            }
         },
         relationships:[
             {   kind:   "hasMany",

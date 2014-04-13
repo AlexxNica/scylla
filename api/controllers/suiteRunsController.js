@@ -6,11 +6,11 @@ module.exports = function(LOG, models){
     var SuiteRun = models.SuiteRun;
 
     var list = function list(){
-        return Q(SuiteRun.findAll({where:{enabled:true}}));
+        return Q(SuiteRun.findAll());
     };
 
     var findById = function findById(id){
-        return Q(SuiteRun.find({where:{id:id, enabled:true}, include:[
+        return Q(SuiteRun.find({where:{id:id}, include:[
             {model:models.SnapshotDiff, include:[
                 models.Image,
                 {model:models.Snapshot, as:"snapshotA", include:[

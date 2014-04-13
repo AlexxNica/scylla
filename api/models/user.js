@@ -34,13 +34,16 @@ module.exports = function(ORM){
                     notNull:true,
                     isUrl:true
                 }
-            },
-            enabled:{
-                type:ORM.BOOLEAN,
-                defaultValue:true
             }
         },
-        options:{},
+        options:{
+            paranoid:true,
+            scopes:{
+                deleted:{
+                    where:['deletedAt IS NOT NULL']
+                }
+            }
+        },
         relationships:[]
     };
 

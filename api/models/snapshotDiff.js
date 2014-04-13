@@ -23,10 +23,6 @@ module.exports = function(ORM){
                 validate:{
                     isIn:[['Queued', 'Capturing', 'Complete', 'Failure']]
                 }
-            },
-            enabled:{
-                type:ORM.BOOLEAN,
-                defaultValue:true
             }
         },
         options:{
@@ -35,14 +31,22 @@ module.exports = function(ORM){
                 'CAPTURING':'Capturing',
                 'COMPLETE':'Complete',
                 'FAILURE':'Failure',
+                // The paranoid option doesn't seem to affect OR queries... we have to do it manually
                 findByTwoIds:function(snapIdA, snapIdB, include){
                     return this.find({
                         where:ORM.or(
-                            {SnapshotAId:snapIdA, SnapshotBId:snapIdB},
-                            {SnapshotAId:snapIdB, SnapshotBId:snapIdA}
+                            {SnapshotAId:snapIdA, SnapshotBId:snapIdB, deletedAt:null},
+                            {SnapshotAId:snapIdB, SnapshotBId:snapIdA, deletedAt:null}
                         ),
                         include:include
                     });
+                }
+            },
+            paranoid:true,
+            scopes:{
+                none:{},
+                deleted:{
+                    where:['deletedAt IS NOT NULL']
                 }
             }
         },

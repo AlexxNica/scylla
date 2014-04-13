@@ -5,9 +5,7 @@ module.exports = function(LOG, models, controllers){
     var MasterSnapshot = models.MasterSnapshot;
 
     var list = function list(){
-        return Q(MasterSnapshot.findAll({
-            where:{enabled:true},
-            include:[
+        return Q(MasterSnapshot.findAll({include:[
                 {model:models.Snapshot, include:[
                     {model:models.Page}
                 ]}
@@ -17,7 +15,7 @@ module.exports = function(LOG, models, controllers){
     };
 
     var findById = function findById(id){
-        return Q(MasterSnapshot.find({where:{id:id, enabled:true}, include:[
+        return Q(MasterSnapshot.find({where:{id:id}, include:[
             {model:models.Snapshot, include:[
                 {model:models.Page}
             ]},
@@ -25,7 +23,7 @@ module.exports = function(LOG, models, controllers){
     };
 
     var findBySuite = function findBySuite(suiteId){
-        return Q(MasterSnapshot.find({where:{SuiteId:suiteId, enabled:true}, include:[models.Snapshot]}))
+        return Q(MasterSnapshot.find({where:{SuiteId:suiteId}, include:[models.Snapshot]}))
     };
 
     var create = function create(properties, suiteId){

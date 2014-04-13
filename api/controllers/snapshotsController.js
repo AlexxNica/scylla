@@ -6,11 +6,11 @@ module.exports = function(LOG, models, controllers){
 
 
     var list = function list(){
-        return Q(models.Snapshot.findAll({where:{enabled:true}, include:[models.Image]}));
+        return Q(models.Snapshot.findAll({include:[models.Image]}));
     };
 
     var findById = function findById(id){
-        return Q(models.Snapshot.find({where:{id:id, enabled:true},
+        return Q(models.Snapshot.find({where:{id:id},
             include:[
                 models.Page,
                 models.Image,
@@ -22,7 +22,7 @@ module.exports = function(LOG, models, controllers){
     };
 
     var findByPageId = function findByPageId(id){
-        return Q(models.Snapshot.find({where:{PageId:id, enabled:true}, include:[models.Image]}));
+        return Q(models.Snapshot.find({where:{PageId:id}, include:[models.Image]}));
     };
 
     var create = function create(pageId, properties){
