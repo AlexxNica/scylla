@@ -11,7 +11,6 @@ module.exports = function(LOG, models){
         return Q(models.Suite.find({where:{id:id}, include:[
             {
                 model:models.MasterSnapshot,
-                where:{deletedAt:null},
                 include:[
                     {model:models.Snapshot, include:[
                         {model:models.Page}
@@ -20,7 +19,6 @@ module.exports = function(LOG, models){
             },
             {
                 model:models.SuiteRun,
-                where:{deletedAt:null},
                 include:[
                     {model:models.SnapshotDiff, include:[
                         models.Image,

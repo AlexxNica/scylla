@@ -11,9 +11,7 @@ module.exports = function(LOG, models){
         return Q(models.Page.find({where:{id:id}, include:[
             {model:models.Snapshot, include:[
                 {model:models.Image},
-                {   model:models.MasterSnapshot,
-                    where:{deletedAt:null}
-                },
+                {model:models.MasterSnapshot},
                 {model:models.SnapshotDiff, as:"snapshotDiffA", include:[
                     {model:models.Snapshot, as:"snapshotB"}
                 ]},
