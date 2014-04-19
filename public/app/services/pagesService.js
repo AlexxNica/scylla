@@ -6,7 +6,7 @@ define([
     'use strict';
 
     return scyllaApp
-        .service('PagesService', function ($http, $log) {
+        .service('PagesService', function ($http, $q, $log) {
 
 
             this.list = function list(){
@@ -37,6 +37,14 @@ define([
                     });
             };
 
+            this.bulkSave = function(pages){
+                var savePromises = [];
+                angular.forEach(pages, function(page){
+                    savePromises.push(this.save(page))
+                }.bind(this) );
+                return $q.all(savePromises);
+            };
+
             this.delete = function (page){
                 return $http.delete("/pages/" + page.id)
                     .finally(function(){
@@ -48,6 +56,17 @@ define([
                     .then(function(response){
                         return response.data;
                     })
+            };
+
+            this.bulkSnapshotPages = function snapshotPage(pages){
+                var snapshotPromises = [];
+                angular.forEach(pages, function(page){
+                    snapshotPromises.push($http.post("/pages/" + page.id + "/snapshots", {})
+                        .then(function(response){
+                            return response.data;
+                        }));
+                });
+                return $q.all(snapshotPromises);
             }
 
         });

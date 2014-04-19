@@ -21,13 +21,14 @@ define([
         };
 
         $scope.getPage = function(id){
+            $scope.isProcessing = true;
             PagesService.get(id)
                 .then(function(page){
                     if(page.snapshots){
                         page.snapshots.sort(sortCreatedAt);
                     }
                     $scope.page = page;
-                    console.log("Got Page", $scope.page);
+                    $scope.isProcessing = false;
                 });
         };
         $scope.getPage($routeParams.id);
@@ -89,7 +90,6 @@ define([
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-
 
         $scope.savePage = function savePage(page){
             $scope.isProcessing = true;

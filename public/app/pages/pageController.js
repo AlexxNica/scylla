@@ -5,6 +5,7 @@ define([
     "services/pagesService",
     "pages/dialogs/pageEditor",
     "pages/dialogs/deletePage",
+    "pages/dialogs/bulkPageImport",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
@@ -13,6 +14,7 @@ define([
     ThePagesService,
     ThePageEditor,
     ThePageDeleter,
+    ThePageImporter,
     processingSpinner
     ){
     'use strict';
@@ -89,6 +91,33 @@ define([
             });
         };
 
+        $scope.showBulk = function showBulk() {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/pages/dialogs/bulkPageImporter.html',
+                controller: 'BulkPageImporter'
+            });
+
+            modalInstance.result.then(function (pages) {
+                $scope.bulkSavePages(pages)
+                    .then(function(newPages){
+                        return $scope.bulkSnapshotPages(newPages);
+
+                    });
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        $scope.bulkSavePages = function bulkSavePages(pages){
+            $scope.isProcessing = true;
+            return PagesService.bulkSave(pages)
+                .then(function(newPages){
+                    $scope.pages.concat(newPages);
+                    $scope.isProcessing = false;
+                    return newPages;
+                });
+        };
+
         $scope.savePage = function savePage(page){
             $scope.isProcessing = true;
             return PagesService.save(page)
@@ -105,6 +134,15 @@ define([
                 .then(function(newSnapshot){
                     $scope.isProcessing = false;
                     toastr.success("Captured Screen for Page: " + page.name);
+                });
+        };
+
+        $scope.bulkSnapshotPages = function bulkSnapshotPages(pages){
+            $scope.isProcessing = true;
+            PagesService.bulkSnapshotPages(pages)
+                .then(function(newSnapshots){
+                    $scope.isProcessing = false;
+                    toastr.success("Captured " + newSnapshots.length + " Snapshots" );
                 });
         };
 
