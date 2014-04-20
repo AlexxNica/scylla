@@ -33,7 +33,7 @@ module.exports = function(LOG, models){
                 return next();
             } else {
                 res.send(404, new Error('Resource Not Found'));
-                return next(new restify.ResourceNotFound("Not Found"));
+                return next(new restify.ResourceNotFoundError("Not Found"));
             }
         };
     };
