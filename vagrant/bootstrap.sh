@@ -30,8 +30,8 @@ then
     sudo apt-get install -y git imagemagick openssl
 
 #Generate our own self-signed ssl keys
-    mkdir /etc/ssl/self-signed && cd /etc/ssl/self-signed
-    openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr -subj '/C=US/ST=Washington/L=Seattle/O=Scylla/OU=Scylla/CN=Scylla' && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+#    mkdir /etc/ssl/self-signed && cd /etc/ssl/self-signed
+#    openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr -subj '/C=US/ST=Washington/L=Seattle/O=Scylla/OU=Scylla/CN=Scylla' && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
     touch /var/log/2systemsetup
 fi
@@ -48,7 +48,9 @@ then
     echo "GRANT ALL ON scylla.* TO 'scylla'@'localhost'" | mysql -uroot -pscylla
     echo "flush privileges" | mysql -uroot -pscylla
 
-    if [ -f /vagrant/data/initial.sql ];
+    cp /vagrant/config/database-example.js /vagrant/config/database.js
+
+    if [ -f /vagrant/vagrant/data/initial.sql ];
     then
         mysql -uroot -pscylla scylla < /vagrant/data/initial.sql
     fi
@@ -67,7 +69,7 @@ fi
 if [ ! -f /var/log/5upstart ];
 then
     echo -e "${yellow}Setup Upstart Script${NC}"
-    sudo cp /vagrant/scylla-upstart.conf /etc/init/scylla.conf
+    sudo cp /vagrant/vagrant/scylla-dev-upstart.conf /etc/init/scylla.conf
     chmod a+x /etc/init/scylla.conf
     touch /var/log/5upstart
 fi
@@ -78,6 +80,14 @@ then
     cp /vagrant/config/mail-example.js /vagrant/config/mail.js
 fi
 
+if [ ! -f /vagrant/scylla/config/storage.js ];
+then
+    echo -e "${red}EXAMPLE STORAGE FILE USED. Images will be stored in default location ${NC}"
+    cp /vagrant/config/storage-example.js /vagrant/config/storage.js
+    mkdir -p /vagrant/images/resources
+    chown vagrant /vagrant/images/resources
+fi
+
 if [ -f /var/run/scylla.pid ];
 then
     stop scylla
@@ -86,7 +96,7 @@ fi
 echo -e "${yellow}Installing Scyalla NPM Deps${NC}"
 
 #We've got to run the installs as the vagrant user, as npm and bower HATE being root.
-su -c "/vagrant/vagrantInstallDeps.sh" vagrant
+su -c "/vagrant/vagrant/bootstrap-user-context.sh" vagrant
 
 
 start scylla

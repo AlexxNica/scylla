@@ -1,8 +1,8 @@
 // Copy in your particulars and rename this to database.js
 module.exports = {
-    user:'postgres',
+    user:'scylla',
     password:'scylla',
     properties:{
-        dialect: 'postgres'
+        dialect: 'mysql'
     }
-}
+};

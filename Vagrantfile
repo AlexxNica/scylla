@@ -16,14 +16,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  config.vm.provision :shell, :path => "vagrantBootstrap.sh"
+  config.vm.provision :shell, :path => "vagrant/bootstrap.sh"
   config.vm.network :forwarded_port, host: 8090, guest: 3000
-  config.vm.network :forwarded_port, host: 8091, guest: 3443
+  # Turned off for now, needs to be added back in for SSL to be testable
+  # config.vm.network :forwarded_port, host: 8091, guest: 3443
   config.ssh.forward_agent = true
 
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--ioapic", "on"]
-    v.customize ["modifyvm", :id, "--cpus", "2"]
+    v.customize ["modifyvm", :id, "--cpus", "4"]
 #    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 #    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
   end

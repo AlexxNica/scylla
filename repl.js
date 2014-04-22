@@ -18,13 +18,15 @@ LOG = {
 }
 
 var databaseConfig  = require('./config/database');
+var storageConfig = require('./config/storage');
+
 databaseConfig.properties.logging = function(message){
     //If we pass Bunyan's log functions directly to Sequelize, it throws errors...
     //So we have to create this passthrough :-/
-    //LOG.debug('Sequelize', message);
+    LOG.debug('Sequelize', message);
 }
 //Restify does some odd things, so this folder needs to be 2x deep
-var imagePath       = path.resolve( "images", "resources");
+var imagePath       = path.resolve( storageConfig.base, storageConfig.resources);
 
 var Q = require('q');
 Q.longStackSupport = true;

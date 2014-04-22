@@ -22,14 +22,20 @@ cli.main(function(args, options) {
 
     var SendGrid        = require('sendgrid');
     var mailConfig      = require('./config/mail');
+    var storageConfig   = require('./config/storage');
+    //Restify does some odd things, so this folder needs to be 2x deep
+    var imagePath       = path.resolve(storageConfig.base, storageConfig.resources);
+    if(!fs.existsSync(imagePath)){
+        LOG.error("Image Path (" + imagePath + ") doesn't exist. Please create the directory or edit config/storage.js");
+        process.exit(1);
+    }
     var databaseConfig  = require('./config/database');
+
     databaseConfig.properties.logging = function(message){
         //If we pass Bunyan's log functions directly to Sequelize, it throws errors...
         //So we have to create this passthrough :-/
         LOG.debug('Sequelize', message);
-    }
-    //Restify does some odd things, so this folder needs to be 2x deep
-    var imagePath       = path.resolve( "images", "resources");
+    };
 
     var Q = require('q');
     Q.longStackSupport = true;
@@ -38,7 +44,6 @@ cli.main(function(args, options) {
 
     var models = require('./api/models')(LOG, databaseConfig, true);
 
-    var imageFormatter = require('./api/lib/imageFormatter');
 
     var httpServer = restify.createServer({
         name: 'Scylla',
@@ -48,10 +53,6 @@ cli.main(function(args, options) {
     var httpsServer = restify.createServer({
         name: 'Scylla Secure',
         log:LOG,
-        formatters:{
-            'image/png; q=0.9':imageFormatter
-        },
-        formatters:imageFormatter,
         key: fs.readFileSync('/etc/ssl/self-signed/server.key'),
         certificate: fs.readFileSync('/etc/ssl/self-signed/server.crt')
     });
@@ -75,7 +76,7 @@ cli.main(function(args, options) {
         //As mentioned above, Restify appends 'directory' when looking for these files
         //So we need to create a directory structure that accommodates that.
         restServer.get(/\/resources/, restify.serveStatic({
-            directory: './images',
+            directory: storageConfig.base,
             default:'index.html'
         }));
 
@@ -96,8 +97,7 @@ cli.main(function(args, options) {
     httpServer.listen(options.port);
     //httpsServer.listen(options.https_port);
 
-    LOG.info("Listening on local ports: " + options.port + ", " + options.https_port);
+    LOG.info("Listening on local ports: " + options.port);// + ", " + options.https_port);
 
 
-
-})
+});

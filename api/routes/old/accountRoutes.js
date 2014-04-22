@@ -1,6 +1,6 @@
 module.exports = function(server, models, controllers){
     'use strict';
-    var utils = require('./routeUtils');
+    var utils = require('./../routeUtils');
 
     /** Routes **/
     server.get('/accounts/:id', function(req, res, next) {

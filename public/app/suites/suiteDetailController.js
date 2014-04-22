@@ -4,7 +4,7 @@ define([
     "moment",
     "suites/dialogs/suiteEditor",
     "suites/dialogs/addPageToSuite",
-    "services/SuitesService",
+    "services/suitesService",
     "directives/spin/processingSpinner"
 ], function(
     scyllaApp,
