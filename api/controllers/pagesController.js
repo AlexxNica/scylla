@@ -23,7 +23,13 @@ module.exports = function(LOG, models){
     };
 
     var create = function create(properties){
-        return shared.buildAndValidateModel(models.Page, properties);
+        return Q(models.Page.find({where:{url:properties.url}}))
+            .then(function(page){
+                if(page){
+                    return findById(page.id);
+                }
+                return shared.buildAndValidateModel(models.Page, properties);
+            });
     };
 
     var update = function update(id, properties){
