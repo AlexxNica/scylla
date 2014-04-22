@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #Do the installs
 cd /vagrant
 if [ ! -f ~/6node-packages ];
