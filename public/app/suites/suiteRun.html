@@ -1,0 +1,33 @@
+
+<div diff="diff">
+    <select id="resultSelector" ng-model="selectedSummary" ng-change="selectSnapshotDiff(selectedSummary)">
+        <option ng-repeat="snapshotDiff in suiteRun.snapshotDiffs"
+                ng-class="{pass:snapshotDiff.distortion == 0, fail:snapshotDiff.distortion != 0}"
+                ng-selected="snapshotDiff.id == diff.id"
+                value="{{snapshotDiff.id}}"
+                >{{snapshotDiff.snapshotB.page.name}} ({{snapshotDiff.distortion}})</option>
+    </select>
+    &nbsp;&nbsp;
+    <a class="clickable" id="goPrevLink"><i class="icon-double-angle-left" ></i></a>
+    <a class="clickable" id="goNextLink"><i class="icon-double-angle-right"></i></a>
+    &nbsp;&nbsp;
+    <a href="{{diff.snapshotA.page.url}}" target="_blank">A <i class="icon-external-link-sign" title="View Url"></i></a>
+    <a href="{{diff.snapshotB.page.url}}" target="_blank">B <i class="icon-external-link-sign" title="View Url"></i></a>
+    <script>
+        $("#goPrevLink").click(function(){
+            $("#resultSelector").prop("selectedIndex", $("#resultSelector").prop("selectedIndex")-1);
+            $("#resultSelector").change();
+        });
+        $("#goNextLink").click(function(){
+            $("#resultSelector").prop("selectedIndex", $("#resultSelector").prop("selectedIndex")+1);
+            $("#resultSelector").change();
+        });
+        jwerty.key('j', function(){
+            $("#goNextLink").click();
+        });
+        jwerty.key('k', function(){
+            $("#goPrevLink").click();
+        });
+    </script>
+
+</div>

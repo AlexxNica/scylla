@@ -1,13 +1,16 @@
-module.exports = function(ObjectId){
+module.exports = function(LOG){
     'use strict';
+    var Q = require('q');
+    var restify = require('restify');
+    var util = require('util');
 
     var execDeferredBridge = function(deferred){
-        return function(err, result){
+        return function(result){
             if(err){
                 console.log("Failing");
                 deferred.reject(err);
             } else {
-                console.log("Resolving");
+                console.log("Success: " + require('util').inspect(result));
                 deferred.resolve(result);
             }
         };
@@ -23,9 +26,6 @@ module.exports = function(ObjectId){
         };
     };
 
-    var toObjectIdArray = function toObjectIdArray(values){
-        return values.map(function(val){ return new ObjectId(val._id || val);});
-    };
 
     var first = function first(results){
         if(results.length === 0){
@@ -36,10 +36,59 @@ module.exports = function(ObjectId){
         return results[0];
     };
 
+    var softDelete = function softDelete(Model, id ){
+        return Q(Model.find(id)
+            .success(function(instance){
+                return instance.destroy()
+                    .success(function(){
+                        return instance;
+                    });
+            }));
+    };
+    var softUnDelete = function softUnDelete(Model, id ){
+        return Q(Model.find(id)
+            .success(function(instance){
+                instance.deletedAt = null;
+                return instance.save()
+                    .success(function(savedInstance){
+                        return savedInstance;
+                    });
+            }));
+    };
+
+    var buildAndValidateModel = function buildAndValidateModel(Model, properties){
+        var model = Model.build(properties);
+        return validateModel(model);
+    };
+
+    var validateModel = function validateModel(model){
+        var validations = model.validate();
+        if(validations != null){
+            LOG.info("Validations Failed", model, validations);
+            return Q.reject(new ValidationError(require('util').inspect(validations)));
+        }
+        return Q(model.save());
+    }
+
+    var ValidationError = function ValidationError(message) {
+        restify.RestError.call(this, {
+            restCode: 'ValidationError',
+            statusCode: 400,
+            message: message,
+            constructorOpt: ValidationError
+        });
+        this.name = 'ValidationError';
+    };
+    util.inherits(ValidationError, restify.RestError);
+
     return {
-        toObjectIdArray:toObjectIdArray,
         execDeferredBridge:execDeferredBridge,
         execDeferredDeleteBridge:execDeferredDeleteBridge,
-        first:first
+        first:first,
+        softDelete:softDelete,
+        softUnDelete:softUnDelete,
+        buildAndValidateModel:buildAndValidateModel,
+        validateModel:validateModel,
+        ValidationError:ValidationError
     };
 };

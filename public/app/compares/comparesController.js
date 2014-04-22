@@ -7,8 +7,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("ComparesController", function($scope, $http, Page) {
-        Page.setFirstLevelNavId("comparesNav");
+    return scyllaApp.controller("ComparesController", function($scope, $http, Header) {
+        Header.setFirstLevelNavId("comparesNav");
 
         $scope.compares = [];
         $scope.compareToDelete = {};
@@ -51,14 +51,14 @@ define([
 
         $scope.confirmDeleteCompare = function confirmDeleteCompare(compare){
             console.log("Deleting AB Compare", compare);
-            $http.get("/abcompares/" + compare._id, {params:{includeResults:true}})
+            $http.get("/abcompares/" + compare.id, {params:{includeResults:true}})
                 .success(function(compare){
                     if(compare.results){
                         compare.results.forEach(function(result){
-                            $scope.deleteResult(result._id);
+                            $scope.deleteResult(result.id);
                         });
                     }
-                    $http.delete("/abcompares/" + compare._id)
+                    $http.delete("/abcompares/" + compare.id)
                         .success(function(deletedCompare){
                             console.log("Deleted Compare",deletedCompare);
                             $scope.getAllCompares();

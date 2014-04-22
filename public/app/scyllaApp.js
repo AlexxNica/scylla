@@ -9,7 +9,7 @@ define([
     ){
     'use strict';
 
-    var app = angular.module("scyllaApp",["ui.bootstrap"]);
+    var app = angular.module("scyllaApp",["ngRoute", "ui.bootstrap"]);
 
     toastr.options = {
         "debug": false,
@@ -19,10 +19,10 @@ define([
         "fadeOut": 500,
         "timeOut": 3000,
         "extendedTimeOut": 1000
-    }
+    };
 
     return app;
 
-})
+});
 
 

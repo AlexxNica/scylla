@@ -1,0 +1,29 @@
+    <div class="modal-header">
+        <h3 >{{page.id ? "Edit" : "Add New"}} Page</h3>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-error" style="display:none">
+            There was an error.
+        </div>
+        <form class="form-horizontal">
+            <input id="page-title" type="text" ng-model="page.name"
+                   placeholder="Identifiable Page Name" required
+                   class="input-xxlarge" />
+            <input id="page-url" type="text" ng-model="page.url"
+                   placeholder="http://test.com/" required
+                   class="input-xxlarge" />
+            <!--
+            <input id="page-width" type="number" ng-model="width"
+                   placeholder="600"
+                   class="input-mini" />x
+            <input id="page-height" type="number" ng-model="height"
+                   placeholder="600"
+                   class="input-mini" />
+                   -->
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary" ng-click="ok()">{{page.id ? "Save" : "Add New"}} Page</button>
+    </div>

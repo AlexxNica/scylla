@@ -1,6 +1,4 @@
 var Mocha = require('mocha');
-var mochaAsPromised = require("mocha-as-promised");
-    mochaAsPromised(Mocha);
 var path = require('path');
 var fs = require('fs');
 var glob = require("glob");

@@ -1,0 +1,26 @@
+    <div class="modal-header">
+        <h3 >Bulk Add Pages</h3>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-error" style="display:none">
+            There was an error.
+        </div>
+        <form class="form-horizontal">
+            <textarea id="csv-text" type="text" required
+                ng-model="csv"
+                ng-change="updatePages(csv)"
+                class="input-xxlarge" />
+
+        </form>
+        <div>
+            <h3>Pages to add:</h3>
+            <div ng-repeat="page in pages">
+                <span>{{page.name}}</span>
+                <span>{{page.url}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary" ng-click="ok()">Add Pages</button>
+    </div>l

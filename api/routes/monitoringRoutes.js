@@ -1,4 +1,4 @@
-module.exports = function(server){
+module.exports = function(log, server){
     'use strict';
     var os = require('os');
 

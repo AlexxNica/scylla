@@ -4,11 +4,11 @@
     </div>
     <h1>AB Compares</h1>
     <div class="media" ng-repeat="compare in compares">
-        <a class="pull-left media-object" ng-href="#/compares/{{compare._id}}">
+        <a class="pull-left media-object" ng-href="#/compares/{{compare.id}}">
             <img class="bigThumb" ng-src="{{ compare.thumbA }}"><img class="bigThumb" ng-src="{{ compare.thumbB }}">
         </a>
         <div class="media-body">
-            <h4 class="media-heading"><a ng-href="#/compares/{{compare._id}}">{{compare.name}}</a>
+            <h4 class="media-heading"><a ng-href="#/compares/{{compare.id}}">{{compare.name}}</a>
                 <a ng-click="deleteCompare(compare);" class="clickable"><i class="icon-trash" title="Delete Compare"></i></a></h4>
             <span>Stats</span>
         </div>

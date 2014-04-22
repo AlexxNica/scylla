@@ -1,14 +1,14 @@
 define([
     "scyllaApp",
-    "home/page"
+    "home/header"
 ], function(
     scyllaApp,
     Page
     ){
     'use strict';
 
-    return scyllaApp.controller("HomeController", function($scope, $http, Page) {
-        Page.setFirstLevelNavId("homeNav");
+    return scyllaApp.controller("HomeController", function($scope, $http, Header) {
+        Header.setFirstLevelNavId("homeNav");
 
     });
 

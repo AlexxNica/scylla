@@ -13,33 +13,37 @@ require.config({
 require([
     'angular',
     'scyllaApp',
-    'resultDiffs/resultDiffDetailController',
-    'home/pageController',
+    'filters/formatters',
+    'snapshotDiffs/snapshotDiffDetailController',
+    'home/headerController',
     'home/homeController',
-    'reports/reportController',
-    'reports/reportBookmarkletController',
-    'reports/reportDetailController',
+    'pages/pageController',
+    'pages/pageBookmarkletController',
+    'pages/pageDetailController',
     'compares/comparesController',
     'compares/compareDetailController',
     'compares/compareResultDetailController',
-    'batches/batchController',
-    'batches/batchDetailController',
-    'batches/batchResultController',
+    'snapshots/snapshotDetailController',
+    'suites/suiteController',
+    'suites/suiteDetailController',
+    'suites/suiteRunController'
 ], function (
     angular,
     scyllaApp,
-    DiffDetailController,
-    PageController,
+    ScyllaFormatters,
+    SnapshotDiffDetailController,
+    HeaderController,
     HomeController,
-    ReportController,
+    PageController,
     ReportBookmarkletController,
     ReportDetailController,
     ComparesController,
     CompareDetailController,
     CompareResultDetailController,
-    BatchController,
-    BatchDetailController,
-    BatchResultController
+    SnapshotDetailController,
+    SuiteController,
+    SuiteDetailController,
+    SuiteRunController
     ) {
 
     'use strict';
@@ -50,15 +54,15 @@ require([
             .when('/home',
                   {templateUrl:'app/home/home.html',
                       controller:"HomeController"})
-            .when('/reports',
-                  {templateUrl:'app/reports/reports.html',
-                      controller:"ReportController"})
-            .when('/reports/bookmarklet',
-                  {templateUrl:'app/reports/reportBookmarklet.html',
-                      controller:"ReportBookmarkletController"})
-            .when('/reports/:id',
-                  {templateUrl:'app/reports/reportDetail.html',
-                      controller:"ReportDetailController"})
+            .when('/pages',
+                  {templateUrl:'app/pages/pages.html',
+                      controller:"PageController"})
+            .when('/pages/bookmarklet',
+                  {templateUrl:'app/pages/pageBookmarklet.html',
+                      controller:"PageBookmarkletController"})
+            .when('/pages/:id',
+                  {templateUrl:'app/pages/pageDetail.html',
+                      controller:"PageDetailController"})
             .when('/compares',
                   {templateUrl:'app/compares/compares.html',
                       controller:"ComparesController"})
@@ -68,19 +72,22 @@ require([
             .when('/compares/:compareId/results/:id',
                   {templateUrl:'app/compares/compareResultDetail.html',
                       controller:"CompareResultDetailController"})
-            .when('/result-diffs/:id',
-                  {templateUrl:'app/resultDiffs/resultDiffDetail.html',
-                      controller:"ResultDiffDetailController"})
-            .when('/batches',
-                  {templateUrl:'app/batches/batches.html',
-                      controller:"BatchController"})
-            .when('/batches/:batchId/results/:resultId',
-                  {templateUrl:'app/batches/batchResult.html',
-                      controller:"BatchResultController",
+            .when('/snapshotDiffs/:id',
+                  {templateUrl:'app/snapshotDiffs/snapshotDiffDetail.html',
+                      controller:"SnapshotDiffDetailController"})
+            .when('/suites',
+                  {templateUrl:'app/suites/suites.html',
+                      controller:"SuiteController"})
+            .when('/suites/:suiteId/suiteRuns/:suiteRunId',
+                  {templateUrl:'app/suites/suiteRun.html',
+                      controller:"SuiteRunController",
                       reloadOnSearch:false})
-            .when('/batches/:id',
-                  {templateUrl:'app/batches/batchDetail.html',
-                      controller:"BatchDetailController"})
+            .when('/suites/:id',
+                  {templateUrl:'app/suites/suiteDetail.html',
+                      controller:"SuiteDetailController"})
+            .when('/snapshots/:id',
+                  {templateUrl:'app/snapshots/snapshotDetail.html',
+                      controller:"SnapshotDetailController"})
             .otherwise({redirectTo:"/home"})
     }]);
 

@@ -14,19 +14,22 @@ module.exports = function(host, port){
 
     var getRequest = function (path) {
         return newRequest("GET", path);
-    }
+    };
     var postRequest = function (path, body) {
         return newRequest("POST", path, body);
-    }
+    };
     var putRequest = function (path, body) {
         return newRequest("PUT", path, body);
-    }
+    };
     var delRequest = function (path, body) {
         return newRequest("DELETE", path, body);
-    }
+    };
+    var getResponse = function(requestObject){
+        return http.request(requestObject);
+    };
     var getJsonObject = function (requestObject) {
         //console.log("Sending: " + requestObject.method + ": " + requestObject.path);
-        return http.request(requestObject)
+        return getResponse(requestObject)
             .then(function (response) {
                 //console.log("Received " + requestObject.path + ": ", response.status)
                 if (response && response.status == 200) {
@@ -38,10 +41,14 @@ module.exports = function(host, port){
                     if(response.status != 404){
                         console.error("\nError with URL: ",requestObject.method, requestObject.path);
                         console.error("Status: " + response.status);
-                        response.body.read()
-                            .then(function(body){console.error(body.toString())});
+                        return response.body.read()
+                            .then(function(body){
+                                throw new Error(body.toString());
+                            });
+                    } else {
+                        throw new Error(response.status);
                     }
-                    throw new Error(response.status);
+
                 }
             });
 
@@ -53,6 +60,7 @@ module.exports = function(host, port){
         postRequest:postRequest,
         putRequest:putRequest,
         delRequest:delRequest,
+        getResponse:getResponse,
         getJsonObject:getJsonObject
     };
 };

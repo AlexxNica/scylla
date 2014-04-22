@@ -13,8 +13,8 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("CompareResultDetailController", function($scope, $route, $routeParams, $http, Page) {
-        Page.setFirstLevelNavId("comparesNav");
+    return scyllaApp.controller("CompareResultDetailController", function($scope, $route, $routeParams, $http, Header) {
+        Header.setFirstLevelNavId("comparesNav");
         $scope.resultDiff = {};
         $scope.diff = {};
 

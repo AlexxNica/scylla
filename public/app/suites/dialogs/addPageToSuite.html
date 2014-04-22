@@ -1,0 +1,37 @@
+    <div class="modal-header">
+        <h3 id="myEditSuiteModalLabel">Add Page to Suite: {{suite.name}}</h3>
+    </div>
+    <div class="modal-body addPageToSuite">
+        <div class="alert alert-error" style="display:none">
+            There was an error.
+        </div>
+        <style>
+            .addpagetosuite form{
+                width:520px;
+            }
+            .addPageToSuite select{
+                vertical-align: top;
+                width:200px;
+                display:inline-block;
+            }
+            .addPageToSuite ul{
+                width:300px;
+                display:inline-block;
+            }
+        </style>
+        <form class="form-horizontal">
+            <select multiple="multiple" ng-model="selectedPage" ng-change="updateSnapshots(selectedPage)" class="input-xxlarge">
+                <option ng-repeat="page in pages" value="{{page.id}}">{{page.name}}</option>
+            </select>
+            <ul>
+                <li ng-repeat="snapshot in currentSnapshots" ng-click="selectSnapshot(snapshot)">
+                    <span>{{snapshot.updatedAt | dateFormatter}}</span><br/>
+                    <img width="120" ng-src="{{getThumbnail(snapshot)}}">
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary" ng-click="ok()">Add Page Snapshot</button>
+    </div>

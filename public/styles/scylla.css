@@ -74,11 +74,27 @@ a{
     color:#FF0000;
 }
 
+.snapshotDetails .state.Failure{
+    color:#FF0000;
+}
+.snapshotDetails .state.Queued{
+    color: #0000FF;
+}
+.snapshotDetails .state.Capturing{
+    color: #00FFFF;
+}
+.snapshotDetails .state.Complete{
+    color:#00FF00;
+}
 
 
 /** Diff Detail **/
 input, label{
     display:inline;
+}
+img.output, img.master{
+    /** We set this in case the snapshot is transparent... slide doesn't work very well */
+    background-color:#FFFFFF
 }
 .diffControl {
     min-height: 1000px;

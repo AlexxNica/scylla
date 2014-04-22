@@ -1,27 +1,19 @@
-module.exports = function(host, port){
+module.exports = function(LOG){
     'use strict';
     var charybdis = require("charybdis")();
 
-    var captureReportSnapshot = function captureReportSnapshot(reportId){
-        return charybdis.captureReportSnapshot(host, port, reportId);
+    var webPageToSnapshot = function webPageToSnapshot(url, width, height){
+        LOG.info("Getting Snapshot for URL: " + url)
+        return charybdis.webPageToSnapshot(url, width, height);
     };
 
-    var executeOnReport = function executeOnReport(reportId){
-        return charybdis.executeOnReport(host, port, reportId);
+    var diffTwoSnapshots = function(contentsA, contentsB){
+        return charybdis.diffTwoSnapshots(contentsA, contentsB);
     };
 
-    var executeOnBatch = function executeOnBatch(batchId){
-        return charybdis.executeOnBatch(host, port, batchId);
-    };
-
-    var executeABCompare = function executeABCompare(batchId){
-        return charybdis.executeABCompare(host, port, batchId);
-    };
 
     return {
-        executeOnReport:executeOnReport,
-        captureReportSnapshot:captureReportSnapshot,
-        executeOnBatch:executeOnBatch,
-        executeABCompare:executeABCompare
+        webPageToSnapshot:webPageToSnapshot,
+        diffTwoSnapshots:diffTwoSnapshots
     };
 };
