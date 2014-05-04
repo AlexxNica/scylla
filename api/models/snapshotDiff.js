@@ -15,6 +15,10 @@ module.exports = function(ORM){
             output:{
                 type:ORM.TEXT
             },
+            twoPages:{
+                type:ORM.BOOLEAN,
+                defaultValue:false
+            },
             /**
              * Queued, Capturing, Complete, Failure
              */
@@ -53,6 +57,9 @@ module.exports = function(ORM){
         relationships:[
             {   kind:   "belongsTo",
                 model:  "SuiteRun"
+            },
+            {   kind:   "belongsTo",
+                model:  "ABCompare"
             },
             {   kind:   "belongsTo",
                 model:  "Snapshot",
