@@ -20,7 +20,7 @@ require([
     'pages/pageController',
     'pages/pageBookmarkletController',
     'pages/pageDetailController',
-    'compares/comparesController',
+    'compares/compareController',
     'compares/compareDetailController',
     'compares/compareResultDetailController',
     'snapshots/snapshotDetailController',
@@ -65,7 +65,7 @@ require([
                       controller:"PageDetailController"})
             .when('/compares',
                   {templateUrl:'app/compares/compares.html',
-                      controller:"ComparesController"})
+                      controller:"CompareController"})
             .when('/compares/:id',
                   {templateUrl:'app/compares/compareDetail.html',
                       controller:"CompareDetailController"})

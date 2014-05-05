@@ -1,0 +1,28 @@
+    <div class="modal-header">
+        <h3 >{{compare.id ? "Edit" : "Add New"}} Compare</h3>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-error" style="display:none">
+            There was an error.
+        </div>
+        <form class="form-horizontal">
+            <input id="pageA-title" type="text" ng-model="compare.pageA.name"
+                   placeholder="Identifiable Page Name" required
+                   class="input-xxlarge" />
+            <input id="pageA-url" type="text" ng-model="compare.pageA.url"
+                   placeholder="http://test.com/" required
+                   class="input-xxlarge" />
+            <input id="pageB-title" type="text" ng-model="compare.pageB.name"
+                   placeholder="Identifiable Page Name" required
+                   class="input-xxlarge" />
+            <input id="pageB-url" type="text" ng-model="compare.pageB.url"
+                   placeholder="http://test.com/" required
+                   class="input-xxlarge" />
+
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary" ng-click="ok()">{{compare.id ? "Save" : "Add New"}} Compare</button>
+    </div>

@@ -1,62 +1,21 @@
 <div>
     <div class="pull-right">
-        <a class="btn btn-primary" ng-click="showNewCompare = true"><i class="icon-plus-sign"></i> New</a>
+        <a class="btn btn-primary" ng-click="showNew()"><i class="icon-plus-sign"></i> New</a>
     </div>
     <h1>AB Compares</h1>
     <div class="media" ng-repeat="compare in compares">
         <a class="pull-left media-object" ng-href="#/compares/{{compare.id}}">
-            <img class="bigThumb" ng-src="{{ compare.thumbA }}"><img class="bigThumb" ng-src="{{ compare.thumbB }}">
+            <img class="bigThumb" ng-src="{{ compare.pageA | pageThumb }}"><img class="bigThumb" ng-src="{{ compare.pageB | pageThumb }}">
         </a>
         <div class="media-body">
             <h4 class="media-heading"><a ng-href="#/compares/{{compare.id}}">{{compare.name}}</a>
                 <a ng-click="deleteCompare(compare);" class="clickable"><i class="icon-trash" title="Delete Compare"></i></a></h4>
-            <span>Stats</span>
-        </div>
-    </div>
-    <div id="newCompare" class="modal hide fade" tabindex="-1" modal="showNewCompare" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">Create a New AB Compare</h3>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-error" style="display:none">
-                    There was an error.
-                </div>
-                <form class="form-horizontal" ng-submit="addCompare(newCompareTitle, newCompareUrl)">
-                    <input id="compare-title" type="text" ng-model="newCompareTitle"
-                           placeholder="Identifiable Compare Name" required
-                           class="input-xxlarge" />
-                    <input id="compare-urlA" type="text" ng-model="newCompareUrlA"
-                           placeholder="http://app.simplymeasured.com/compare/id" required
-                           class="input-xxlarge" />
-                    <input id="compare-urlB" type="text" ng-model="newCompareUrlB"
-                           placeholder="http://app.simplymeasured.com/compare/id" required
-                           class="input-xxlarge" />
-                    <input id="report-width" type="number" ng-model="newCompareWidth"
-                           placeholder="600"
-                           class="input-small" />x
-                    <input id="report-height" type="number" ng-model="newCompareHeight"
-                           placeholder="600"
-                           class="input-small" />
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" ng-click="showNewCompare = false" aria-hidden="true">Close</button>
-                <button class="btn btn-primary" ng-click="addCompare(newCompareTitle, newCompareUrlA, newCompareUrlB, newCompareWidth, newCompareHeight)">Add Compare</button>
-            </div>
-    </div>
-    <div id="deleteCompare" class="modal hide fade" tabindex="-1" modal="showDeleteCompare" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="deleteModalLabel">Delete AB Compare</h3>
-        </div>
-        <div class="modal-body">
-            Are you sure you want to delete this compare?<br/>
-            {{compareToDelete.results.length}} Results and all associated diffs will be deleted as well.
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="showDeleteCompare = false" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" ng-click="confirmDeleteCompare(compareToDelete)">Delete AB Compare</button>
+            <h5>Page A:</h5>
+            <a ng-href="#/pages/{{compare.pageA.id}}">{{compare.pageA.name}}</a> <br />
+            <a ng-href="{{compare.pageA.url}}">{{compare.pageA.url}}</a>
+            <h5>Page B:</h5>
+            <a ng-href="#/pages/{{compare.pageB.id}}">{{compare.pageB.name}}</a> <br />
+            <a ng-href="{{compare.pageB.url}}">{{compare.pageB.url}}</a>
         </div>
     </div>
 </div>
