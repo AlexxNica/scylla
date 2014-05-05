@@ -1,53 +1,32 @@
 <div>
     <processing show="isProcessing"></processing>
     <div>
-        <h2 style="display:inline-block">{{compare.name}}</h2>&nbsp;&nbsp;&nbsp;
+        <h4 style="display:inline-block">AB Compare created on: {{compare.createdAt | dateFormatter}}</h4>&nbsp;&nbsp;&nbsp;
         <a class="clickable headerIcon" ng-click="showEditModal = true;"><i class="icon-edit" data-n="edit" title="Edit AB Compare"></i></a>
         <a class="clickable headerIcon" ng-click="runCompare()"><i class="icon-play-sign" title="Run AB Compare Now"></i></a>
     </div>
-    <div class="media {{getResultClass(result)}}" ng-repeat="result in compare.results">
-        <a class="media-object pull-left" href="#/compares/{{compare.id}}/results/{{result.id}}">
-            <img class="bigThumb" ng-src="{{result.thumbA}}"><img class="bigThumb" ng-src="{{result.thumbB}}">
+    <div>
+        <h5>Page A:</h5>
+        <a ng-href="#/pages/{{compare.pageA.id}}">{{compare.pageA.name}}</a> <br />
+        <a ng-href="{{compare.pageA.url}}">{{compare.pageA.url}}</a>
+        <h5>Page B:</h5>
+        <a ng-href="#/pages/{{compare.pageB.id}}">{{compare.pageB.name}}</a> <br />
+        <a ng-href="{{compare.pageB.url}}">{{compare.pageB.url}}</a>
+    </div>
+    <div class="media" ng-repeat="diff in compare.snapshotDiffs">
+        <h4>Diff taken on {{diff.createdAt | dateFormatter}}</h4>
+        <a class="media-object pull-left" href="#/compares/{{compare.id}}/results/{{diff.id}}">
+            <img class="bigThumb" ng-src="{{diff.snapshotA | snapshotImage}}">
+            <img class="bigThumb" ng-src="{{diff.snapshotB | snapshotImage}}">
+            <img class="bigThumb" ng-src="{{diff | diffImage}}">
         </a>
         <div class="media-body">
             <h4 class="media-heading">
-                {{result.timestamp | dateFormatter}}
-                <span class="viewDiff"><a href="#/compares/{{compare.id}}/results/{{result.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
+                {{diff.timestamp | dateFormatter}}
+                <span class="viewDiff"><a href="#/compares/{{compare.id}}/results/{{diff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
             </h4>
-            <div class=>Diff: <span class="{{getDistortionClass(result)}}">{{result.distortion}}</span></div>
-            <div>{{result.warning}}</div>
-        </div>
-    </div>
-    <div id="editCompare" class="modal hide fade" tabindex="-1" modal="showEditModal" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" ng-click="showEditModal = false" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Edit Compare</h3>
-        </div>
-        <div class="modal-body">
-            <div class="alert alert-error" style="display:none">
-                There was an error.
-            </div>
-            <form class="form-horizontal" ng-submit="editcompare(compare)">
-                <input id="compare-title" type="text" ng-model="compare.name"
-                       placeholder="Identifiable AB Compare Name" required
-                       class="input-xxlarge" />
-                <input id="compare-urlA" type="text" ng-model="compare.urlA"
-                       placeholder="http://app.simplymeasured.com/report/idA" required
-                       class="input-xxlarge" />
-                <input id="compare-urlB" type="text" ng-model="compare.urlB"
-                       placeholder="http://staging.simplymeasured.com/report/idB" required
-                       class="input-xxlarge" />
-                <input id="report-width" type="number" ng-model="compare.width"
-                       placeholder="600"
-                       class="input-small" />x
-                <input id="report-height" type="number" ng-model="compare.height"
-                       placeholder="600"
-                       class="input-small" />
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="showEditModal = false" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" ng-click="editCompare(compare)">Save AB Compare</button>
+            <div class=>Distortion: <span class="{{diff | distortionClass}}">{{diff.distortion}}</span></div>
+            <div>{{diff.warning}}</div>
         </div>
     </div>
 </div>

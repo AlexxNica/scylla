@@ -61,5 +61,22 @@ define([
         };
     });
 
+    scyllaApp.filter('distortionClass', function(){
+        return function(diff){
+            if(!diff || !diff.hasOwnProperty('distortion')){
+                console.log("Can't Get Distortion for: " ,diff);
+                return '';
+            }
+            if(diff.distortion === -1){
+                return 'exception';
+            } else if(diff.distortion === 0){
+                return 'pass';
+            } else {
+                return 'fail';
+            }
+            return '/snapshotDiffs/' + diff.id + '/image';
+        };
+    });
+
     return scyllaApp;
 });

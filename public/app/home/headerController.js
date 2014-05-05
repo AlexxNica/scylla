@@ -12,8 +12,8 @@ define([
         $scope.headers = [
             {label:"Home", href:"#", id:"homeNav", icon:"icon-home", active:false},
             {label:"Pages", href:"#/pages", id:"pagesNav", icon:"icon-th-list", active:false},
-            {label:"Suites", href:"#/suites", id:"suitesNav", icon:"icon-sitemap", active:false}/*,
-            {label:"AB Compare", href:"#/compares", id:"comparesNav", icon:"icon-exchange", active:false}*/
+            {label:"Suites", href:"#/suites", id:"suitesNav", icon:"icon-sitemap", active:false},
+            {label:"AB Compare", href:"#/compares", id:"comparesNav", icon:"icon-exchange", active:false}
         ];
         $scope.isActive = function(item){
             //console.log(item.id, Page.firstLevelNavId());
