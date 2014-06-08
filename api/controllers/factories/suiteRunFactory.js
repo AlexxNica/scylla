@@ -16,8 +16,9 @@ module.exports = function SuiteRunFactory(){
         LOG.info("SuiteRun Factory Initialized");
     };
 
-    var build = function build(properties, suiteId){
-        LOG.info("Building Suite Run");
+    var build = function build(suiteId, properties){
+        properties = properties || {};
+        LOG.info("Building Suite Run: " + suiteId);
         if(!controllers && !models){
             throw new Error("Factory must be initialized first");
         }
@@ -38,47 +39,62 @@ module.exports = function SuiteRunFactory(){
                 controllers.suites.findById(suiteId),
                 suiteRun.save()
             ]).spread(function(theSuite, theRun ) {
-                suite = theSuite;
 //Get all Page/Master Combos
 //Create Preliminary Snapshot and Diff Object for each Master
-                return Qe.eachItemIn(suite.masterSnapshots).aggregateThisPromise(function (master) {
-                    return SnapshotFactory.buildAndExecute(master.snapshot.page.id, {})
-                        .then(function (newSnapshot) {
+                return Qe.eachItemIn(theSuite.masterSnapshots).aggregateThisPromise(function (master) {
+
+                    return SnapshotFactory.build(master.snapshot.page.id, {})
+                        .then(function(newSnapshot){
                             return DiffFactory.build(master.snapshot.id, newSnapshot.id)
                                 .then(function (diff) {
                                     diff.setSuiteRun(theRun);
                                     return diff.save();
-                                })
-                                .then(function (diff) {
-                                    return {
-                                        master: master,
-                                        snap  : newSnapshot,
-                                        diff  : diff
-                                    }
                                 });
-                        });
+                        })
                 });
 
-            }).then(function(workloads){
-                return Qe.eachItemIn(workloads).aggregateThisPromise(function(workload){
-                    //TODO: move snapshotting to two-stage approach.
-                    console.log("Executing Diff #" + workload.diff.id +
-                                " for page: ", workload.master.snapshot.page.name);
-                    return controllers.factories.diff.execute(workload.diff.id)
-                });
-            })
-            .then(function(completedDiffs){
-                LOG.info("Received Completed Diffs:", completedDiffs.length);
+            }).then(function(){
                 return suiteRun;
             });
     };
 
-    var execute = function execute(suiteId){
+    var execute = function execute(suiteRunId){
+        var suiteRun;
+        return Q.all([
+            controllers.suiteRuns.findById(suiteRunId)
+        ]).spread(function(theRun ) {
+            suiteRun = theRun;
 
+            return Qe.eachItemIn(suiteRun.snapshotDiffs).aggregateThisPromise(function(diff){
+                LOG.info("Executing Snapshot #" + diff.id +
+                            " for page: ", diff.snapshotA.page.name);
+                return SnapshotFactory.execute(diff.snapshotB.id, {});
+                return controllers.factories.diff.execute(diff.id)
+            });
+
+        }).then(function(){
+            return Qe.eachItemIn(suiteRun.snapshotDiffs).aggregateThisPromise(function(diff){
+                LOG.info("Executing Diff #" + diff.id +
+                            " for page: ", diff.snapshotA.page.name);
+                return controllers.factories.diff.execute(diff.id);
+            });
+        }).then(function(completedDiffs){
+            LOG.info("Received Completed Diffs:", completedDiffs.length);
+            return suiteRun;
+        });
     };
+
+    var buildAndExecute = function(suiteId, properties){
+        return build(suiteId, properties)
+            .then(function(suiteRun){
+                return execute(suiteRun.id);});
+    };
+
 
     return {
         init:init,
-        build:build
+        build:build,
+        execute:execute,
+        buildAndExecute:buildAndExecute
     };
 }();

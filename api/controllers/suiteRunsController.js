@@ -28,7 +28,8 @@ module.exports = function(LOG, models){
     };
 
     var create = function create(properties, suiteId){
-        return suiteRunFactory.build(properties, suiteId);
+        LOG.info("Controller -- Running Suite" + suiteId);
+        return suiteRunFactory.buildAndExecute(suiteId, properties);
     };
 
     var update = function update(id, properties){
