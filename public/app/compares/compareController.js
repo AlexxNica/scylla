@@ -17,7 +17,6 @@ define([
         Header.setFirstLevelNavId("comparesNav");
 
         $scope.compares = [];
-        $scope.compareToDelete = {};
 
         $scope.getAllCompares = function(){
             $scope.isProcessing = true;
@@ -41,7 +40,7 @@ define([
                 .error(function(error){
                     console.error("Error Deleting AB Compare Result", resultId, error);
                 })
-        }
+        };
 
         $scope.confirmDeleteCompare = function confirmDeleteCompare(compare){
             console.log("Deleting AB Compare", compare);

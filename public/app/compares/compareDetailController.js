@@ -1,70 +1,50 @@
 define([
     "scyllaApp",
     "toastr",
-    "moment",
-    "directives/spin/processingSpinner"
+    "services/comparesService",
+    "compares/dialogs/compareEditor",
+    "compares/dialogs/deleteCompare"
 ], function(
     scyllaApp,
     toastr,
-    moment,
-    processingSpinner
+    TheComparesService,
+    TheCompareEditor,
+    TheCompareDeleter
     ){
     'use strict';
 
-    return scyllaApp.controller("CompareDetailController", function($scope, $route, $routeParams, $http, Header) {
+    return scyllaApp.controller("CompareDetailController", function($scope, $modal, $routeParams, Header, ComparesService) {
         Header.setFirstLevelNavId("comparesNav");
         $scope.isProcessing = false;
         $scope.compare = {};
-        $scope.showEditModal = false;
 
-        var resultSort = function(a,b){
-            return a.timestamp < b.timestamp;
-        }
+        var resultSort = function resultSort(a,b){
+            return new Date(b.createdAt) -  new Date(a.createdAt);
+        };
 
         $scope.getCompare = function(id){
+            $scope.isProcessing = true;
+            ComparesService.get(id)
+                .then(function(compare){
+                    $scope.isProcessing = false;
+                    compare.snapshotDiffs.sort(resultSort);
+                    $scope.compare = compare;
 
-            $http.get("/abcompares/" + id, {params:{includeResults:true}})
-                .success(function(compare){
-                             $scope.loaded = true;
-                             if(compare.results){
-                                 compare.results.sort(resultSort);
-                             }
-
-                             $scope.compare = compare
-                         })
-                .error(function(err){
-                           alert(err)
-                       });
-        }
+                });
+        };
         $scope.getCompare($routeParams.id);
+
 
 
         $scope.runCompare = function(){
             $scope.isProcessing = true;
-            $http.get("/abcompares/" + $scope.compare.id + "/run")
-                .success(function(compareRunResult){
-                    $scope.compare.results.unshift(compareRunResult.abCompareResult);
-                    $scope.isProcessing = false;
-                })
-                .error(function(err){
-                    alert(err);
+            ComparesService.executeCompare($scope.compare)
+                .then(function(diff){
+                    $scope.compare.snapshotDiffs.unshift(diff);
                     $scope.isProcessing = false;
                 });
-        }
-
-        $scope.getDistortionClass = function(result){
-            if(result.distortion == -1) {
-                return "exception";
-            } else if(result.distortion == 0) {
-                return "pass";
-            } else {
-                return "fail";
-            }
-        }
-        $scope.formatResultHeader = function(result){
-            var label = $scope.dateFormat(result.timestamp);
-            return label;
         };
+
 
         $scope.editCompare = function(compare) {
             $scope.saveCompare(compare)

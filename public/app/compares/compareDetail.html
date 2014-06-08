@@ -15,15 +15,15 @@
     </div>
     <div class="media" ng-repeat="diff in compare.snapshotDiffs">
         <h4>Diff taken on {{diff.createdAt | dateFormatter}}</h4>
-        <a class="media-object pull-left" href="#/compares/{{compare.id}}/results/{{diff.id}}">
-            <img class="bigThumb" ng-src="{{diff.snapshotA | snapshotImage}}">
-            <img class="bigThumb" ng-src="{{diff.snapshotB | snapshotImage}}">
-            <img class="bigThumb" ng-src="{{diff | diffImage}}">
-        </a>
+        <span class="media-object pull-left">
+            <a href="#/snapshots/{{diff.snapshotA.id}}"><img class="bigThumb" ng-src="{{diff.snapshotA | snapshotImage}}"></a>
+            <a href="#/snapshots/{{diff.snapshotB.id}}"><img class="bigThumb" ng-src="{{diff.snapshotB | snapshotImage}}"></a>
+            <a href="#/snapshotDiffs/{{diff.id}}"><img class="bigThumb" ng-src="{{diff | diffImage}}"></a>
+        </span>
         <div class="media-body">
             <h4 class="media-heading">
                 {{diff.timestamp | dateFormatter}}
-                <span class="viewDiff"><a href="#/compares/{{compare.id}}/results/{{diff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
+                <span class="viewDiff"><a href="#/snapshotDiffs/{{diff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
             </h4>
             <div class=>Distortion: <span class="{{diff | distortionClass}}">{{diff.distortion}}</span></div>
             <div>{{diff.warning}}</div>

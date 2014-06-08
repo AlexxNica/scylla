@@ -69,7 +69,6 @@ module.exports = function SnapshotDiffFactory(){
     };
 
     var build = function build(snapshotAId, snapshotBId, properties){
-        LOG.info("Building Snapshot Diff");
         if(!controllers && !models){
             throw new Error("Factory must be initialized first");
         }
@@ -80,7 +79,7 @@ module.exports = function SnapshotDiffFactory(){
 
         properties = properties || {};
         properties.state = models.SnapshotDiff.QUEUED;
-        LOG.info(snapshotAId, snapshotBId, properties);
+        LOG.info("Building Snapshot Diff", snapshotAId, snapshotBId, properties);
         return Q.all([
             controllers.shared.buildAndValidateModel(models.SnapshotDiff, properties),
             controllers.snapshots.findById(snapshotAId),

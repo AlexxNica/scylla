@@ -14,7 +14,7 @@ define([
     'use strict';
 
     return scyllaApp.controller("SnapshotDiffDetailController", function($scope, $route, $routeParams, $http, Header) {
-        Header.setFirstLevelNavId("reportsNav");
+//        Header.setFirstLevelNavId("reportsNav");
         $scope.resultDiff = {};
         $scope.diff = {};
 

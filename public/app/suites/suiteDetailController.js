@@ -195,10 +195,11 @@ define([
         $scope.getSuite = function(id){
             var promise = SuitesService.get( id )
                 .success(function(suite){
-                     $scope.suite = suite
+                    suite.suiteRuns.sort(function(a,b){ return new Date(b.createdAt) - new Date(a.createdAt)});
+                    $scope.suite = suite;
                 })
                 .error(function(err){
-                    alert(err)
+                    alert(err);
                 });
         };
 
