@@ -31,6 +31,7 @@ module.exports = function(log, server, models, controllers){
     });
 
     server.post('/suiteRuns', function(req, res, next) {
+        log.info("Post to /suiteRuns");
         controllers.suiteRuns.create(req.body)
             .then(utils.success(res, next))
             .fail(utils.fail(res, next));
@@ -38,6 +39,7 @@ module.exports = function(log, server, models, controllers){
     });
 
     server.post('/suites/:suiteId/suiteRuns', function(req, res, next) {
+        log.info("Post to /suiteRuns");
         controllers.suiteRuns.create(req.body, req.params.suiteId)
             .then(function(value){
                 return controllers.suiteRuns.findById(value.id)
@@ -48,14 +50,14 @@ module.exports = function(log, server, models, controllers){
     });
 
     server.put('/suiteRuns/:id', function(req, res, next) {
-        console.log("Updating");
+        log.info("PUT suiteRuns");
         controllers.suiteRuns.update(req.params.id, req.body)
             .then(utils.success(res, next))
             .fail(utils.fail(res, next));
 
     });
     server.put('/suites/:suiteId/suiteRuns/:id', function(req, res, next) {
-        console.log("Updating");
+        log.info("PUT suites/suiteRuns");
         controllers.suiteRuns.update(req.params.id, req.body)
             .then(utils.success(res, next))
             .fail(utils.fail(res, next));

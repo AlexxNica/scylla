@@ -7,10 +7,10 @@ module.exports = function(LOG){
     var execDeferredBridge = function(deferred){
         return function(result){
             if(err){
-                console.log("Failing");
+                LOG.error("Failing");
                 deferred.reject(err);
             } else {
-                console.log("Success: " + require('util').inspect(result));
+                LOG.info("Success: " + require('util').inspect(result));
                 deferred.resolve(result);
             }
         };

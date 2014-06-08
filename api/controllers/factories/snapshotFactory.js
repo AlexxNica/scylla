@@ -44,7 +44,7 @@ module.exports = function SnapshotFactory(){
         var snapshot;
         return controllers.snapshots.findById(snapshotId)
             .then(function(theSnapshot){
-                LOG.info("Loaded Snapshot: ", theSnapshot);
+                LOG.info("Loaded Snapshot: ", theSnapshot.id);
                 snapshot = theSnapshot;
                 if(snapshot.state != 'Queued'){
                     return Q.reject(
@@ -57,7 +57,7 @@ module.exports = function SnapshotFactory(){
             })
             .then(function(snapshotResult){
                 LOG.info('Charybdis captured screenshot');
-                console.log(require('util').inspect(snapshotResult));
+                //console.log(require('util').inspect(snapshotResult));
 
                 snapshot.console = snapshotResult.console;
                 snapshot.message = snapshotResult.message;
@@ -94,7 +94,6 @@ module.exports = function SnapshotFactory(){
                 return snapshot.save();
             })
             .fail(function(error){
-                console.log(require('util').inspect(error));
                 LOG.error("Error in SnapshotFactory.build", error);
             });
     };

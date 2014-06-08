@@ -33,7 +33,7 @@ module.exports = function(LOG, models, controllers){
                 ]).spread(function(snapA, snapB){
                     return snapshotDiffFactory.build(snapA.id, snapB.id)
                         .then(function(queuedDiff){
-                            console.log("Queued Diff: " + require('util').inspect(queuedDiff));
+                            LOG.info("Queued Diff: " + require('util').inspect(queuedDiff));
                             return snapshotDiffFactory.execute(queuedDiff.id);
                         })
                 })

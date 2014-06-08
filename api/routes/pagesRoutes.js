@@ -32,7 +32,7 @@ module.exports = function(log, server, models, controllers){
     });
 
     server.put('/pages/:id', function(req, res, next) {
-        console.log("Updating");
+        log.info("Updating");
         controllers.pages.update(req.params.id, req.body)
             .then(utils.success(res, next))
             .fail(utils.fail(res, next));

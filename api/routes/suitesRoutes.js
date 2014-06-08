@@ -24,7 +24,7 @@ module.exports = function(log, server, models, controllers){
     });
 
     server.put('/suites/:id', function(req, res, next) {
-        console.log("Updating");
+        log.info("Updating");
         controllers.suites.update(req.params.id, req.body)
             .then(utils.success(res, next))
             .fail(utils.fail(res, next));

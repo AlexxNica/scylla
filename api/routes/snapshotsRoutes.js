@@ -5,7 +5,7 @@ module.exports = function(log, server, models, controllers){
     server.get('/pages/:pageId/snapshots', function(req, res, next) {
         controllers.pages.findById(req.params.pageId)
             .then(function(page){
-                console.log("Found Page, Looking for snapshots");
+                log.info("Found Page, Looking for snapshots");
                 return page.getSnapshots()
                     .then(utils.success(res, next))
             })

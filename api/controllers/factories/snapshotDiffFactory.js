@@ -80,7 +80,7 @@ module.exports = function SnapshotDiffFactory(){
 
         properties = properties || {};
         properties.state = models.SnapshotDiff.QUEUED;
-        console.log(snapshotAId, snapshotBId, properties);
+        LOG.info(snapshotAId, snapshotBId, properties);
         return Q.all([
             controllers.shared.buildAndValidateModel(models.SnapshotDiff, properties),
             controllers.snapshots.findById(snapshotAId),
