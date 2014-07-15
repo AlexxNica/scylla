@@ -17,7 +17,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   config.vm.provision :shell, :path => "vagrant/bootstrap.sh"
-  config.vm.network :forwarded_port, host: 8090, guest: 3000
+  config.vm.network :forwarded_port, :host => 8090, :guest => 3000
+  config.vm.network :forwarded_port, :host => 15672, :guest => 15672
+
+  # You need a private network for NFS to work.
+  config.vm.network "private_network", ip: "192.168.33.102"
+  config.vm.synced_folder ".", "/vagrant", type: "nfs"
+
   # Turned off for now, needs to be added back in for SSL to be testable
   # config.vm.network :forwarded_port, host: 8091, guest: 3443
   config.ssh.forward_agent = true
@@ -25,9 +31,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--ioapic", "on"]
     v.customize ["modifyvm", :id, "--cpus", "4"]
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 #    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 #    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
   end
+
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,

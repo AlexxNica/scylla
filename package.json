@@ -21,7 +21,8 @@
     "sequelize": "^1.7.0",
     "mysql": "^2.1.0",
     "merge": "^1.1.2",
-    "csv": "^0.3.7"
+    "csv": "^0.3.7",
+    "rabbit.js": "^0.4.1"
   },
   "devDependencies": {
     "chai": "*",

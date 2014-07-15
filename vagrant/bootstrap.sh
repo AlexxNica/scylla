@@ -18,8 +18,11 @@ then
     echo -e "${yellow}Setting up Apt Sources${NC}"
     sudo apt-get update
     # Required for apt-add-repository
-    sudo apt-get install -y python-software-properties
+    sudo apt-get install -y python-software-properties build-essential
     sudo apt-add-repository -y ppa:chris-lea/node.js
+    wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+    sudo apt-key add rabbitmq-signing-key-public.asc
+    echo "deb http://www.rabbitmq.com/debian/ testing main" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update
     touch /var/log/1aptsetup
 fi
@@ -56,6 +59,31 @@ then
     fi
 
     touch /var/log/3mysqlsetup
+fi
+
+if [ ! -f /var/log/3rabbitsetup ];
+then
+    echo -e "${yellow}Installing RabbitMQ${NC}"
+    sudo apt-get install -y rabbitmq-server
+
+    #Initialize the web interface
+    sudo rabbitmq-plugins enable rabbitmq_management
+    sudo /etc/init.d/rabbitmq-server restart
+
+    #Setup Scylla User
+    rabbitmqctl add_vhost scyllavhost
+    rabbitmqctl add_user scylla scylla
+    rabbitmqctl set_permissions -p scyllavhost scylla ".*" ".*" ".*"
+    rabbitmqctl set_user_tags scylla management
+
+    #Setup Heartbeat User
+    rabbitmqctl add_vhost statuscheckvhost
+    rabbitmqctl add_user heartbeat alive
+    rabbitmqctl set_permissions -p statuscheckvhost heartbeat ".*" ".*" ".*"
+    rabbitmqctl set_user_tags heartbeat management
+
+
+    touch /var/log/3rabbitsetup
 fi
 
 if [ ! -f /var/log/4nodejssetup ];
