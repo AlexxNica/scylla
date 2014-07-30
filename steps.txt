@@ -1,0 +1,70 @@
+going to try packaging all the shit thats needed into a directory and then run fpm
+
+* moved all necessary files to to_deb/
+* fpm -s dir -t deb -n "look-im-scylla" -v 0.42 to_deb/
+* dpkg -x look-im-scylla_0.42_amd64.deb .
+
+
+necessary files/folders:
+
+Gruntfile.js
+LICENSE-APACHE.md
+LICENSE-MIT.md
+LICENSE.md
+api
+config
+images
+node_modules
+package.json
+public
+readme.md
+repl.js
+server.js
+test
+
+started with `node server.js`, and defaults to port 3000
+
+todo:
+-how should scylla look after it's been deployed
+    -move necesarry folders into a to_deb arranged in whatever way
+    -build deb
+    -after deb is deployed, what post install stuff should be run  
+        -dependencies?? node/npm fosho, all node modules are included so yolo
+-how to configure chef stuff
+-make sure vagrant has fpm
+
+
+future magic todos:
+-run tests?
+-some finageling so scylla can run on a given port???
+
+questions:
+- I don't need all the files/folders in the given project to be in the deb, how to I whitelist the files/folders I want?
+-
+
+how todo: 
+-make a to_deb/
+    should look like
+    bin/
+        scylla
+    etc/
+        init/
+            scylla.conf
+    opt/
+        sm/
+            scylla/
+                *all necessary scylla files
+
+
+====================
+
+IT'S CHEF TIME!!
+
+notes:
+- chef will spin up a sql instance with a root account and a user account
+- there will only ever be one user account :: one scylla instance (at least for now)
+- MAIN SHIT need to grab that user/pass from the 'data bag' and shove it into scylla/config/storage.js (see vagrant/bootstrap.sh:111)
+    -> do this using a template/.erb?
+
+
+

@@ -1,0 +1,4 @@
+CURRENT_DIRECTORY=`pwd`
+cd /opt/sm/scylla
+node server.js
+cd $CURRENT_DIRECTORY

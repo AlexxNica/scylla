@@ -1,0 +1,412 @@
+
+Running node-supervisor with
+  program '/vagrant/server.js'
+  --watch '.'
+  --ignore 'images,public,test'
+  --extensions 'node,js'
+  --exec 'node'
+
+Starting child process with 'node /vagrant/server.js'
+Ignoring directory '/vagrant/images'.
+Ignoring directory '/vagrant/public'.
+Ignoring directory '/vagrant/test'.
+Watching directory '/vagrant' for changes.
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Initializing Models","time":"2014-07-29T23:28:51.614Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: Page","time":"2014-07-29T23:28:51.712Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: Snapshot","time":"2014-07-29T23:28:51.735Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: Image","time":"2014-07-29T23:28:51.753Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: Thumb","time":"2014-07-29T23:28:51.774Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: User","time":"2014-07-29T23:28:51.787Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: Suite","time":"2014-07-29T23:28:51.795Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: SuiteRun","time":"2014-07-29T23:28:51.805Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: ABCompare","time":"2014-07-29T23:28:51.816Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: MasterSnapshot","time":"2014-07-29T23:28:51.847Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Model Initialized: SnapshotDiff","time":"2014-07-29T23:28:51.865Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for Page","time":"2014-07-29T23:28:51.865Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Page hasMany Snapshot ","time":"2014-07-29T23:28:51.865Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for Snapshot","time":"2014-07-29T23:28:51.869Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Snapshot belongsTo Page ","time":"2014-07-29T23:28:51.869Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Snapshot belongsTo Image ","time":"2014-07-29T23:28:51.870Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Snapshot hasMany MasterSnapshot ","time":"2014-07-29T23:28:51.871Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffA', foreignKey: 'snapshotAId' }","time":"2014-07-29T23:28:51.875Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffB', foreignKey: 'snapshotBId' }","time":"2014-07-29T23:28:51.877Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for Image","time":"2014-07-29T23:28:51.878Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Image hasOne Snapshot ","time":"2014-07-29T23:28:51.878Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Image hasOne SnapshotDiff ","time":"2014-07-29T23:28:51.880Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Image hasMany Thumb ","time":"2014-07-29T23:28:51.881Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for Thumb","time":"2014-07-29T23:28:51.883Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Thumb belongsTo Image ","time":"2014-07-29T23:28:51.883Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for User","time":"2014-07-29T23:28:51.883Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for Suite","time":"2014-07-29T23:28:51.883Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Suite hasMany User { as: 'watchers' }","time":"2014-07-29T23:28:51.884Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Suite belongsTo User { as: 'creator' }","time":"2014-07-29T23:28:51.886Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Suite hasMany MasterSnapshot ","time":"2014-07-29T23:28:51.887Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Suite hasMany SuiteRun ","time":"2014-07-29T23:28:51.888Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for SuiteRun","time":"2014-07-29T23:28:51.889Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SuiteRun belongsTo Suite ","time":"2014-07-29T23:28:51.889Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SuiteRun belongsTo User { as: 'runner' }","time":"2014-07-29T23:28:51.889Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SuiteRun hasMany SnapshotDiff ","time":"2014-07-29T23:28:51.890Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for ABCompare","time":"2014-07-29T23:28:51.892Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageA', foreignKey: 'pageAId' }","time":"2014-07-29T23:28:51.892Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageB', foreignKey: 'pageBId' }","time":"2014-07-29T23:28:51.893Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"ABCompare belongsTo User { as: 'runner' }","time":"2014-07-29T23:28:51.894Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"ABCompare hasMany SnapshotDiff ","time":"2014-07-29T23:28:51.894Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for MasterSnapshot","time":"2014-07-29T23:28:51.897Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"MasterSnapshot belongsTo Suite ","time":"2014-07-29T23:28:51.897Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"MasterSnapshot belongsTo Snapshot ","time":"2014-07-29T23:28:51.898Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Setting up Relationships for SnapshotDiff","time":"2014-07-29T23:28:51.898Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SnapshotDiff belongsTo SuiteRun ","time":"2014-07-29T23:28:51.898Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SnapshotDiff belongsTo ABCompare ","time":"2014-07-29T23:28:51.900Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotA', foreignKey: 'snapshotAId' }","time":"2014-07-29T23:28:51.901Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotB', foreignKey: 'snapshotBId' }","time":"2014-07-29T23:28:51.902Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SnapshotDiff belongsTo Image ","time":"2014-07-29T23:28:51.903Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Image Controller saving files to: /vagrant/images/resources","time":"2014-07-29T23:28:54.358Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Snapshot Factory Initialized","time":"2014-07-29T23:28:54.359Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"factory":"SnapshotDiffFactory","level":30,"msg":"Snapshot Diff Factory Initialized","time":"2014-07-29T23:28:54.360Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"SuiteRun Factory Initialized","time":"2014-07-29T23:28:54.360Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"AB Compare Diff Factory Initialized","time":"2014-07-29T23:28:54.360Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17523,"level":30,"msg":"Listening on local ports: 3000","time":"2014-07-29T23:28:54.681Z","v":0}
+Sending SIGTERM to child...
+
+Running node-supervisor with
+  program '/vagrant/server.js'
+  --watch '.'
+  --ignore 'images,public,test'
+  --extensions 'node,js'
+  --exec 'node'
+
+Starting child process with 'node /vagrant/server.js'
+Ignoring directory '/vagrant/images'.
+Ignoring directory '/vagrant/public'.
+Ignoring directory '/vagrant/test'.
+Watching directory '/vagrant' for changes.
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Initializing Models","time":"2014-07-31T17:52:41.321Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: Page","time":"2014-07-31T17:52:41.337Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: Snapshot","time":"2014-07-31T17:52:41.344Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: Image","time":"2014-07-31T17:52:41.349Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: Thumb","time":"2014-07-31T17:52:41.350Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: User","time":"2014-07-31T17:52:41.353Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: Suite","time":"2014-07-31T17:52:41.357Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: SuiteRun","time":"2014-07-31T17:52:41.359Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: ABCompare","time":"2014-07-31T17:52:41.362Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: MasterSnapshot","time":"2014-07-31T17:52:41.367Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Model Initialized: SnapshotDiff","time":"2014-07-31T17:52:41.372Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for Page","time":"2014-07-31T17:52:41.372Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Page hasMany Snapshot ","time":"2014-07-31T17:52:41.373Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for Snapshot","time":"2014-07-31T17:52:41.375Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Snapshot belongsTo Page ","time":"2014-07-31T17:52:41.375Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Snapshot belongsTo Image ","time":"2014-07-31T17:52:41.376Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Snapshot hasMany MasterSnapshot ","time":"2014-07-31T17:52:41.377Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffA', foreignKey: 'snapshotAId' }","time":"2014-07-31T17:52:41.379Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffB', foreignKey: 'snapshotBId' }","time":"2014-07-31T17:52:41.380Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for Image","time":"2014-07-31T17:52:41.380Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Image hasOne Snapshot ","time":"2014-07-31T17:52:41.380Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Image hasOne SnapshotDiff ","time":"2014-07-31T17:52:41.380Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Image hasMany Thumb ","time":"2014-07-31T17:52:41.382Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for Thumb","time":"2014-07-31T17:52:41.382Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Thumb belongsTo Image ","time":"2014-07-31T17:52:41.382Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for User","time":"2014-07-31T17:52:41.383Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for Suite","time":"2014-07-31T17:52:41.383Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Suite hasMany User { as: 'watchers' }","time":"2014-07-31T17:52:41.383Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Suite belongsTo User { as: 'creator' }","time":"2014-07-31T17:52:41.383Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Suite hasMany MasterSnapshot ","time":"2014-07-31T17:52:41.384Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Suite hasMany SuiteRun ","time":"2014-07-31T17:52:41.384Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for SuiteRun","time":"2014-07-31T17:52:41.384Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SuiteRun belongsTo Suite ","time":"2014-07-31T17:52:41.384Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SuiteRun belongsTo User { as: 'runner' }","time":"2014-07-31T17:52:41.385Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SuiteRun hasMany SnapshotDiff ","time":"2014-07-31T17:52:41.385Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for ABCompare","time":"2014-07-31T17:52:41.386Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageA', foreignKey: 'pageAId' }","time":"2014-07-31T17:52:41.386Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageB', foreignKey: 'pageBId' }","time":"2014-07-31T17:52:41.386Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"ABCompare belongsTo User { as: 'runner' }","time":"2014-07-31T17:52:41.386Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"ABCompare hasMany SnapshotDiff ","time":"2014-07-31T17:52:41.387Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for MasterSnapshot","time":"2014-07-31T17:52:41.389Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"MasterSnapshot belongsTo Suite ","time":"2014-07-31T17:52:41.389Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"MasterSnapshot belongsTo Snapshot ","time":"2014-07-31T17:52:41.389Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Setting up Relationships for SnapshotDiff","time":"2014-07-31T17:52:41.389Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SnapshotDiff belongsTo SuiteRun ","time":"2014-07-31T17:52:41.389Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SnapshotDiff belongsTo ABCompare ","time":"2014-07-31T17:52:41.389Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotA', foreignKey: 'snapshotAId' }","time":"2014-07-31T17:52:41.390Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotB', foreignKey: 'snapshotBId' }","time":"2014-07-31T17:52:41.391Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SnapshotDiff belongsTo Image ","time":"2014-07-31T17:52:41.391Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Image Controller saving files to: /vagrant/images/resources","time":"2014-07-31T17:52:41.832Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Snapshot Factory Initialized","time":"2014-07-31T17:52:41.833Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"factory":"SnapshotDiffFactory","level":30,"msg":"Snapshot Diff Factory Initialized","time":"2014-07-31T17:52:41.833Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"SuiteRun Factory Initialized","time":"2014-07-31T17:52:41.833Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"AB Compare Diff Factory Initialized","time":"2014-07-31T17:52:41.833Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17556,"level":30,"msg":"Listening on local ports: 3000","time":"2014-07-31T17:52:41.872Z","v":0}
+
+Running node-supervisor with
+  program '/vagrant/server.js'
+  --watch '.'
+  --ignore 'images,public,test'
+  --extensions 'node,js'
+  --exec 'node'
+
+Starting child process with 'node /vagrant/server.js'
+Ignoring directory '/vagrant/images'.
+Ignoring directory '/vagrant/public'.
+Ignoring directory '/vagrant/test'.
+Watching directory '/vagrant' for changes.
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Initializing Models","time":"2014-07-31T18:16:03.901Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: Page","time":"2014-07-31T18:16:03.966Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: Snapshot","time":"2014-07-31T18:16:03.984Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: Image","time":"2014-07-31T18:16:03.990Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: Thumb","time":"2014-07-31T18:16:03.993Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: User","time":"2014-07-31T18:16:03.995Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: Suite","time":"2014-07-31T18:16:03.998Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: SuiteRun","time":"2014-07-31T18:16:04.000Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: ABCompare","time":"2014-07-31T18:16:04.002Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: MasterSnapshot","time":"2014-07-31T18:16:04.007Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Model Initialized: SnapshotDiff","time":"2014-07-31T18:16:04.010Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for Page","time":"2014-07-31T18:16:04.010Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Page hasMany Snapshot ","time":"2014-07-31T18:16:04.010Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for Snapshot","time":"2014-07-31T18:16:04.012Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Snapshot belongsTo Page ","time":"2014-07-31T18:16:04.012Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Snapshot belongsTo Image ","time":"2014-07-31T18:16:04.014Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Snapshot hasMany MasterSnapshot ","time":"2014-07-31T18:16:04.014Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffA', foreignKey: 'snapshotAId' }","time":"2014-07-31T18:16:04.016Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffB', foreignKey: 'snapshotBId' }","time":"2014-07-31T18:16:04.017Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for Image","time":"2014-07-31T18:16:04.017Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Image hasOne Snapshot ","time":"2014-07-31T18:16:04.017Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Image hasOne SnapshotDiff ","time":"2014-07-31T18:16:04.019Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Image hasMany Thumb ","time":"2014-07-31T18:16:04.019Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for Thumb","time":"2014-07-31T18:16:04.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Thumb belongsTo Image ","time":"2014-07-31T18:16:04.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for User","time":"2014-07-31T18:16:04.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for Suite","time":"2014-07-31T18:16:04.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Suite hasMany User { as: 'watchers' }","time":"2014-07-31T18:16:04.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Suite belongsTo User { as: 'creator' }","time":"2014-07-31T18:16:04.021Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Suite hasMany MasterSnapshot ","time":"2014-07-31T18:16:04.021Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Suite hasMany SuiteRun ","time":"2014-07-31T18:16:04.021Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for SuiteRun","time":"2014-07-31T18:16:04.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SuiteRun belongsTo Suite ","time":"2014-07-31T18:16:04.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SuiteRun belongsTo User { as: 'runner' }","time":"2014-07-31T18:16:04.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SuiteRun hasMany SnapshotDiff ","time":"2014-07-31T18:16:04.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for ABCompare","time":"2014-07-31T18:16:04.023Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageA', foreignKey: 'pageAId' }","time":"2014-07-31T18:16:04.023Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageB', foreignKey: 'pageBId' }","time":"2014-07-31T18:16:04.023Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"ABCompare belongsTo User { as: 'runner' }","time":"2014-07-31T18:16:04.024Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"ABCompare hasMany SnapshotDiff ","time":"2014-07-31T18:16:04.024Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for MasterSnapshot","time":"2014-07-31T18:16:04.026Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"MasterSnapshot belongsTo Suite ","time":"2014-07-31T18:16:04.026Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"MasterSnapshot belongsTo Snapshot ","time":"2014-07-31T18:16:04.026Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Setting up Relationships for SnapshotDiff","time":"2014-07-31T18:16:04.026Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SnapshotDiff belongsTo SuiteRun ","time":"2014-07-31T18:16:04.026Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SnapshotDiff belongsTo ABCompare ","time":"2014-07-31T18:16:04.027Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotA', foreignKey: 'snapshotAId' }","time":"2014-07-31T18:16:04.027Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotB', foreignKey: 'snapshotBId' }","time":"2014-07-31T18:16:04.027Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SnapshotDiff belongsTo Image ","time":"2014-07-31T18:16:04.028Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Image Controller saving files to: /vagrant/images/resources","time":"2014-07-31T18:16:04.271Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Snapshot Factory Initialized","time":"2014-07-31T18:16:04.271Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"factory":"SnapshotDiffFactory","level":30,"msg":"Snapshot Diff Factory Initialized","time":"2014-07-31T18:16:04.271Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"SuiteRun Factory Initialized","time":"2014-07-31T18:16:04.272Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"AB Compare Diff Factory Initialized","time":"2014-07-31T18:16:04.272Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17575,"level":30,"msg":"Listening on local ports: 3000","time":"2014-07-31T18:16:04.346Z","v":0}
+
+Running node-supervisor with
+  program '/vagrant/server.js'
+  --watch '.'
+  --ignore 'images,public,test'
+  --extensions 'node,js'
+  --exec 'node'
+
+Starting child process with 'node /vagrant/server.js'
+Ignoring directory '/vagrant/images'.
+Ignoring directory '/vagrant/public'.
+Ignoring directory '/vagrant/test'.
+Watching directory '/vagrant' for changes.
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Initializing Models","time":"2014-08-07T15:47:03.695Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: Page","time":"2014-08-07T15:47:03.722Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: Snapshot","time":"2014-08-07T15:47:03.727Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: Image","time":"2014-08-07T15:47:03.731Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: Thumb","time":"2014-08-07T15:47:03.735Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: User","time":"2014-08-07T15:47:03.737Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: Suite","time":"2014-08-07T15:47:03.754Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: SuiteRun","time":"2014-08-07T15:47:03.774Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: ABCompare","time":"2014-08-07T15:47:03.786Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: MasterSnapshot","time":"2014-08-07T15:47:03.819Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Model Initialized: SnapshotDiff","time":"2014-08-07T15:47:03.826Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for Page","time":"2014-08-07T15:47:03.826Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Page hasMany Snapshot ","time":"2014-08-07T15:47:03.826Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for Snapshot","time":"2014-08-07T15:47:03.830Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Snapshot belongsTo Page ","time":"2014-08-07T15:47:03.831Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Snapshot belongsTo Image ","time":"2014-08-07T15:47:03.833Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Snapshot hasMany MasterSnapshot ","time":"2014-08-07T15:47:03.834Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffA', foreignKey: 'snapshotAId' }","time":"2014-08-07T15:47:03.835Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffB', foreignKey: 'snapshotBId' }","time":"2014-08-07T15:47:03.837Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for Image","time":"2014-08-07T15:47:03.837Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Image hasOne Snapshot ","time":"2014-08-07T15:47:03.837Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Image hasOne SnapshotDiff ","time":"2014-08-07T15:47:03.838Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Image hasMany Thumb ","time":"2014-08-07T15:47:03.839Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for Thumb","time":"2014-08-07T15:47:03.839Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Thumb belongsTo Image ","time":"2014-08-07T15:47:03.839Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for User","time":"2014-08-07T15:47:03.839Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for Suite","time":"2014-08-07T15:47:03.839Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Suite hasMany User { as: 'watchers' }","time":"2014-08-07T15:47:03.839Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Suite belongsTo User { as: 'creator' }","time":"2014-08-07T15:47:03.840Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Suite hasMany MasterSnapshot ","time":"2014-08-07T15:47:03.840Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Suite hasMany SuiteRun ","time":"2014-08-07T15:47:03.841Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for SuiteRun","time":"2014-08-07T15:47:03.841Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SuiteRun belongsTo Suite ","time":"2014-08-07T15:47:03.841Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SuiteRun belongsTo User { as: 'runner' }","time":"2014-08-07T15:47:03.842Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SuiteRun hasMany SnapshotDiff ","time":"2014-08-07T15:47:03.842Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for ABCompare","time":"2014-08-07T15:47:03.842Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageA', foreignKey: 'pageAId' }","time":"2014-08-07T15:47:03.842Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageB', foreignKey: 'pageBId' }","time":"2014-08-07T15:47:03.842Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"ABCompare belongsTo User { as: 'runner' }","time":"2014-08-07T15:47:03.844Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"ABCompare hasMany SnapshotDiff ","time":"2014-08-07T15:47:03.845Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for MasterSnapshot","time":"2014-08-07T15:47:03.847Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"MasterSnapshot belongsTo Suite ","time":"2014-08-07T15:47:03.847Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"MasterSnapshot belongsTo Snapshot ","time":"2014-08-07T15:47:03.847Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Setting up Relationships for SnapshotDiff","time":"2014-08-07T15:47:03.848Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SnapshotDiff belongsTo SuiteRun ","time":"2014-08-07T15:47:03.848Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SnapshotDiff belongsTo ABCompare ","time":"2014-08-07T15:47:03.848Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotA', foreignKey: 'snapshotAId' }","time":"2014-08-07T15:47:03.849Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotB', foreignKey: 'snapshotBId' }","time":"2014-08-07T15:47:03.849Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SnapshotDiff belongsTo Image ","time":"2014-08-07T15:47:03.849Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Image Controller saving files to: /vagrant/images/resources","time":"2014-08-07T15:47:04.578Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Snapshot Factory Initialized","time":"2014-08-07T15:47:04.581Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"factory":"SnapshotDiffFactory","level":30,"msg":"Snapshot Diff Factory Initialized","time":"2014-08-07T15:47:04.581Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"SuiteRun Factory Initialized","time":"2014-08-07T15:47:04.582Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"AB Compare Diff Factory Initialized","time":"2014-08-07T15:47:04.587Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17514,"level":30,"msg":"Listening on local ports: 3000","time":"2014-08-07T15:47:05.126Z","v":0}
+Sending SIGTERM to child...
+
+Running node-supervisor with
+  program '/vagrant/server.js'
+  --watch '.'
+  --ignore 'images,public,test'
+  --extensions 'node,js'
+  --exec 'node'
+
+Starting child process with 'node /vagrant/server.js'
+Ignoring directory '/vagrant/images'.
+Ignoring directory '/vagrant/public'.
+Ignoring directory '/vagrant/test'.
+Watching directory '/vagrant' for changes.
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Initializing Models","time":"2014-08-21T18:34:22.398Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: Page","time":"2014-08-21T18:34:22.422Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: Snapshot","time":"2014-08-21T18:34:22.432Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: Image","time":"2014-08-21T18:34:22.445Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: Thumb","time":"2014-08-21T18:34:22.451Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: User","time":"2014-08-21T18:34:22.460Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: Suite","time":"2014-08-21T18:34:22.469Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: SuiteRun","time":"2014-08-21T18:34:22.476Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: ABCompare","time":"2014-08-21T18:34:22.482Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: MasterSnapshot","time":"2014-08-21T18:34:22.489Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Model Initialized: SnapshotDiff","time":"2014-08-21T18:34:22.495Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for Page","time":"2014-08-21T18:34:22.495Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Page hasMany Snapshot ","time":"2014-08-21T18:34:22.495Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for Snapshot","time":"2014-08-21T18:34:22.498Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Snapshot belongsTo Page ","time":"2014-08-21T18:34:22.499Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Snapshot belongsTo Image ","time":"2014-08-21T18:34:22.499Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Snapshot hasMany MasterSnapshot ","time":"2014-08-21T18:34:22.500Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffA', foreignKey: 'snapshotAId' }","time":"2014-08-21T18:34:22.503Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffB', foreignKey: 'snapshotBId' }","time":"2014-08-21T18:34:22.504Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for Image","time":"2014-08-21T18:34:22.505Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Image hasOne Snapshot ","time":"2014-08-21T18:34:22.505Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Image hasOne SnapshotDiff ","time":"2014-08-21T18:34:22.505Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Image hasMany Thumb ","time":"2014-08-21T18:34:22.506Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for Thumb","time":"2014-08-21T18:34:22.509Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Thumb belongsTo Image ","time":"2014-08-21T18:34:22.509Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for User","time":"2014-08-21T18:34:22.510Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for Suite","time":"2014-08-21T18:34:22.510Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Suite hasMany User { as: 'watchers' }","time":"2014-08-21T18:34:22.510Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Suite belongsTo User { as: 'creator' }","time":"2014-08-21T18:34:22.511Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Suite hasMany MasterSnapshot ","time":"2014-08-21T18:34:22.511Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Suite hasMany SuiteRun ","time":"2014-08-21T18:34:22.512Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for SuiteRun","time":"2014-08-21T18:34:22.512Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SuiteRun belongsTo Suite ","time":"2014-08-21T18:34:22.513Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SuiteRun belongsTo User { as: 'runner' }","time":"2014-08-21T18:34:22.513Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SuiteRun hasMany SnapshotDiff ","time":"2014-08-21T18:34:22.513Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for ABCompare","time":"2014-08-21T18:34:22.514Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageA', foreignKey: 'pageAId' }","time":"2014-08-21T18:34:22.514Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageB', foreignKey: 'pageBId' }","time":"2014-08-21T18:34:22.514Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"ABCompare belongsTo User { as: 'runner' }","time":"2014-08-21T18:34:22.515Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"ABCompare hasMany SnapshotDiff ","time":"2014-08-21T18:34:22.515Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for MasterSnapshot","time":"2014-08-21T18:34:22.515Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"MasterSnapshot belongsTo Suite ","time":"2014-08-21T18:34:22.515Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"MasterSnapshot belongsTo Snapshot ","time":"2014-08-21T18:34:22.516Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Setting up Relationships for SnapshotDiff","time":"2014-08-21T18:34:22.517Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SnapshotDiff belongsTo SuiteRun ","time":"2014-08-21T18:34:22.517Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SnapshotDiff belongsTo ABCompare ","time":"2014-08-21T18:34:22.517Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotA', foreignKey: 'snapshotAId' }","time":"2014-08-21T18:34:22.518Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotB', foreignKey: 'snapshotBId' }","time":"2014-08-21T18:34:22.521Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SnapshotDiff belongsTo Image ","time":"2014-08-21T18:34:22.522Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Image Controller saving files to: /vagrant/images/resources","time":"2014-08-21T18:34:23.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Snapshot Factory Initialized","time":"2014-08-21T18:34:23.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"factory":"SnapshotDiffFactory","level":30,"msg":"Snapshot Diff Factory Initialized","time":"2014-08-21T18:34:23.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"SuiteRun Factory Initialized","time":"2014-08-21T18:34:23.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"AB Compare Diff Factory Initialized","time":"2014-08-21T18:34:23.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":17229,"level":30,"msg":"Listening on local ports: 3000","time":"2014-08-21T18:34:23.058Z","v":0}
+Sending SIGTERM to child...
+
+Running node-supervisor with
+  program '/vagrant/server.js'
+  --watch '.'
+  --ignore 'images,public,test'
+  --extensions 'node,js'
+  --exec 'node'
+
+Starting child process with 'node /vagrant/server.js'
+Ignoring directory '/vagrant/images'.
+Ignoring directory '/vagrant/public'.
+Ignoring directory '/vagrant/test'.
+Watching directory '/vagrant' for changes.
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Initializing Models","time":"2014-08-22T17:28:34.854Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: Page","time":"2014-08-22T17:28:34.893Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: Snapshot","time":"2014-08-22T17:28:34.908Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: Image","time":"2014-08-22T17:28:34.925Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: Thumb","time":"2014-08-22T17:28:34.934Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: User","time":"2014-08-22T17:28:34.942Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: Suite","time":"2014-08-22T17:28:34.951Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: SuiteRun","time":"2014-08-22T17:28:34.959Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: ABCompare","time":"2014-08-22T17:28:34.979Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: MasterSnapshot","time":"2014-08-22T17:28:34.986Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Model Initialized: SnapshotDiff","time":"2014-08-22T17:28:34.996Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for Page","time":"2014-08-22T17:28:34.996Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Page hasMany Snapshot ","time":"2014-08-22T17:28:34.997Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for Snapshot","time":"2014-08-22T17:28:35.000Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Snapshot belongsTo Page ","time":"2014-08-22T17:28:35.000Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Snapshot belongsTo Image ","time":"2014-08-22T17:28:35.000Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Snapshot hasMany MasterSnapshot ","time":"2014-08-22T17:28:35.001Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffA', foreignKey: 'snapshotAId' }","time":"2014-08-22T17:28:35.003Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Snapshot hasMany SnapshotDiff { as: 'snapshotDiffB', foreignKey: 'snapshotBId' }","time":"2014-08-22T17:28:35.005Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for Image","time":"2014-08-22T17:28:35.006Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Image hasOne Snapshot ","time":"2014-08-22T17:28:35.006Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Image hasOne SnapshotDiff ","time":"2014-08-22T17:28:35.007Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Image hasMany Thumb ","time":"2014-08-22T17:28:35.007Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for Thumb","time":"2014-08-22T17:28:35.011Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Thumb belongsTo Image ","time":"2014-08-22T17:28:35.012Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for User","time":"2014-08-22T17:28:35.012Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for Suite","time":"2014-08-22T17:28:35.012Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Suite hasMany User { as: 'watchers' }","time":"2014-08-22T17:28:35.012Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Suite belongsTo User { as: 'creator' }","time":"2014-08-22T17:28:35.014Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Suite hasMany MasterSnapshot ","time":"2014-08-22T17:28:35.015Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Suite hasMany SuiteRun ","time":"2014-08-22T17:28:35.015Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for SuiteRun","time":"2014-08-22T17:28:35.016Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SuiteRun belongsTo Suite ","time":"2014-08-22T17:28:35.016Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SuiteRun belongsTo User { as: 'runner' }","time":"2014-08-22T17:28:35.017Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SuiteRun hasMany SnapshotDiff ","time":"2014-08-22T17:28:35.017Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for ABCompare","time":"2014-08-22T17:28:35.018Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageA', foreignKey: 'pageAId' }","time":"2014-08-22T17:28:35.018Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"ABCompare belongsTo Page { as: 'pageB', foreignKey: 'pageBId' }","time":"2014-08-22T17:28:35.019Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"ABCompare belongsTo User { as: 'runner' }","time":"2014-08-22T17:28:35.019Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"ABCompare hasMany SnapshotDiff ","time":"2014-08-22T17:28:35.019Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for MasterSnapshot","time":"2014-08-22T17:28:35.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"MasterSnapshot belongsTo Suite ","time":"2014-08-22T17:28:35.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"MasterSnapshot belongsTo Snapshot ","time":"2014-08-22T17:28:35.020Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Setting up Relationships for SnapshotDiff","time":"2014-08-22T17:28:35.021Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SnapshotDiff belongsTo SuiteRun ","time":"2014-08-22T17:28:35.021Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SnapshotDiff belongsTo ABCompare ","time":"2014-08-22T17:28:35.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotA', foreignKey: 'snapshotAId' }","time":"2014-08-22T17:28:35.022Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SnapshotDiff belongsTo Snapshot { as: 'snapshotB', foreignKey: 'snapshotBId' }","time":"2014-08-22T17:28:35.027Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SnapshotDiff belongsTo Image ","time":"2014-08-22T17:28:35.029Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Image Controller saving files to: /vagrant/images/resources","time":"2014-08-22T17:28:35.427Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Snapshot Factory Initialized","time":"2014-08-22T17:28:35.428Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"factory":"SnapshotDiffFactory","level":30,"msg":"Snapshot Diff Factory Initialized","time":"2014-08-22T17:28:35.428Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"SuiteRun Factory Initialized","time":"2014-08-22T17:28:35.428Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"AB Compare Diff Factory Initialized","time":"2014-08-22T17:28:35.428Z","v":0}
+{"name":"scylla","hostname":"precise64","pid":1720,"level":30,"msg":"Listening on local ports: 3000","time":"2014-08-22T17:28:35.504Z","v":0}
+Sending SIGTERM to child...

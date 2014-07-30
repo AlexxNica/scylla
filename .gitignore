@@ -7,3 +7,5 @@ config/database.js
 config/storage.js
 node_modules
 public/components
+*.deb
+to_deb/
