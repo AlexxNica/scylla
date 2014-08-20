@@ -8,7 +8,7 @@
         <h2 style="display:inline-block">{{suite.name}}</h2>&nbsp;&nbsp;&nbsp;
         <a class="clickable headerIcon" ng-click="edit()"><i class="icon-edit icon-2x" title="Edit Suite"></i></a>
         <a class="clickable headerIcon" ng-click="runSuite()"><i class="icon-play-sign icon-2x" title="Run Suite Now"></i></a>
-
+        <alert type="danger" ng-hide="pagesExist">You haven't added any pages yet! Go back to the <a ng-href="#/pages">Pages</a> tab to add a page.</alert>
     </div>
 
     <div class="row-fluid">
