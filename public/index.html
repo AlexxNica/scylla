@@ -17,27 +17,26 @@
     <!--<script src="/socket.io/socket.io.js"></script> -->
 </head>
 <body>
-<div class="navbar">
+<div class="navbar navbar-default">
     <div class="navbar-inner">
-        <div class="container">
+        
 
-            <a class="brand" href="#">Scylla</a>
+        <a class="brand navbar-brand" href="#">Scylla</a>
 
-            <div ng-cloak>
-                <ul class="nav">
-                    <li ng-repeat="header in headers" ng-id="{{header.id}}" ng-class="isActive(header)">
-                        <a ng-href="{{header.href}}"><i class="{{header.icon}} icon-large"></i> {{header.label}}</a>
-                    </li>
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
-            <!--
-            <div class="pull-right">
-                <a id="loginButton" ng-click="showLogin()">Login</a> /
-                <a id="registerButton" ng-click="showRegister()">Register</a>
-            </div>
-            -->
+        <div ng-cloak>
+            <ul class="nav navbar-nav">
+                <li ng-repeat="header in headers" ng-id="{{header.id}}" ng-class="isActive(header)">
+                    <a ng-href="{{header.href}}"><i class="{{header.icon}} icon-large"></i> {{header.label}}</a>
+                </li>
+            </ul>
         </div>
+        <!--/.nav-collapse -->
+        <!--
+        <div class="pull-right">
+            <a id="loginButton" ng-click="showLogin()">Login</a> /
+            <a id="registerButton" ng-click="showRegister()">Register</a>
+        </div>
+        -->
     </div>
 </div>
 <div id="mainView" ng-view>
