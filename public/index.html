@@ -19,10 +19,7 @@
 <body>
 <div class="navbar navbar-default">
     <div class="navbar-inner">
-        
-
         <a class="brand navbar-brand" href="#">Scylla</a>
-
         <div ng-cloak>
             <ul class="nav navbar-nav">
                 <li ng-repeat="header in headers" ng-id="{{header.id}}" ng-class="isActive(header)">
@@ -39,7 +36,7 @@
         -->
     </div>
 </div>
-<div id="mainView" ng-view>
+<div id="mainView" class="container-fluid" ng-view>
     <h1>Loading...</h1>
 </div>
 
