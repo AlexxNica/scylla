@@ -1,19 +1,24 @@
-<div>
-    <div class="pull-right">
-        <a ng-click="showNew()" class="btn btn-primary"><span class="icon-plus-sign"></span> New Suite</a>
+<div class="container-fluid">
+    <div class="row">
+        <div  class="col-md-9">
+            <h1>Suites:</h1>
+        </div>
+        <div class="col-md-3 text-right">
+            <a ng-click="showNew()" class="btn btn-primary"><span class="icon-plus-sign"></span> New Suite</a>
+        </div>     
     </div>
-
-    <h1>Suites</h1>
-    <div class="media suite" ng-repeat="suite in suites">
-        <div class="media-body">
-            <h4 class="media-heading"><a href="#/suites/{{suite.id}}">{{suite.name}}</a>
-                <a ng-click="confirmDeleteSuite(suite);" class="clickable"><i class="icon-trash" title="Delete Suite"></i></a></h4>
-            <ol>
-                <li ng-repeat="result in suite.suiteRuns">
-                    <a href="#/suites/{{suite.id}}/suiteRuns/{{suite.id}}">{{suiteRun.updatedAt | dateFormatter}}</a>
-                    <span class="pass">{{suiteRun.pass}}</span>/<span class="fail">{{suiteRun.fail}}</span>/<span class="exception">{{result.exception}}</span>
-                </li>
-            </ol>
+    <div class="row">
+        <div class="media suite" ng-repeat="suite in suites">
+            <div class="col-md-12">
+                <h2 class="col-md-3"><a href="#/suites/{{suite.id}}">{{suite.name}}</a>
+                    <a ng-click="confirmDeleteSuite(suite);" class="clickable"><i class="icon-trash" title="Delete Suite"></i></a></h2>
+                <ol class="col-md-9">
+                    <li ng-repeat="result in suite.suiteRuns">
+                        <a href="#/suites/{{suite.id}}/suiteRuns/{{suite.id}}">{{suiteRun.updatedAt | dateFormatter}}</a>
+                        <span class="pass">{{suiteRun.pass}}</span>/<span class="fail">{{suiteRun.fail}}</span>/<span class="exception">{{result.exception}}</span>
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
