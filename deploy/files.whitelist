@@ -8,6 +8,7 @@ node_modules
 package.json
 public
 readme.md
+rebuild.sh
 repl.js
 server.js
 test
