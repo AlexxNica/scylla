@@ -1,6 +1,6 @@
 {
   "name": "scylla",
-  "version": "2.0.1-debug4",
+  "version": "2.0.2",
   "description": "Scylla",
   "dependencies": {
     "restify": "~2.6.3",
