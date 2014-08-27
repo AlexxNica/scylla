@@ -23,8 +23,10 @@
             <select multiple="multiple" ng-model="selectedPage" ng-change="updateSnapshots(selectedPage)" class="form-control">
                 <option ng-repeat="page in pages" value="{{page.id}}">{{page.name}}</option>
             </select>
-            <ul>
-                <li ng-repeat="snapshot in currentSnapshots" ng-click="selectSnapshot(snapshot)">
+            <ul style="list-style-type: none">
+                <p>Select a snapshot:</p>
+                <li ng-repeat="snapshot in currentSnapshots" ng-click="selectSnapshot(snapshot)"
+                    ng-style="snapshot == selectedSnapshot && {'border': '2px solid gray', 'border-radius': '15px', 'padding' : '5px'}">
                     <span>{{snapshot.updatedAt | dateFormatter}}</span><br/>
                     <img class="img img-thumbnail" width="120" ng-src="{{getThumbnail(snapshot)}}">
                 </li>
