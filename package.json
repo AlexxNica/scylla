@@ -29,7 +29,6 @@
     "cli-color": "^0.2.3",
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "0.9.2",
-    "grunt-release": "^0.7.0",
     "matchdep": "0.3.0",
     "mocha": "1.18.0",
     "repl-promised": "^0.1.0",
