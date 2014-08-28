@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <processing show="isProcessing"></processing>
     <div class="row">
-        <div class="col-md-9">
-            <h2 style="display:inline-block"><a href="{{page.url}}">{{page.name}}</a> <small>snapshots:</small></h2>
+        <div class="col-md-8">
+            <h1 style="display:inline-block"><a href="{{page.url}}">{{page.name}}</a> <small>snapshots:</small></h1>
         </div>
-        <div class="col-md-3 text-right">
-            <a class="btn btn-default btn-primary" ng-click="snapshotPageNow(page)"><i class="icon-camera"></i> Capture Snapshot</a>
-            <a class="btn btn-default" ng-click="showEdit(page)">Edit Page Details</a>
+        <div class="col-sm-4 text-right">
+            <a class="btn btn-default btn-primary btn-lg" ng-click="snapshotPageNow(page)"><i class="icon-camera"></i> Capture Snapshot</a>
+            <a class="btn btn-default btn-lg" ng-click="showEdit(page)">Edit Page Details</a>
         </div>
     </div>
 

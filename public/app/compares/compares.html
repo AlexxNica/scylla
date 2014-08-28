@@ -1,8 +1,10 @@
-<div>
-    <div class="pull-right">
-        <a class="btn btn-primary" ng-click="showNew()"><i class="icon-plus-sign"></i> New</a>
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="col-sm-9">AB Compares</h1>
+        <div class="col-sm-3 text-right">
+            <a class="btn btn-primary btn-lg" ng-click="showNew()"><i class="icon-plus-sign"></i> New</a>
+        </div>
     </div>
-    <h1>AB Compares</h1>
     <div class="media" ng-repeat="compare in compares">
         <a class="pull-left media-object" ng-href="#/compares/{{compare.id}}">
             <img class="bigThumb" ng-src="{{ compare.pageA | pageThumb }}"><img class="bigThumb" ng-src="{{ compare.pageB | pageThumb }}">
