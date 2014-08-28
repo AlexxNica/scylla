@@ -1,32 +1,49 @@
-<div>
+<div class="container-fluid">
     <processing show="isProcessing"></processing>
-    <div>
-        <h4 style="display:inline-block">AB Compare created on: {{compare.createdAt | dateFormatter}}</h4>&nbsp;&nbsp;&nbsp;
-        <a class="clickable headerIcon" ng-click="showEditModal = true;"><i class="icon-edit" data-n="edit" title="Edit AB Compare"></i></a>
-        <a class="clickable headerIcon" ng-click="runCompare()"><i class="icon-play-sign" title="Run AB Compare Now"></i></a>
-    </div>
-    <div>
-        <h5>Page A:</h5>
-        <a ng-href="#/pages/{{compare.pageA.id}}">{{compare.pageA.name}}</a> <br />
-        <a ng-href="{{compare.pageA.url}}">{{compare.pageA.url}}</a>
-        <h5>Page B:</h5>
-        <a ng-href="#/pages/{{compare.pageB.id}}">{{compare.pageB.name}}</a> <br />
-        <a ng-href="{{compare.pageB.url}}">{{compare.pageB.url}}</a>
-    </div>
-    <div class="media" ng-repeat="diff in compare.snapshotDiffs">
-        <h4>Diff taken on {{diff.createdAt | dateFormatter}}</h4>
-        <span class="media-object pull-left">
-            <a href="#/snapshots/{{diff.snapshotA.id}}"><img class="bigThumb" ng-src="{{diff.snapshotA | snapshotImage}}"></a>
-            <a href="#/snapshots/{{diff.snapshotB.id}}"><img class="bigThumb" ng-src="{{diff.snapshotB | snapshotImage}}"></a>
-            <a href="#/snapshotDiffs/{{diff.id}}"><img class="bigThumb" ng-src="{{diff | diffImage}}"></a>
-        </span>
-        <div class="media-body">
-            <h4 class="media-heading">
-                {{diff.timestamp | dateFormatter}}
-                <span class="viewDiff"><a href="#/snapshotDiffs/{{diff.id}}" class="clickable"><i class="icon-eye-open" title="View Diff"></i></a></span>
-            </h4>
-            <div class=>Distortion: <span class="{{diff | distortionClass}}">{{diff.distortion}}</span></div>
-            <div>{{diff.warning}}</div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <h2 class="col-sm-8">AB Compare created on: {{compare.createdAt | dateFormatter}}</h2><br>
+                <div class="col-md-4">
+                    <a class="btn btn-primary form-control" ng-click="runCompare()"><i class="icon-play-sign" title="Run AB Compare Now"></i> Run now</a>
+                </div>
+            </div>
+            <div class="row" ng-repeat="diff in compare.snapshotDiffs">
+                <br>
+                <div class="col-md-12">
+                    <h3>Diff taken on {{diff.createdAt | dateFormatter}}</h3>
+                    <span class="col-md-10 text-left">
+                        <a class="col-sm-4" href="#/snapshots/{{diff.snapshotA.id}}"><img class="img img-thumbnail" ng-src="{{diff.snapshotA | snapshotImage}}"></a>
+                        <a class="col-sm-4" href="#/snapshots/{{diff.snapshotB.id}}"><img class="img img-thumbnail" ng-src="{{diff.snapshotB | snapshotImage}}"></a>
+                        <a class="col-sm-4" href="#/snapshotDiffs/{{diff.id}}"><img class="img img-thumbnail" ng-src="{{diff | diffImage}}"></a>
+                    </span>
+                    <div class="col-md-2">
+                        <h4>
+                            {{diff.timestamp | dateFormatter}}
+                            <span class="viewDiff"><a href="#/snapshotDiffs/{{diff.id}}" class="btn btn-default"><i class="icon-eye-open" title="View Diff"></i> View Diff</a></span>
+                        </h4>
+                        <div class=>Distortion: <span class="{{diff | distortionClass}}">{{diff.distortion}}</span></div>
+                        <div>{{diff.warning}}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+            <div class="col-md-offset-2">
+                <br>
+                <h4>Page A:</h4>
+                <a ng-href="#/pages/{{compare.pageA.id}}">{{compare.pageA.name}}</a> <br />
+                <a ng-href="{{compare.pageA.url}}">{{compare.pageA.url}}</a>
+                <h4>Page B:</h4>
+                <a ng-href="#/pages/{{compare.pageB.id}}">{{compare.pageB.name}}</a> <br />
+                <a ng-href="{{compare.pageB.url}}">{{compare.pageB.url}}</a>
+                <br>
+                <br>
+                <!-- broken rn -->
+                <a class="btn btn-default" ng-click="showEditModal = true;"><i class="icon-edit" data-n="edit" title="Edit AB Compare"></i> Edit compare details</a>
+            </div>
         </div>
     </div>
 </div>

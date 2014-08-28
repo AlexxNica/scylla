@@ -5,21 +5,42 @@
         <div class="alert alert-error" style="display:none">
             There was an error.
         </div>
-        <form class="form-horizontal">
-            <input id="pageA-title" type="text" ng-model="compare.pageA.name"
+        <form role="form" class="form-horizontal">
+          <div class="form-group">
+            <label for="pageA-title" class="col-sm-3 control-label">Page A name:</label>
+            <div class="col-sm-9">
+              <input id="pageA-title" type="text" ng-model="compare.pageA.name"
                    placeholder="Identifiable Page Name" required
-                   class="input-xxlarge" />
-            <input id="pageA-url" type="text" ng-model="compare.pageA.url"
-                   placeholder="http://test.com/" required
-                   class="input-xxlarge" />
-            <input id="pageB-title" type="text" ng-model="compare.pageB.name"
-                   placeholder="Identifiable Page Name" required
-                   class="input-xxlarge" />
-            <input id="pageB-url" type="text" ng-model="compare.pageB.url"
-                   placeholder="http://test.com/" required
-                   class="input-xxlarge" />
+                   class="form-control" />
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label for="pageA-url" class="col-sm-3 control-label">Page A URL:</label>
+            <div class="col-sm-9">
+              <input id="pageA-url" type="text" ng-model="compare.pageA.url"
+                     placeholder="http://test.com/" required
+                     class="form-control" />
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label for="pageB-title" class="col-sm-3 control-label">Page B name:</label>
+            <div class="col-sm-9">
+              <input id="pageB-title" type="text" ng-model="compare.pageB.name"
+                     placeholder="Identifiable Page Name" required
+                     class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pageB-url" class="col-sm-3 control-label">Page B URL:</label>
+            <div class="col-sm-9">
+              <input id="pageB-url" type="text" ng-model="compare.pageB.url"
+                     placeholder="http://test.com/" required
+                     class="form-control" />
+            </div>
+          </div>
         </form>
     </div>
     <div class="modal-footer">
