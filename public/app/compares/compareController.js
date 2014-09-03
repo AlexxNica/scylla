@@ -28,39 +28,37 @@ define([
                 });
         };
 
-        $scope.deleteCompare = function deleteRCompare(compare){
-            $scope.showDeleteCompare = true
-            $scope.compareToDelete = compare;
-            console.log("AB Compare to Delete", compare);
-        };
+        $scope.confirmDeleteCompare = function confirmDeleteCompare(compare) {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/compares/dialogs/deleteCompare.html',
+                controller: 'DialogDeleteCompare',
+                resolve: {
+                    compare: function() {
+                        return compare;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (compare) {
+                $scope.isProcessing = true;
+                ComparesService.delete(compare)
+                    .then(function() {
+                        toastr.success("Compare deleted successfully");
+                        $scope.compares.splice(
+                            $scope.compares.indexOf(compare), 1
+                        );
+                        $scope.isProcessing = false;
+                    });
+            }, function() {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        }
 
         $scope.deleteResult = function deleteResult(resultId){
             $http.delete("/abcompare-results/" + resultId)
                 .error(function(error){
                     console.error("Error Deleting AB Compare Result", resultId, error);
                 })
-        };
-
-        $scope.confirmDeleteCompare = function confirmDeleteCompare(compare){
-            console.log("Deleting AB Compare", compare);
-            $http.get("/abcompares/" + compare.id, {params:{includeResults:true}})
-                .success(function(compare){
-                    if(compare.results){
-                        compare.results.forEach(function(result){
-                            $scope.deleteResult(result.id);
-                        });
-                    }
-                    $http.delete("/abcompares/" + compare.id)
-                        .success(function(deletedCompare){
-                            console.log("Deleted Compare",deletedCompare);
-                            $scope.getAllCompares();
-                            $scope.showDeleteCompare = false;
-                        })
-                        .error(function(err){
-                            console.error(err);
-                        });
-                });
-
         };
 
         $scope.showNew = function () {
