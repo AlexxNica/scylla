@@ -20,8 +20,8 @@ cli.main(function(args, options) {
 
     var LOG = require('./config/logging')(options.syslog);
 
-    var SendGrid        = require('sendgrid');
-    var mailConfig      = require('./config/mail');
+    // var SendGrid        = require('sendgrid');
+    // var mailConfig      = require('./config/mail');
     var storageConfig   = require('./config/storage');
     //Restify does some odd things, so this folder needs to be 2x deep
     var imagePath       = path.resolve(storageConfig.base, storageConfig.resources);
@@ -40,15 +40,17 @@ cli.main(function(args, options) {
     var Q = require('q');
     Q.longStackSupport = true;
 
-    var sendgrid = SendGrid(mailConfig.user, mailConfig.key);
+    // var sendgrid = SendGrid(mailConfig.user, mailConfig.key);
 
     var models = require('./api/models')(LOG, databaseConfig, true);
 
-
+    
     var httpServer = restify.createServer({
         name: 'Scylla',
         log:LOG
     });
+    
+
     /*
     var httpsServer = restify.createServer({
         name: 'Scylla Secure',
@@ -65,12 +67,12 @@ cli.main(function(args, options) {
         restServer.use(restify.requestLogger());
         restServer.use(restify.queryParser());
         restServer.use(restify.bodyParser());
-        /*
+        
         //This can be REALLY noisy... I only ever use it when debugging
         restServer.on('after', restify.auditLogger({
             log: LOG
         }));
-        */
+        
         var routes = require('./api/routes')(LOG, restServer, models, controllers);
 
         //As mentioned above, Restify appends 'directory' when looking for these files

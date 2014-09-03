@@ -1,0 +1,8 @@
+module.exports = {
+    user:"<%= node["scylla_db"]["username"] %>",
+    password:"<%= node["scylla_db"]["password"] %>",
+    properties:{
+        host:"<%= node["scylla_db"]["hosts"].first %>",
+        dialect: 'mysql'
+    }
+};

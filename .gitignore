@@ -8,4 +8,6 @@ config/storage.js
 node_modules
 public/components
 images/resources/*
+*.deb
+to_deb/
 *.log

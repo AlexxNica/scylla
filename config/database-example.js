@@ -3,6 +3,7 @@ module.exports = {
     user:'scylla',
     password:'scylla',
     properties:{
+        host:'localhost',
         dialect: 'mysql'
     }
 };
