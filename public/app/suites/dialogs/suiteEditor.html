@@ -5,11 +5,16 @@
         <div class="alert alert-error" style="display:none">
             There was an error.
         </div>
-        <form class="form-horizontal" ng-submit="addSuite(newSuiteName, newSuiteReportIds)">
-            <input id="report-title" type="text"
-                   ng-model="suite.name"
-                   placeholder="Identifiable Suite Name" required
-                   class="input-xxlarge" />
+        <form role="form" class="form-horizontal" ng-submit="addSuite(newSuiteName, newSuiteReportIds)">
+            <div class="form-group">
+                <label for="report title" class="col-sm-3 control-label">Suite Name:</label>
+                <div class="col-sm-9">
+                    <input id="report-title" type="text"
+                           ng-model="suite.name"
+                           placeholder="Identifiable Suite Name" required
+                           class="form-control" />
+                </div>
+            </div>
             <!--
             <select multiple="multiple" ng-model="newSuiteReportIds" class="input-xxlarge">
                 <option ng-repeat="report in availableReports" value="{{report.id}}">{{report.name}}</option>

@@ -5,13 +5,22 @@
         <div class="alert alert-error" style="display:none">
             There was an error.
         </div>
-        <form class="form-horizontal">
-            <input id="page-title" type="text" ng-model="page.name"
+        <form role="form" class="form-horizontal">
+          <div class="form-group">
+            <label for="page-title" class="col-sm-3 control-label">Page Name:</label>
+            <div class="col-sm-9">
+              <input id="page-title" type="text" ng-model="page.name"
                    placeholder="Identifiable Page Name" required
-                   class="input-xxlarge" />
-            <input id="page-url" type="text" ng-model="page.url"
+                   class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="page-url" class="col-sm-3 control-label">Page URL:</label>
+              <div class="col-sm-9">
+                <input id="page-url" type="text" ng-model="page.url"
                    placeholder="http://test.com/" required
-                   class="input-xxlarge" />
+                   class="form-control" />
+              </div>
             <!--
             <input id="page-width" type="number" ng-model="width"
                    placeholder="600"

@@ -1,21 +1,34 @@
-<div>
-    <div class="pull-right">
-        <a class="btn btn-primary" ng-click="showNew()"><i class="icon-plus-sign"></i> New</a>
+<div class="container-fluid">
+    <processing show="isProcessing"></processing>
+    <div class="row">
+        <h1 class="col-sm-9">AB Compares</h1>
+        <div class="col-sm-3 text-right">
+            <a class="btn btn-primary btn-lg" ng-click="showNew()"><i class="icon-plus-sign"></i> New</a>
+        </div>
     </div>
-    <h1>AB Compares</h1>
-    <div class="media" ng-repeat="compare in compares">
-        <a class="pull-left media-object" ng-href="#/compares/{{compare.id}}">
-            <img class="bigThumb" ng-src="{{ compare.pageA | pageThumb }}"><img class="bigThumb" ng-src="{{ compare.pageB | pageThumb }}">
-        </a>
-        <div class="media-body">
-            <h4 class="media-heading"><a ng-href="#/compares/{{compare.id}}">{{compare.name}}</a>
-                <a ng-click="deleteCompare(compare);" class="clickable"><i class="icon-trash" title="Delete Compare"></i></a></h4>
-            <h5>Page A:</h5>
+    <div class="row" ng-repeat="compare in compares">
+        <br>
+        <div class="col-md-5">
+            <a ng-href="#/compares/{{compare.id}}">
+                <p class="link">View compare</p>
+                <div class="col-sm-6">
+                    <img class="img img-thumbnail" ng-src="{{ compare.pageA | pageThumb }}">
+                </div>
+                <div class="col-sm-6">
+                    <img class="img img-thumbnail" ng-src="{{ compare.pageB | pageThumb }}">
+                </div>
+
+            </a>
+        </div>
+        <div class="col-md-7">
+            <h3>Page A:</h3>
             <a ng-href="#/pages/{{compare.pageA.id}}">{{compare.pageA.name}}</a> <br />
             <a ng-href="{{compare.pageA.url}}">{{compare.pageA.url}}</a>
-            <h5>Page B:</h5>
+            <h3>Page B:</h3>
             <a ng-href="#/pages/{{compare.pageB.id}}">{{compare.pageB.name}}</a> <br />
             <a ng-href="{{compare.pageB.url}}">{{compare.pageB.url}}</a>
+            <h1 class="media-heading"><a ng-href="#/compares/{{compare.id}}">{{compare.name}}</a>
+                <a ng-click="deleteCompare(compare);" class="clickable btn btn-danger"><i class="icon-trash" title="Delete Compare"></i> Delete this compare</a></h1>
         </div>
     </div>
 </div>

@@ -126,5 +126,4 @@ echo -e "${yellow}Installing Scyalla NPM Deps${NC}"
 #We've got to run the installs as the vagrant user, as npm and bower HATE being root.
 su -c "/vagrant/vagrant/bootstrap-user-context.sh" vagrant
 
-
 start scylla

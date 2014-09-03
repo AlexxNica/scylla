@@ -19,7 +19,7 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("PageController", function($scope, $modal, Header, PagesService) {
+    return scyllaApp.controller("PageController", function($scope, $modal, $log, Header, PagesService) {
         Header.setFirstLevelNavId("pagesNav");
         $scope.isProcessing = false;
         $scope.pages = [];
@@ -27,7 +27,7 @@ define([
         $scope.pageToDelete = {};
 
 
-        $scope.getAllPages = function(){
+        $scope.getAllPages = function() {
             $scope.isProcessing = true;
             PagesService.list()
                 .then(function(pages){
@@ -84,8 +84,11 @@ define([
                 $scope.savePage(page)
                     .then(function(newPage){
                         toastr.success("New Page Created: " + newPage.name + "<br>Now capturing first screenshot.");
-                        $scope.snapshotPage(newPage);
-                    })
+                        $scope.snapshotPage(newPage).then(function(newSnapshot) {
+                            newPage.snapshots = [newSnapshot];                            
+                            $scope.pages.push(newPage);
+                        });
+                    });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -122,7 +125,6 @@ define([
             $scope.isProcessing = true;
             return PagesService.save(page)
                 .then(function(newPage){
-                    $scope.pages.push(newPage);
                     $scope.isProcessing = false;
                     return newPage;
                 });
@@ -130,10 +132,11 @@ define([
 
         $scope.snapshotPage = function snapshotPage(page){
             $scope.isProcessing = true;
-            PagesService.snapshotPage(page)
+            return PagesService.snapshotPage(page)
                 .then(function(newSnapshot){
                     $scope.isProcessing = false;
                     toastr.success("Captured Screen for Page: " + page.name);
+                    return newSnapshot;
                 });
         };
 

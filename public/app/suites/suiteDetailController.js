@@ -17,7 +17,7 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("SuiteDetailController", function($scope, $modal, $route, $routeParams, $log, $http, SuitesService, Header) {
+    return scyllaApp.controller("SuiteDetailController", function($scope, $modal, $route, $routeParams, $log, $http, SuitesService, PagesService, Header) {
         Header.setFirstLevelNavId("suitesNav");
         $scope.suite = {};
         $scope.isProcessing = false;
@@ -36,6 +36,7 @@ define([
             sat:false
         };
         $scope.watchers = "";
+        $scope.pagesExist = true;
 
 
         var filterOutAlreadyIncludedReports = function(report){
@@ -203,7 +204,14 @@ define([
                 });
         };
 
+        $scope.checkIfPagesExist = function checkIfPagesExist() {
+            PagesService.list().then(function(pages) {
+                $scope.pagesExist = pages.length > 0;
+            });
+        }
+
 
         $scope.getSuite($routeParams.id);
+        $scope.checkIfPagesExist();
     });
 });
