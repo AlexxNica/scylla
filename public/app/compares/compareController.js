@@ -13,7 +13,7 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("CompareController", function($scope, $modal, Header, ComparesService) {
+    return scyllaApp.controller("CompareController", function($scope, $modal, $log, Header, ComparesService) {
         Header.setFirstLevelNavId("comparesNav");
 
         $scope.compares = [];
@@ -24,10 +24,9 @@ define([
                 .then(function(compares){
                     $scope.isProcessing = false;
                     $scope.compares = compares;
+                    console.log(compares);
                 });
         };
-        $scope.getAllCompares();
-
 
         $scope.deleteCompare = function deleteRCompare(compare){
             $scope.showDeleteCompare = true
@@ -77,12 +76,22 @@ define([
                     }
                 }
             });
-
+             
             modalInstance.result.then(function (compare) {
                 $scope.saveCompare(compare)
                     .then(function(newCompare){
+                        $scope.isProcessing = true;
                         toastr.success("New Compare Created.<br>Now capturing snapshots and creating diff.");
-                        $scope.executeCompare(newCompare);
+                        $scope.executeCompare(newCompare)
+                            .then(function() {
+                                $scope.getCompareById(newCompare.id)
+                                    .then(function(finishedCompare) {
+                                        $scope.compares.push(finishedCompare);
+                                        toastr.success("Snapshots and diff created");
+                                        $scope.isProcessing = false;
+                                    });
+                            });
+
                     })
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
@@ -93,21 +102,27 @@ define([
             $scope.isProcessing = true;
             return ComparesService.save(compare)
                 .then(function(newCompare){
-                    $scope.compares.push(newCompare);
-                    $scope.isProcessing = false;
                     return newCompare;
                 });
         };
 
         $scope.executeCompare = function executeCompare(compare){
             $scope.isProcessing = true;
-            return ComparesService.save(compare)
-                .then(function(newCompare){
-                    $scope.compares.push(newCompare);
-                    $scope.isProcessing = false;
+            return ComparesService.executeCompare(compare)
+                .then(function(newCompare) {
                     return newCompare;
                 });
         };
+
+        $scope.getCompareById = function getCompareById(compareId) {
+            $scope.isProcessing = true;
+            return ComparesService.get(compareId)
+                .then(function(compareFromDatabase) {
+                    return compareFromDatabase;
+                });
+        };
+
+        $scope.getAllCompares();
 
     });
 });
