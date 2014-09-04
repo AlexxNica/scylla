@@ -9,7 +9,7 @@ var cli = require('cli');
 cli.parse({
     port: ['p', 'The Port Number', 'number', 3000],
     https_port: ['sp', 'The HTTPS Port Number', 'number', 3443],
-    syslog: ['s', 'Log to Syslog', 'boolean', false]
+    syslog: ['s', 'Log to Syslog', 'boolean', true]
 });
 var fs = require('fs');
 var restify = require('restify');

@@ -1,5 +1,6 @@
 var bunyan = require('bunyan');
 var restify = require('restify');
+var bsyslog = require('bunyan-syslog');
 
 var sysLogger, regularLogger;
 var NAME = 'scylla';
@@ -25,11 +26,11 @@ module.exports = function (useSyslog) {
                     // errors so you can debug problems
                     level : 'debug',
                     type  : 'raw',
-                    stream: new restify.bunyan.RequestCaptureStream({
-                        level        : bunyan.WARN,
-                        maxRecords   : 100,
-                        maxRequestIds: 1000,
-                        stream       : process.stderr
+                    stream: bsyslog.createBunyanStream({
+                        type: 'sys',
+                        facility: bsyslog.facility.local0,
+                        host: 'localhost',
+                        port: 514
                     })
                 }
             ],

@@ -1,6 +1,6 @@
 {
   "name": "scylla",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Scylla",
   "dependencies": {
     "restify": "~2.6.3",
@@ -25,6 +25,7 @@
     "rabbit.js": "^0.4.1"
   },
   "devDependencies": {
+    "bunyan-syslog": "^0.2.2",
     "chai": "*",
     "cli-color": "^0.2.3",
     "grunt": "~0.4.1",
