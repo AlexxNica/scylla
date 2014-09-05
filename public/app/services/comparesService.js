@@ -1,12 +1,14 @@
 define([
-    "scyllaApp"
+    "scyllaApp",
+    "services/pagesService"
 ], function(
-    scyllaApp
+    scyllaApp,
+    thePagesService
     ){
     'use strict';
 
     return scyllaApp
-        .service('ComparesService', function ($http, $q, $log) {
+        .service('ComparesService', function ($http, $q, $log, PagesService) {
 
 
             this.list = function list(){
@@ -24,31 +26,31 @@ define([
             };
 
 
-            this.save = function save(page){
-                if(page.hasOwnProperty("id")){
-                    return $http.put("/abcompares/" + page.id, page)
-                        .then(function(response){
-                            return response.data;
-                        });
+            this.save = function save(compare){
+                if (compare.hasOwnProperty("id")) {
+                    var updatePagePromises = [
+                        PagesService.save(compare.pageA),
+                        PagesService.save(compare.pageB)
+                    ];
+                    return $q.all(updatePagePromises);
                 }
-                return $http.post("/abcompares", page)
+                return $http.post("/abcompares", compare)
                     .then(function(response){
                         return response.data;
                     });
             };
 
-            this.bulkSave = function(pages){
+            this.bulkSave = function(compares){
                 var savePromises = [];
-                angular.forEach(pages, function(page){
-                    savePromises.push(this.save(page))
+                angular.forEach(compares, function(compare){
+                    savePromises.push(this.save(compare))
                 }.bind(this) );
                 return $q.all(savePromises);
             };
 
-            this.delete = function (page){
-                return $http.delete("/abcompares/" + page.id)
-                    .finally(function(){
-                    });
+            this.delete = function deleteCompare(compare) {
+                return $http.delete("/abcompares/" + compare.id)
+                    .finally(function() {});
             };
 
             this.executeCompare = function executeCompare(compare){

@@ -13,7 +13,7 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("CompareDetailController", function($scope, $modal, $routeParams, Header, ComparesService) {
+    return scyllaApp.controller("CompareDetailController", function($scope, $modal, $routeParams, $log, Header, ComparesService) {
         Header.setFirstLevelNavId("comparesNav");
         $scope.isProcessing = false;
         $scope.compare = {};
@@ -29,12 +29,10 @@ define([
                     $scope.isProcessing = false;
                     compare.snapshotDiffs.sort(resultSort);
                     $scope.compare = compare;
-
                 });
         };
+
         $scope.getCompare($routeParams.id);
-
-
 
         $scope.runCompare = function(){
             $scope.isProcessing = true;
@@ -51,7 +49,30 @@ define([
                 .success(function(){
                     $scope.showEditModal = false;
                 });
-        }
+        };
+
+        $scope.confirmEditCompare = function comfirmEditCompare() {
+            var modalInstance = $modal.open({
+                templateUrl: 'app/compares/dialogs/compareEditor.html',
+                controller: 'DialogCompareEditor',
+                resolve: {
+                    compare: function() {
+                        return $scope.compare;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (compare) {
+                $scope.isProcessing = true;
+                ComparesService.save(compare)
+                    .then(function(editedCompare) {
+                        toastr.success("successfully updated compare");
+                        $scope.isProcessing = false;
+                    });
+            }, function() {
+                $log.info('Modal dismissed at: ' + new Date());
+            })
+        };
 
         $scope.saveCompare = function(compare){
             console.log("Save Compare: ", compare);
@@ -65,6 +86,6 @@ define([
                     //TODO: Show Specific Failure Message
 
                 })
-        }
+        };
     });
 });
