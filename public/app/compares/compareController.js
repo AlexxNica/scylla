@@ -24,7 +24,6 @@ define([
                 .then(function(compares){
                     $scope.isProcessing = false;
                     $scope.compares = compares;
-                    console.log(compares);
                 });
         };
 
