@@ -45,10 +45,9 @@ define([
                 return $q.all(savePromises);
             };
 
-            this.delete = function (page){
-                return $http.delete("/abcompares/" + page.id)
-                    .finally(function(){
-                    });
+            this.delete = function deleteCompare(compare) {
+                return $http.delete("/abcompares/" + compare.id)
+                    .finally(function() {});
             };
 
             this.executeCompare = function executeCompare(compare){
