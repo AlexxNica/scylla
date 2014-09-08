@@ -26,7 +26,6 @@ define([
         $scope.suites = [];
         $scope.pageToDelete = {};
 
-
         $scope.getAllPages = function() {
             $scope.isProcessing = true;
             PagesService.list()

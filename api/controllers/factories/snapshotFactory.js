@@ -14,7 +14,7 @@ module.exports = function SnapshotFactory(){
         LOG.info("Snapshot Factory Initialized");
     };
 
-    var build = function build(pageId, properties ){
+    var build = function build(pageId, properties){
         LOG.info("Building Snapshot");
         if(!controllers && !models){
             throw new Error("Factory must be initialized first");
@@ -35,24 +35,28 @@ module.exports = function SnapshotFactory(){
             return Q.all([
                 snapshot.save(),
                 page.save()
-            ]).spread(function(snapshot, page){return snapshot;});
+            ]).spread(function(snapshot, page){
+                return snapshot;
+            });
         });
 
     };
 
-    var execute = function execute(snapshotId){
+    var execute = function execute(snapshotId, properties){
         var snapshot;
         return controllers.snapshots.findById(snapshotId)
             .then(function(theSnapshot){
                 LOG.info("Loaded Snapshot: ", theSnapshot.id);
                 snapshot = theSnapshot;
+                console.log(JSON.stringify(snapshot, undefined, 2));
                 if(snapshot.state != 'Queued'){
                     return Q.reject(
                         new ValidationError("Snapshot cannot be captured when in state: " + snapshot.state));
                 }
                 snapshot.state = models.Snapshot.CAPTURING;
                 return snapshot.save().then(function(){
-                    return controllers.charybdis.webPageToSnapshot(snapshot.page.url, 800, 800);
+                    //COOKIE GOES HERE
+                    return controllers.charybdis.webPageToSnapshot(snapshot.page.url, 800, 800, snapshot.page.cookie);
                 });
             })
             .then(function(snapshotResult){
@@ -101,7 +105,8 @@ module.exports = function SnapshotFactory(){
     var buildAndExecute = function(pageId, properties){
         return build(pageId, properties)
             .then(function(snapshot){
-                return execute(snapshot.id);});
+                return execute(snapshot.id);
+            });
     };
 
     return {

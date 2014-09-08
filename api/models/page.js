@@ -18,6 +18,9 @@ module.exports = function(ORM){
                     notEmpty:true,
                     notNull:true
                 }
+            },
+            cookie:{
+                type:ORM.TEXT
             }
         },
         options:{

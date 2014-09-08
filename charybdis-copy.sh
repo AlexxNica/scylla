@@ -1,0 +1,11 @@
+echo "overwriting charybdis..."
+cp -R ./node_modules/charybdis/* ../charybdis/
+echo "done!"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
+echo "GO COMMIT IN THE CHARYBDIS DIR"
