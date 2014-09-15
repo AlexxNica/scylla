@@ -1,6 +1,6 @@
 {
   "name": "scylla",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Scylla",
   "dependencies": {
     "restify": "~2.6.3",
@@ -15,7 +15,7 @@
     "sinon": "1.9.0",
     "glob": "3.2.9",
     "cli": "0.4.5",
-    "charybdis": "git+https://github.com/simplymeasured/charybdis.git#feature/v2",
+    "charybdis": "git+https://github.com/simplymeasured/charybdis.git#feature/cookies",
     "sqlite3": "2.2.0",
     "socket.io": "1.0.0-pre",
     "sequelize": "^1.7.0",

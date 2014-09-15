@@ -42,20 +42,18 @@ module.exports = function SnapshotFactory(){
 
     };
 
-    var execute = function execute(snapshotId, properties){
+    var execute = function execute(snapshotId){
         var snapshot;
         return controllers.snapshots.findById(snapshotId)
             .then(function(theSnapshot){
                 LOG.info("Loaded Snapshot: ", theSnapshot.id);
                 snapshot = theSnapshot;
-                console.log(JSON.stringify(snapshot, undefined, 2));
                 if(snapshot.state != 'Queued'){
                     return Q.reject(
                         new ValidationError("Snapshot cannot be captured when in state: " + snapshot.state));
                 }
                 snapshot.state = models.Snapshot.CAPTURING;
                 return snapshot.save().then(function(){
-                    //COOKIE GOES HERE
                     return controllers.charybdis.webPageToSnapshot(snapshot.page.url, 800, 800, snapshot.page.cookie);
                 });
             })
