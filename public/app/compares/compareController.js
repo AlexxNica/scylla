@@ -70,6 +70,9 @@ define([
                             pageA:{name: "", url: "", cookie: null},
                             pageB:{name: "", url: "", cookie: null}
                         };
+                    }, 
+                    isNewCompare: function() {
+                        return true;
                     }
                 }
             });

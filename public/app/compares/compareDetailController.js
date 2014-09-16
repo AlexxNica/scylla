@@ -58,6 +58,9 @@ define([
                 resolve: {
                     compare: function() {
                         return $scope.compare;
+                    },
+                    isNewCompare: function() {
+                        return false;
                     }
                 }
             });
