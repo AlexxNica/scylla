@@ -3,8 +3,9 @@ module.exports = function(LOG){
     var charybdis = require("charybdis")();
 
     var webPageToSnapshot = function webPageToSnapshot(url, width, height, cookie){
-        LOG.info("Getting Snapshot for URL: " + url)
-        return charybdis.webPageToSnapshot(url, width, height, 2000, cookie);
+        LOG.info("Getting Snapshot for URL: " + url);
+        var snapshotTimeoutInMS = 2000;
+        return charybdis.webPageToSnapshot(url, width, height, snapshotTimeoutInMS, cookie);
     };
 
     var diffTwoSnapshots = function(contentsA, contentsB){
