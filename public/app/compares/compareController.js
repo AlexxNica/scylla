@@ -67,9 +67,12 @@ define([
                 resolve: {
                     compare: function () {
                         return {
-                            pageA:{name:"",url:""},
-                            pageB:{name:"",Url:""}
+                            pageA:{name: "", url: "", cookie: null},
+                            pageB:{name: "", url: "", cookie: null}
                         };
+                    }, 
+                    isNewCompare: function() {
+                        return true;
                     }
                 }
             });

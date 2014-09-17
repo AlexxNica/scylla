@@ -11,7 +11,7 @@ define([
     ){
     'use strict';
 
-    return scyllaApp.controller("PageDetailController", function($scope, $route, $routeParams, $modal, PagesService, Header) {
+    return scyllaApp.controller("PageDetailController", function($scope, $route, $routeParams, $log, $modal, PagesService, Header) {
         Header.setFirstLevelNavId("reportsNav");
         $scope.isProcessing = false;
         $scope.page = {};

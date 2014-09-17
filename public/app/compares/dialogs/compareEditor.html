@@ -25,6 +25,16 @@
           </div>
 
           <div class="form-group">
+            <label for="pageA-cookie" class="col-sm-3 control-label">Page A Cookies:</label>
+            <div class="col-sm-9">
+              <textarea id="pageA-cookie" class="form-control" 
+              rows="4" ng-model="compare.pageA.cookie" placeholder="(optional) Add a page cookie to get past logins maybe">
+              </textarea>
+              <p>Please use <a href="https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg">this chrome extension</a> to export your cookies in the proper format</p>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="pageB-title" class="col-sm-3 control-label">Page B name:</label>
             <div class="col-sm-9">
               <input id="pageB-title" type="text" ng-model="compare.pageB.name"
@@ -39,6 +49,19 @@
               <input id="pageB-url" type="text" ng-model="compare.pageB.url"
                      placeholder="http://test.com/" required
                      class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pageB-cookie" class="col-sm-3 control-label">Page B Cookies:</label>
+            <div class="col-sm-9">
+              <label>
+                <input type="checkbox" ng-click="cloneCookie()" ng-checked="sameCookie"
+                /> This page uses the same cookies as page A
+              </label>
+              <textarea id="pageB-cookie" class="form-control" 
+              rows="4" ng-model="compare.pageB.cookie" placeholder="(optional) Add a page cookie to get past logins maybe">
+              </textarea>
             </div>
           </div>
         </form>

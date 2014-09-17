@@ -14,7 +14,7 @@ module.exports = function SnapshotFactory(){
         LOG.info("Snapshot Factory Initialized");
     };
 
-    var build = function build(pageId, properties ){
+    var build = function build(pageId, properties){
         LOG.info("Building Snapshot");
         if(!controllers && !models){
             throw new Error("Factory must be initialized first");
@@ -35,7 +35,9 @@ module.exports = function SnapshotFactory(){
             return Q.all([
                 snapshot.save(),
                 page.save()
-            ]).spread(function(snapshot, page){return snapshot;});
+            ]).spread(function(snapshot, page){
+                return snapshot;
+            });
         });
 
     };
@@ -52,7 +54,7 @@ module.exports = function SnapshotFactory(){
                 }
                 snapshot.state = models.Snapshot.CAPTURING;
                 return snapshot.save().then(function(){
-                    return controllers.charybdis.webPageToSnapshot(snapshot.page.url, 800, 800);
+                    return controllers.charybdis.webPageToSnapshot(snapshot.page.url, 800, 800, snapshot.page.cookie);
                 });
             })
             .then(function(snapshotResult){
@@ -101,7 +103,8 @@ module.exports = function SnapshotFactory(){
     var buildAndExecute = function(pageId, properties){
         return build(pageId, properties)
             .then(function(snapshot){
-                return execute(snapshot.id);});
+                return execute(snapshot.id);
+            });
     };
 
     return {
