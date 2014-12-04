@@ -31,7 +31,8 @@ module.exports = function(LOG, models){
 
     var list = function list(){
         return Q(models.ABCompare.findAll({
-            include:compareProperties
+            include:compareProperties,
+            order: 'createdAt DESC'
         }));
     };
 
